@@ -24,7 +24,22 @@ services:
     restart: unless-stopped
     networks:
       - network
-      
+  client:
+    stdin_open: true
+    build:
+      context: ../client
+      dockerfile: ./client.dev.Dockerfile
+    container_name: DevOps_CLIENT
+    restart: unless-stopped
+    networks:
+      - network
+    volumes:
+      - ../client:/usr/src/client
+    ports:
+      - 3000:3000
+    environment:
+      REACT_APP_API_URI: client
+
 networks:
   network:
     driver: bridge
