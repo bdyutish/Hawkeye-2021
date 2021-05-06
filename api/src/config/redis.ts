@@ -1,7 +1,10 @@
 import redis from 'redis';
 
 // initialised redis client
-const client = redis.createClient();
+const client = redis.createClient({
+  host: 'redis',
+  port: 6379,
+});
 client.on('connect', () => {
   console.log('Connected to redis client');
 });

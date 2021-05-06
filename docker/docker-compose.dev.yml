@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  api:
+    build:
+      context: ../api
+      dockerfile: ./api.dev.Dockerfile
+    container_name: Hawk-api
+    restart: unless-stopped
+    networks:
+      - network
+    volumes:
+      - ../api:/usr/src/api
+    expose:
+      - 4000
+    ports:
+      - 4000:4000
+    env_file: ../.env
+    environment:
+      WAIT_HOSTS: redis:6379
+      WAIT_HOSTS_TIMEOUT: 120
+  redis:
+    image: redis:alpine
+    container_name: Hawk-redis
+    restart: unless-stopped
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
