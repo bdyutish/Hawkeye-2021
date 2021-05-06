@@ -24,6 +24,7 @@ services:
     restart: unless-stopped
     networks:
       - network
+      
 networks:
   network:
     driver: bridge
