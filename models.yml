@@ -1,0 +1,16 @@
+User:
+      - gets array of region id's on creation (randomly)
+      - index of latest region
+      - score
+      
+Questions:
+          - text (image link /vid link)
+          - answer
+          - hints array
+          - keywords
+          - level
+          - region
+
+Region:
+      - name
+      - description
