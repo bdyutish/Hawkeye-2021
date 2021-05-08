@@ -1,9 +1,11 @@
 import User from '../models/User';
+import mongoose from 'mongoose';
 import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from '../utils/ErrorResponse';
 import { MiscError } from '../errors/miscError';
 import crypto from 'crypto';
 import fetch from 'node-fetch';
+import Region from '../models/Region';
 
 export const register = async (
   req: Request,
@@ -27,6 +29,29 @@ export const register = async (
       role: role,
     });
     console.log('register');
+
+    const regions = await Region.find();
+
+    let regionArray: {
+      id: mongoose.Schema.Types.ObjectId;
+      multiplier: number;
+    }[] = [];
+
+    for (let i = 0; i < regions.length; i++) {
+      regionArray.push({
+        id: regions[i]._id,
+        multiplier: 1,
+      });
+    }
+
+    for (let i = regionArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [regionArray[i], regionArray[j]] = [regionArray[j], regionArray[i]];
+    }
+
+    // console.log(regionArray);
+
+    user.regions = regionArray;
 
     await user.save();
     console.log('Register successful! ' + user);
@@ -60,7 +85,7 @@ export const register = async (
     }
     res.status(200).send(user);
   } catch (err) {
-    return next(new MiscError(400, 'error in making the user'));
+    return next(new ErrorResponse(err.name, err.code));
   }
 };
 

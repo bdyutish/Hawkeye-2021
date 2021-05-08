@@ -16,6 +16,9 @@ export interface UserDoc extends mongoose.Document {
   emailVerificationExpire: string | undefined;
   isBanned: boolean;
   isVerified: boolean;
+  score: number;
+  lastUnlockedIndex: number;
+  regions: { id: mongoose.Schema.Types.ObjectId; multiplier: number }[];
   matchPassword(enteredPassword: string): boolean;
   getResetPasswordToken(): string;
   getEmailToken(): string;
@@ -54,7 +57,20 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-
+  score: {
+    type: Number,
+    default: 0,
+  },
+  lastUnlockedIndex: {
+    type: Number,
+    default: 0,
+  },
+  regions: [
+    {
+      id: mongoose.Schema.Types.ObjectId,
+      multiplier: Number,
+    },
+  ],
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   emailVerificationToken: String,

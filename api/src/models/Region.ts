@@ -1,7 +1,9 @@
-//@ts-nocheck
 import mongoose from 'mongoose';
 
-export interface RegionDoc extends mongoose.Document {}
+export interface RegionDoc extends mongoose.Document {
+  name: string;
+  description: string;
+}
 
 const RegionSchema = new mongoose.Schema({
   name: {
