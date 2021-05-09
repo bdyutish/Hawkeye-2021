@@ -13,8 +13,8 @@ app.listen(process.env.PORT || 4000, async () => {
   try {
     console.log(`Listening at port: ${process.env.PORT || 4000}...`);
     await connectDB();
-  } catch {
-    console.log("Connection to mongo unsuccessful...");
+  } catch (err) {
+    console.log("Connection to mongo unsuccessful...\n" + err);
     process.exit();
   }
 });

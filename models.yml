@@ -1,16 +1,35 @@
 User:
-      - gets array of region id's on creation (randomly)
-      - index of latest region
-      - score
-      
+  - gets array of region id's on creation (randomly)
+  - index of latest region
+  - score
+
 Questions:
-          - text (image link /vid link)
-          - answer
-          - hints array
-          - keywords
-          - level
-          - region
+  - text (image link /vid link)
+  - answer
+  - hints array
+  - keywords
+  - level
+  - region
 
 Region:
-      - name
-      - description
+  - name
+  - description
+
+Api Features:
+  - finish crud for questions,regions -> Himanshu
+  - write region protect middleware -> Dyutish
+  - wrote routes to unlock new region for user -> Dyutish
+  - Admin routes -> Sarthak: -Add question,edit question
+      -Add hints,edit hints
+      - Get leaderboard
+      - Ban user, edit user
+
+Client:
+      - Login/Register (Akhil)
+      - Admin: (Ishan)
+            - Protection (role==1)
+            - Leaderbord
+            - Add Question (with hints and level)
+            - Edit Question
+            - Unlock hints
+            - Unlock regions

@@ -10,4 +10,10 @@ start(){
 stop(){
     cd docker && sudo docker-compose -f docker-compose.dev.yml down -v
 }
+mongo() {
+    docker exec -it DevOps_DB mongo
+}
+redis() {
+    docker exec -it DevOps_REDIS redis-cli
+}
 "${@:-default}"

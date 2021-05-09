@@ -18,6 +18,6 @@
   "ADMIN": {
     "Region": ["Unlock one random region for each user manually"],
     "Questions": ["Unlock hints manually", "Questions/Hints are editable"],
-    "Leaderboard": [""]
+    "Leaderboard": ["Only visible to the admins"]
   }
 }

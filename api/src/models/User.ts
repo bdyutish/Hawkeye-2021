@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 //@ts-nocheck
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
+=======
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+>>>>>>> 7bf03447457360dd59fe76852b1450218a71f809
 
 export interface UserDoc extends mongoose.Document {
   name: string;
@@ -16,6 +22,9 @@ export interface UserDoc extends mongoose.Document {
   emailVerificationExpire: string | undefined;
   isBanned: boolean;
   isVerified: boolean;
+  score: number;
+  lastUnlockedIndex: number;
+  regions: { regionid: mongoose.Schema.Types.ObjectId; multiplier: number }[];
   matchPassword(enteredPassword: string): boolean;
   getResetPasswordToken(): string;
   getEmailToken(): string;
@@ -54,7 +63,20 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-
+  score: {
+    type: Number,
+    default: 0,
+  },
+  lastUnlockedIndex: {
+    type: Number,
+    default: 0,
+  },
+  regions: [
+    {
+      regionid: mongoose.Schema.Types.ObjectId,
+      multiplier: Number,
+    },
+  ],
   resetPasswordToken: String,
   resetPasswordExpire: Date,
   emailVerificationToken: String,
@@ -85,7 +107,8 @@ UserSchema.pre<UserDoc>("save", async function (next) {
 
 //Match user entered password to hashed pwd in db
 UserSchema.methods.matchPassword = async function (enteredPassword: string) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  const user = this as UserDoc;
+  return await bcrypt.compare(enteredPassword, user.password);
 };
 
 //Generate and hash password token
@@ -94,23 +117,38 @@ UserSchema.methods.getResetPasswordToken = function () {
   const resetToken = crypto.randomBytes(20).toString("hex");
 
   //Hash token and set to resetPasswordToken
+<<<<<<< HEAD
   this.resetPasswordToken = crypto
     .createHash("sha256")
+=======
+  const user = this as UserDoc;
+
+  user.resetPasswordToken = crypto
+    .createHash('sha256')
+>>>>>>> 7bf03447457360dd59fe76852b1450218a71f809
     .update(resetToken)
     .digest("hex");
 
   //Set expire
-  this.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+  //@ts-ignore
+  user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
 };
 
 UserSchema.methods.getEmailToken = function () {
   //Generate token
+<<<<<<< HEAD
   const verifyToken = crypto.randomBytes(20).toString("hex");
 
   this.emailVerificationToken = crypto
     .createHash("sha256")
+=======
+  const verifyToken = crypto.randomBytes(20).toString('hex');
+  const user = this as UserDoc;
+  user.emailVerificationToken = crypto
+    .createHash('sha256')
+>>>>>>> 7bf03447457360dd59fe76852b1450218a71f809
     .update(verifyToken)
     .digest("hex");
 
