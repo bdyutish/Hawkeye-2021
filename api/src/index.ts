@@ -1,20 +1,20 @@
-import { app } from './app';
-import dotenv from 'dotenv';
-import { connectDB } from './config/db';
+import { app } from "./app";
+import dotenv from "dotenv";
+import { connectDB } from "./config/db";
 
 //Load Config
 dotenv.config();
 
-if (!process.env.PORT) {
-  throw new Error('process.env.PORT is missing');
-}
+// if (!process.env.PORT) {
+//   throw new Error('process.env.PORT is missing');
+// }
 // Connect to db
 app.listen(process.env.PORT || 4000, async () => {
   try {
     console.log(`Listening at port: ${process.env.PORT || 4000}...`);
     await connectDB();
   } catch {
-    console.log('Connection to mongo unsuccessful...');
+    console.log("Connection to mongo unsuccessful...");
     process.exit();
   }
 });
