@@ -14,3 +14,12 @@ Questions:
 Region:
   - name
   - description
+
+Api Features:
+  - finish crud for questions,regions -> Himanshu
+  - write region protect middleware -> Dyutish
+  - wrote routes to unlock new region for user -> Dyutish
+  - Admin routes -> Sarthak: -Add question,edit question
+      -Add hints,edit hints
+      - Get leaderboard
+      - Ban user, edit user

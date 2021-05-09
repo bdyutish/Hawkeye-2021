@@ -33,13 +33,13 @@ export const register = async (
     const regions = await Region.find();
 
     let regionArray: {
-      id: mongoose.Schema.Types.ObjectId;
+      regionid: mongoose.Schema.Types.ObjectId;
       multiplier: number;
     }[] = [];
 
     for (let i = 0; i < regions.length; i++) {
       regionArray.push({
-        id: regions[i]._id,
+        regionid: regions[i]._id,
         multiplier: 1,
       });
     }
