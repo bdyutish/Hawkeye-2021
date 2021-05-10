@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon src/index.ts",
+    "dev": "npm run build && nodemon dist/index.js",
     "clean": "del ./dist/*",
     "build": "npm run clean && tsc"
   },
