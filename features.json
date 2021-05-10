@@ -1,0 +1,23 @@
+{
+  "USER": {
+    "Regions": [
+      "One region will be unlocked randomly for each user",
+      "Are you ready question",
+      "New random region unlocks periodically (manually) and on completion of previous region",
+      "Final secret region on completion of all regions",
+      "Levels wih questions",
+      "Regions have description (depending on theme)"
+    ],
+    "Questions": [
+      "Find algorithm to compare answers (Show users they are close)",
+      "Text / Images / Audio/Video links",
+      "Hints are unlocked periodically (hints get better)"
+    ],
+    "Shop": ["Power-ups are sometimes games", "Region Multipliers"]
+  },
+  "ADMIN": {
+    "Region": ["Unlock one random region for each user manually"],
+    "Questions": ["Unlock hints manually", "Questions/Hints are editable"],
+    "Leaderboard": ["Only visible to the admins"]
+  }
+}

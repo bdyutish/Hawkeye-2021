@@ -16,8 +16,17 @@ services:
       - 4000:4000
     env_file: ../.env
     environment:
-      WAIT_HOSTS: redis:6379
+      WAIT_HOSTS: db:27018,redis:6379
       WAIT_HOSTS_TIMEOUT: 120
+  db:
+    image: mongo:latest
+    container_name: DevOps_DB
+    volumes:
+      - ./data:/data/db
+    ports:
+      - 27018:27017
+    networks:
+      - network
   redis:
     image: redis:alpine
     container_name: Hawk-redis
