@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response } from "express";
 import {
   register,
   login,
@@ -9,31 +9,31 @@ import {
   getProfileById,
   resendVerificationEmail,
   verifyUser,
-} from '../controllers/authController';
-import { protect, isBanned } from '../middlewares/auth';
-import { validateRequest } from '../middlewares/requestValidator';
-import { body } from 'express-validator';
+} from "../controllers/authController";
+import { protect, isBanned } from "../middlewares/auth";
+import { validateRequest } from "../middlewares/requestValidator";
+import { body } from "express-validator";
 
 const router = express.Router();
 router.post(
-  '/register',
+  "/register",
   [
-    body('email', 'Not a valid email').isEmail(),
-    body('password', 'password should be atleast 8 characters').isLength({
+    body("email", "Not a valid email").isEmail(),
+    body("password", "password should be atleast 8 characters").isLength({
       min: 8,
     }),
-    body('name', 'Name not entered').notEmpty(),
-    body('username', 'Username not enetered').notEmpty(),
+    body("name", "Name not entered").notEmpty(),
+    body("username", "Username not enetered").notEmpty(),
   ],
   validateRequest,
   register
 );
 router.post(
-  '/login',
+  "/login",
   [
-    body('email', 'email not entered').notEmpty(),
-    body('email', 'not a valid email').isEmail(),
-    body('password', 'password should be atleast 8 characters').isLength({
+    body("email", "email not entered").notEmpty(),
+    body("email", "not a valid email").isEmail(),
+    body("password", "password should be atleast 8 characters").isLength({
       min: 8,
     }),
   ],
@@ -41,21 +41,21 @@ router.post(
   isBanned,
   login
 );
-router.post('/logout', logout);
-router.get('/me', protect, getme);
-router.get('/profile/:userid', protect, getProfileById);
+router.post("/logout", logout);
+router.get("/me", protect, getme);
+router.get("/profile/:userid", protect, getProfileById);
 // router.put('/profile', validateRequest, editProfile);
 router.post(
-  '/forgotpassword',
-  [body('email', 'Not a valid email').isEmail()],
+  "/forgotpassword",
+  [body("email", "Not a valid email").isEmail()],
   validateRequest,
   forgotPassword
 );
 
 router.put(
-  '/resetpassword/:resettoken',
+  "/resetpassword/:resettoken",
   [
-    body('password', 'password should be atleast 8 characters').isLength({
+    body("password", "password should be atleast 8 characters").isLength({
       min: 8,
     }),
   ],
@@ -64,12 +64,12 @@ router.put(
 );
 
 router.post(
-  '/verification/',
-  [body('email', 'Not a valid email').isEmail()],
+  "/verification/",
+  [body("email", "Not a valid email").isEmail()],
   validateRequest,
   resendVerificationEmail
 );
 
-router.put('/verify/:emailtoken', verifyUser);
+router.put("/verify/:emailtoken", verifyUser);
 
 export { router as authRouter };

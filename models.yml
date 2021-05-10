@@ -29,3 +29,14 @@ Api Features:
       - Ban user, edit user
       - Unlock hints
       - Unlock regions
+
+
+Client:
+      - Login/Register (Akhil)
+      - Admin: (Ishan)
+            - Protection (role==1)
+            - Leaderbord
+            - Add Question (with hints and level)
+            - Edit Question
+            - Unlock hints
+            - Unlock regions
