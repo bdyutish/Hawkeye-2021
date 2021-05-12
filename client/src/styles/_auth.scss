@@ -1,0 +1,57 @@
+.auth-page{
+    min-height: 100vh;
+    color: #fff;
+    text-align: center;
+    padding: 3rem 0;
+
+    h1{
+        font-size: 5rem;
+        margin-bottom: 2rem;
+    }
+
+    h2{
+        font-size: 3rem;
+    }
+
+    h3{
+        font-size: 2rem;
+        margin-bottom: 5rem;
+    }
+
+    .background{
+        position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+  z-index: -1;
+    }
+}
+
+.login{
+    .input{
+        margin: 2rem auto;
+    }
+
+    .forgot{
+        text-align: right;
+        width: 44rem;
+        margin: auto;
+        font-weight: 500;
+font-size: 1.25rem;
+
+span{
+    cursor: pointer;
+}
+    }
+}
+
+.register{
+    h2{
+        margin-bottom: 2rem;
+    }
+
+    .input{
+        width: 38rem;
+    }
+}

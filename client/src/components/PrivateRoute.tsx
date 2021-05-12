@@ -9,10 +9,12 @@ interface Props {
   component: React.FC<any>;
   path: string | string[];
   exact?: boolean;
+  admin?: boolean;
 }
 
 export default function PrivateRoute({
   component: Component,
+  admin,
   ...rest
 }: Props): ReactElement {
   const auth = useAuth();
@@ -21,7 +23,8 @@ export default function PrivateRoute({
     <Route
       {...rest}
       render={(props) => {
-        if (auth?.user) {
+        const check = admin ? auth?.isAdmin() : auth?.user;
+        if (check) {
           return <Component {...props} />;
         } else {
           if (auth?.loading)
