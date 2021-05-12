@@ -1,4 +1,4 @@
-import {
+import React, {
   ReactElement,
   useContext,
   createContext,
@@ -7,39 +7,63 @@ import {
 } from "react";
 import { Nullable, User, Children } from "../utils/types";
 
-import { get, post } from "../utils/requests";
+ 
 
-import { useHistory } from "react-router-dom";
+import { get, post, put } from "../utils/requests";
+import { useHistory, useLocation } from "react-router-dom";
+
+ 
+
 import { useToasts } from "react-toast-notifications";
 
+ 
+
 type Value = {
-  user: any;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  user: Nullable<User>;
+  login: (username: string, password: string) => Promise<void>;
+  logout: () => void;
   register: (
     name: string,
     username: string,
     email: string,
     password: string
   ) => Promise<void>;
+  isAdmin: () => boolean;
   loading: Boolean;
-  fetchMe: () => Promise<any>;
-  check: () => Promise<any>;
+  isCurrentUserProfile: () => boolean;
+  forgotPassword: (email: string) => Promise<void>;
+  resetPassword: (password: string, token: string) => Promise<void>;
+  fetchMe: () => Promise<void>;
+  updateUser: (userData: User) => void;
+  check: () => Promise<void>;
 };
 
+ 
+
 const AuthContext = createContext<Nullable<Value>>(null);
+
+ 
 
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
+ 
+
 export default function AuthProvider({ children }: Children): ReactElement {
-  const [user, setUser] = useState<Nullable<User>>(null);
+  const [user, setUser] = useState<Nullable<User> | any>(null);
   const [loading, setLoading] = useState<Boolean>(true);
 
+ 
+
+  const location = useLocation();
   const history = useHistory();
 
+ 
+
   const { addToast } = useToasts();
+
+ 
 
   const fetchMe = async () => {
     try {
@@ -48,6 +72,8 @@ export default function AuthProvider({ children }: Children): ReactElement {
       logout();
     }
   };
+
+ 
 
   useEffect(() => {
     (async () => {
@@ -60,8 +86,12 @@ export default function AuthProvider({ children }: Children): ReactElement {
     })();
   }, []);
 
+ 
+
   const login = async (email: string, password: string) => {
     // setLoading(true);
+
+ 
 
     try {
       await post("/login", {
@@ -69,11 +99,15 @@ export default function AuthProvider({ children }: Children): ReactElement {
         password,
       });
 
+ 
+
       await fetchMe();
     } catch (err) {
       throw err;
     }
   };
+
+ 
 
   const register = async (
     name: string,
@@ -89,12 +123,16 @@ export default function AuthProvider({ children }: Children): ReactElement {
         password,
       });
 
+ 
+
       history.push("/login");
       addToast("Verification Mail Sent", { appearance: "info" });
     } catch (err) {
       throw err;
     }
   };
+
+ 
 
   const logout = async () => {
     try {
@@ -105,6 +143,47 @@ export default function AuthProvider({ children }: Children): ReactElement {
       throw err;
     }
   };
+
+ 
+
+  const isCurrentUserProfile = () =>
+    location.pathname.split("/").slice(-1)[0] === user?._id ||
+    location.pathname.split("/").slice(-2)[0] === user?._id;
+
+ 
+
+  const forgotPassword = async (email: string) => {
+    try {
+      await post("/forgotpassword", { email });
+      addToast("Mail Sent!", { appearance: "success" });
+    } catch (err) {
+      addToast("Something Went Wrong", { appearance: "error" });
+    }
+  };
+
+ 
+
+  const resetPassword = async (password: string, token: string) => {
+    try {
+      await put(`/resetpassword/${token}`, { password });
+      history.push("/login");
+      addToast("Password Changed!", { appearance: "success" });
+    } catch (err) {
+      addToast("Something Went Wrong", { appearance: "error" });
+    }
+  };
+
+ 
+
+  const isAdmin = () => user?.role === 1;
+
+ 
+
+  const updateUser = (userData: User) => {
+    setUser(userData);
+  };
+
+ 
 
   const check = async () => {
     try {
@@ -123,15 +202,25 @@ export default function AuthProvider({ children }: Children): ReactElement {
     }
   };
 
+ 
+
   const value = {
     user,
     login,
     logout,
     register,
+    isAdmin,
+    forgotPassword,
     loading,
+    isCurrentUserProfile,
+    resetPassword,
     fetchMe,
+    updateUser,
     check,
   };
 
+ 
+
+  // {children}
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

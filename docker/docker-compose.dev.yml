@@ -45,9 +45,9 @@ services:
     volumes:
       - ../client:/usr/src/client
     ports:
-      - 3000:3000
+      - 3005:3000
     environment:
-      REACT_APP_API_URI: client
+      REACT_APP_API_URI: api:4000
 
 networks:
   network:
