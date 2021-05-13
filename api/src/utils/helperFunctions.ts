@@ -5,7 +5,10 @@ import ErrorResponse from './ErrorResponse';
 import { Request, Response, NextFunction } from 'express';
 
 export const compareAnswers = (input: string, answer: string) => {
-  const ratio = stringSimilarity.compareTwoStrings(input, answer);
+  const ratio = stringSimilarity.compareTwoStrings(
+    input.toLowerCase(),
+    answer.toLowerCase()
+  );
   console.log(ratio);
   return ratio;
 };
