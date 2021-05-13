@@ -1,6 +1,8 @@
-import Question from "../models/Question";
-import { NextFunction, Request, Response } from "express";
-import ErrorResponse from "../utils/ErrorResponse";
+import Question from '../models/Question';
+import User from '../models/User';
+import { NextFunction, Request, Response } from 'express';
+import ErrorResponse from '../utils/ErrorResponse';
+import { compareAnswers, unlockRegion } from '../utils/helperFunctions';
 
 export const addQuestion = async (
   req: Request,
@@ -55,8 +57,26 @@ export const getQuestionByRegionId = async (
   next: NextFunction
 ) => {
   try {
-    //@ts-ignore
-    const questions = await Question.find({ region: req.params.regionId });
+    const user = req.currentUser;
+    if (!user) {
+      return next(new ErrorResponse('User does not exist', 404));
+    }
+
+    let level;
+    for (let i = 0; i <= user.lastUnlockedIndex; i++) {
+      if (
+        user.regions[i].regionid.toString() == req.params.regionId.toString()
+      ) {
+        level = user.regions[i].level;
+        break;
+      }
+    }
+
+    const questions = await Question.findOne({
+      //@ts-ignore
+      region: req.params.regionId,
+      level,
+    });
 
     res.status(201).send(questions);
   } catch (err) {
@@ -70,10 +90,79 @@ export const submitQuestion = async (
   next: NextFunction
 ) => {
   try {
-    const question = await Question.findById(req.params.questionid);
-    question?.keywords.forEach((element) => {});
+    const question = await Question.findById(req.params.questionid).select(
+      '+answer'
+    );
+    const user = req.currentUser;
+    // console.log(question);
 
-    res.status(201).send(questions);
+    if (!question) {
+      return next(new ErrorResponse('Question does not exist', 404));
+    }
+
+    if (!user) {
+      return next(new ErrorResponse('User does not exist', 404));
+    }
+
+    // console.log(req.currentUser!._id);
+    // console.log(question.attempts);
+
+    let index = -1;
+    for (let i = 0; i < user.attempts.length; i++) {
+      if (user.attempts[i].question.toString() == question._id.toString()) {
+        index = i;
+        break;
+      }
+    }
+
+    if (index == -1) {
+      user.attempts.push({
+        question: question._id,
+        userAttempts: [req.body.attempt],
+      });
+    } else {
+      user.attempts[index].userAttempts.push(req.body.attempt);
+    }
+
+    console.log(index);
+
+    await user.save();
+
+    let ratio = compareAnswers(req.body.attempt, question.answer);
+
+    if (ratio == 1.0) {
+      for (let i = 0; i <= user?.lastUnlockedIndex; i++) {
+        if (user.regions[i].regionid.toString() == question.region.toString()) {
+          if (
+            user.regions[i].level.toString() ==
+            process.env.MAX_LEVEL?.toString()
+          ) {
+            unlockRegion(req);
+          } else {
+            user.regions[i].level++;
+            await user.save();
+          }
+        }
+      }
+      return res
+        .status(200)
+        .send({ success: true, message: 'Answer is correct' });
+    }
+    if (ratio >= 0.6) {
+      return res
+        .status(200)
+        .send({ success: false, message: "Hawk thinks you're close" });
+    }
+    for (let i = 0; i < question.keywords.length; i++) {
+      ratio = compareAnswers(req.body.attempt, question.keywords[i]);
+      if (ratio >= 0.9)
+        return res
+          .status(200)
+          .send({ success: false, message: "Hawk thinks you're close" });
+    }
+    return res
+      .status(200)
+      .send({ success: false, message: 'Incorrect answer' });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

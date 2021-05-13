@@ -16,4 +16,10 @@ mongo() {
 redis() {
     docker exec -it DevOps_REDIS redis-cli
 }
+deleteData(){
+    cd api && npx ts-node seeder.ts -d
+}
+importData(){
+    cd api && npx ts-node seeder.ts -i
+}
 "${@:-default}"

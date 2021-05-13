@@ -7,7 +7,7 @@ export interface QuestionDoc extends mongoose.Document {
   hints: [];
   keywords: [];
   level: number;
-  region: RegionDoc;
+  region: mongoose.Schema.Types.ObjectId;
 }
 
 const QuestionSchema = new mongoose.Schema({
@@ -17,6 +17,7 @@ const QuestionSchema = new mongoose.Schema({
   },
   answer: {
     type: String,
+    select: false,
     required: true,
   },
   hints: {
