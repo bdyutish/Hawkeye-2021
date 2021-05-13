@@ -72,13 +72,29 @@ export const getQuestionByRegionId = async (
       }
     }
 
-    const questions = await Question.findOne({
+    const question = await Question.findOne({
       //@ts-ignore
       region: req.params.regionId,
       level,
     });
 
-    res.status(201).send(questions);
+    if (!question) return next(new ErrorResponse('Question not found', 404));
+
+    let attempts;
+
+    for (let i = 0; i < user.attempts.length; i++) {
+      if (user.attempts[i].question.toString() == question._id) {
+        attempts = user.attempts[i].userAttempts;
+        break;
+      }
+    }
+    let response: Object;
+    // response.question = question;
+    // response.attempts = attempts;
+    res.status(201).send({
+      question,
+      attempts,
+    });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

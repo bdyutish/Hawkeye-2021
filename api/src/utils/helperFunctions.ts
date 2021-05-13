@@ -4,10 +4,16 @@ import User from '../models/User';
 import ErrorResponse from './ErrorResponse';
 import { Request, Response, NextFunction } from 'express';
 
+const sanitize = (text: string) => {
+  text = text.toLowerCase();
+  text = text.replace(/[^a-z0-9]+/g, '');
+  return text;
+};
+
 export const compareAnswers = (input: string, answer: string) => {
   const ratio = stringSimilarity.compareTwoStrings(
-    input.toLowerCase(),
-    answer.toLowerCase()
+    sanitize(input),
+    sanitize(answer)
   );
   console.log(ratio);
   return ratio;
