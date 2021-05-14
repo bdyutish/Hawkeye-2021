@@ -147,6 +147,8 @@ export const submitQuestion = async (
     let ratio = compareAnswers(req.body.attempt, question.answer);
 
     if (ratio == 1.0) {
+      user.score += question.level * 10;
+      await user.save();
       for (let i = 0; i <= user?.lastUnlockedIndex; i++) {
         if (user.regions[i].regionid.toString() == question.region.toString()) {
           if (
@@ -168,13 +170,6 @@ export const submitQuestion = async (
       return res
         .status(200)
         .send({ success: false, message: "Hawk thinks you're close" });
-    }
-    for (let i = 0; i < question.keywords.length; i++) {
-      ratio = compareAnswers(req.body.attempt, question.keywords[i]);
-      if (ratio >= 0.9)
-        return res
-          .status(200)
-          .send({ success: false, message: "Hawk thinks you're close" });
     }
     return res
       .status(200)
