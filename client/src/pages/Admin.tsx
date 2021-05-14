@@ -1,5 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { get, post ,put} from "../utils/requests";
+import { QuestionType } from "../utils/types";
 
 export default function AdminPage(): ReactElement {
     const [questions , setQuestions] = useState([
@@ -82,18 +83,10 @@ export default function AdminPage(): ReactElement {
 
 
 interface QuestionsProps{
-  question : QuestionsType,
+  question : QuestionType,
 }
 
-type QuestionsType = {
-  hints: Array<string>, 
-keywords: Array<string>,
-_id: string,
-text: string,
-answer: string,
-level: number,
-region: string,
-};
+
 
 
 function AdminQuestion(questionobj: any ):ReactElement<QuestionsProps> {
