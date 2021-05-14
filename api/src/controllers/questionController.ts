@@ -88,12 +88,80 @@ export const getQuestionByRegionId = async (
         break;
       }
     }
-    let response: Object;
-    // response.question = question;
-    // response.attempts = attempts;
+
+    let atPar = await User.aggregate([
+      {
+        $match: {
+          score: user.score,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $count: 'atPar',
+      },
+    ]);
+
+    let leading = await User.aggregate([
+      {
+        $match: {
+          score: { $gt: user.score },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $count: 'atPar',
+      },
+    ]);
+
+    let lagging = await User.aggregate([
+      {
+        $match: {
+          score: { $lt: user.score },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          count: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $count: 'atPar',
+      },
+    ]);
+
+    // console.log(atPar[0].atPar);
+
+    let eq = atPar[0] != undefined ? atPar[0].atPar : 0;
+    let lead = leading[0] != undefined ? leading[0].leading : 0;
+    let lag = lagging[0] != undefined ? lagging[0].lagging : 0;
+
+    let stats = {
+      atPar: eq,
+      leading: lead,
+      lagging: lag,
+    };
+
     res.status(201).send({
       question,
       attempts,
+      stats,
     });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
