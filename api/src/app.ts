@@ -11,6 +11,7 @@ import connectRedis from 'connect-redis';
 import { authRouter } from './routes/authRoutes';
 import { questionRouter } from './routes/questionRoutes';
 import { regionRouter } from './routes/regionRoutes';
+import { adminRouter } from './routes/adminRoutes';
 
 // use this client to interact with redis
 import { client } from './config/redis';
@@ -57,6 +58,7 @@ app.use(indexRouter);
 app.use(authRouter);
 app.use(questionRouter);
 app.use(regionRouter);
+app.use(adminRouter);
 
 // error handler
 app.use(errorhandler);
