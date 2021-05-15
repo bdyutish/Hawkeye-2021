@@ -4,6 +4,27 @@
     text-align: center;
     padding: 3rem 0;
 
+    .catcha{
+        margin:  auto;
+        transform: scale(.8);
+        width: 54rem;
+    }
+
+    .swap{
+        margin-top: 2rem;
+        font-size: 1.2rem;
+
+        a{
+            color: #5157E7 ;
+            margin-left: .25rem;
+        }
+
+    }
+
+    .auth-button{
+        margin-top: 1.8rem;
+    }
+
     .error{
         font-size: 1.25rem;
         color: orangered;
@@ -28,8 +49,9 @@
  top: 0;
  left: 0;
  right: 0;
- bottom: 0;
+bottom: 0;
   z-index: -1;
+
     }
 }
 
@@ -57,6 +79,24 @@ span{
     }
 
     .input{
-        width: 38rem;
+        // width: 38rem;
+        margin: 1rem 0;
     }
 }
+
+.forgot{
+
+    h2{
+        font-size: 3rem;
+        margin-top: 3rem;
+    }
+
+    .error{
+        margin-bottom: -1rem;
+        margin-top: 2rem;
+
+    }
+
+    
+}
+

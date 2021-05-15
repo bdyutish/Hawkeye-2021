@@ -2,15 +2,25 @@ import mongoose from 'mongoose';
 import stringSimilarity from 'string-similarity';
 import User from '../models/User';
 import ErrorResponse from './ErrorResponse';
+import { Request, Response, NextFunction } from 'express';
+
+const sanitize = (text: string) => {
+  text = text.toLowerCase();
+  text = text.replace(/[^a-z0-9]+/g, '');
+  return text;
+};
 
 export const compareAnswers = (input: string, answer: string) => {
-  const ratio = stringSimilarity.compareTwoStrings(input, answer);
-
+  const ratio = stringSimilarity.compareTwoStrings(
+    sanitize(input),
+    sanitize(answer)
+  );
+  console.log(ratio);
   return ratio;
 };
 
-export const unlockRegion = async (userid: mongoose.Schema.Types.ObjectId) => {
-  const user = await User.findById(userid);
+export const unlockRegion = async (req: Request) => {
+  const user = req.currentUser;
 
   if (!user) {
     throw new ErrorResponse('User not found', 404);

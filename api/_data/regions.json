@@ -1,0 +1,25 @@
+[{
+    "_id":  "6096ec69f165570143f6d968",
+    "name": "Test region 1",
+    "description": "Test description for region 1"
+  },{
+    "_id": "6096ede6f165570143f6d969",
+    "name": "Test region 2",
+    "description": "Test description for region 2"
+  },{
+    "_id": "6096ee0ff165570143f6d96a",
+    "name": "Test region 3",
+    "description": "Test description for region 3"
+  },{
+    "_id": "6096ee1bf165570143f6d96b",
+    "name": "Test region 4",
+    "description": "Test description for region 4"
+  },{
+    "_id": "6096ee29f165570143f6d96c",
+    "name": "Test region 5",
+    "description": "Test description for region 5"
+  },{
+    "_id":  "6096ee43f165570143f6d96d",
+    "name": "Test region 6",
+    "description": "Test description for region 6"
+  }]

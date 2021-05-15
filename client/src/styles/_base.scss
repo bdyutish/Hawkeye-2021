@@ -51,8 +51,12 @@ html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: $font-family, sans-serif, serif;
   }
+
+  div,aside,main,section,input,textarea,button{
+    font-family: $font-family, sans-serif, serif;
+
+}
   
   body {
     background-color: $body-bg;

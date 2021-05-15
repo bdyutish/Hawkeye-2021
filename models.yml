@@ -16,17 +16,16 @@ Region:
   - description
 
 Api Features:
-  - finish crud for questions,regions -> Himanshu
-    - Edit question
-    - Submit answer, evaluate answer's closeness and score
-    - Edit regions
+  - finish crud for questions,regions -> Himanshu DONE
+    - Edit question DONE
+    - Submit answer, evaluate answer's closeness and score -> Dyutish
 
-  - write region protect middleware -> Dyutish
-  - write routes to unlock new region for user -> Dyutish
-  - Admin routes -> Sarthak: -Add question,edit question
+  -region protect -> Dyutish DONE
+  - write routes to unlock new region for user -> Dyutish DONE CHANGE
+  - Admin routes -> Sarthak,Himanshu: 
       -Add hints,edit hints
       - Get leaderboard
-      - Ban user, edit user
+      - Ban user (done)
       - Unlock hints
       - Unlock regions
 

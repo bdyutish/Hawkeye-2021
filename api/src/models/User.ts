@@ -17,7 +17,15 @@ export interface UserDoc extends mongoose.Document {
   isVerified: boolean;
   score: number;
   lastUnlockedIndex: number;
-  regions: { regionid: mongoose.Schema.Types.ObjectId; multiplier: number }[];
+  regions: {
+    regionid: mongoose.Schema.Types.ObjectId;
+    level: number;
+    multiplier: number;
+  }[];
+  attempts: {
+    question: mongoose.Schema.Types.ObjectId;
+    userAttempts: [string];
+  }[];
   matchPassword(enteredPassword: string): boolean;
   getResetPasswordToken(): string;
   getEmailToken(): string;
@@ -67,7 +75,14 @@ const UserSchema = new mongoose.Schema({
   regions: [
     {
       regionid: mongoose.Schema.Types.ObjectId,
+      level: Number,
       multiplier: Number,
+    },
+  ],
+  attempts: [
+    {
+      question: mongoose.Schema.Types.ObjectId,
+      userAttempts: [String],
     },
   ],
   resetPasswordToken: String,

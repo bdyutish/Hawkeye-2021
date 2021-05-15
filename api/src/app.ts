@@ -4,12 +4,14 @@ import { indexRouter } from "./routes/indexRoute";
 import { disconnectDB } from "./config/db";
 import { NotFoundError } from "./errors/httpErrors/notFoundError";
 import { errorHandler } from "./middlewares/errorHandler";
+import { errorhandler } from "./middlewares/error";
 import { UserDoc } from "./models/User";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import { authRouter } from "./routes/authRoutes";
 import { questionRouter } from "./routes/questionRoutes";
 import { regionRouter } from "./routes/regionRoutes";
+import { adminRouter } from "./routes/adminRoutes";
 
 // use this client to interact with redis
 import { client } from "./config/redis";
@@ -56,9 +58,11 @@ app.use(indexRouter);
 app.use(authRouter);
 app.use(questionRouter);
 app.use(regionRouter);
+app.use(adminRouter);
 
 // error handler
-app.use(errorHandler);
+app.use(errorhandler);
+// app.use(errorHandler);
 
 app.all("*", async (req: Request, res: Response, next) => {
   throw new NotFoundError();

@@ -7,7 +7,34 @@ export type Children = {
 };
 
 export type User = {
-  _id: string;
   name: string;
   email: string;
+  username: string;
+  password: string;
+  role: number;
+  regNo: string;
+  isBanned: boolean;
+  isVerified: boolean;
+  score: number;
+  lastUnlockedIndex: number;
+  regions: RegionType;
+  
 };
+
+
+//for a particular User
+export type RegionType ={
+      regionid: string,
+      level: Number,
+      multiplier: Number,
+}
+
+export type QuestionType = {
+    hints: Array<string>,
+    keywords: Array<string>,
+    _id: string,
+    text: string,
+    level: number,
+    region: string,
+    __v: number
+}

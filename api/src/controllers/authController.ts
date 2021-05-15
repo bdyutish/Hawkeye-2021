@@ -34,12 +34,14 @@ export const register = async (
 
     let regionArray: {
       regionid: mongoose.Schema.Types.ObjectId;
+      level: number;
       multiplier: number;
     }[] = [];
 
     for (let i = 0; i < regions.length; i++) {
       regionArray.push({
         regionid: regions[i]._id,
+        level: 1,
         multiplier: 1,
       });
     }
