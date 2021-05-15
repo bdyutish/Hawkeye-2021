@@ -37,8 +37,8 @@ services:
       - 27018:27017
     networks:
       - network
-    # logging:
-    #   driver: none
+    logging:
+      driver: none
 
   redis:
     image: redis:alpine
