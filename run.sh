@@ -5,7 +5,7 @@ install(){
     cd api && npm install && cd ../client && npm install --force
 }
 start(){
-    cd docker && sudo docker-compose -f docker-compose.dev.yml up
+    sudo docker-compose -f docker/docker-compose.dev.yml up && sudo docker-compose -f docker/docker-compose.dev.yml down
 }
 stop(){
     cd docker && sudo docker-compose -f docker-compose.dev.yml down -v
