@@ -42,3 +42,33 @@ export const addHint = async (
     return next(new ErrorResponse(err.name, err.code));
   }
 };
+
+// controller for BANNING the user
+export const banUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const user = await User.findById(req.params.userId);
+  if (!user) return next(new ErrorResponse('User cant be found', 400));
+  user.isBanned = true;
+  await user.save();
+  return res.status(200).send({
+    success: true,
+  });
+};
+
+// controller for UNBANNING the user
+export const UnbanUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const user = await User.findById(req.params.userId);
+  if (!user) return next(new ErrorResponse('User cant be found', 400));
+  user.isBanned = false;
+  await user.save();
+  return res.status(200).send({
+    success: true,
+  });
+};

@@ -10,9 +10,9 @@ import useInputState from "../../hooks/useInputState";
 
 interface Props {}
 
-export default function Login({}: Props): ReactElement {
-  const [email, setEmail, resetEmail] = useInputState();
+export default function ResetPassword({}: Props): ReactElement {
   const [password, setPassword, resetPassword] = useInputState();
+  const [confirm, setConfirm, resetConfirm] = useInputState();
 
   const [errors, setErrors] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState(false);
@@ -26,23 +26,14 @@ export default function Login({}: Props): ReactElement {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!email) errors.push("Email is Required");
-    if (!password) errors.push("Password is Required");
+    if (!password) errors.push("Password is required");
+    if (password !== confirm) errors.push("Passwords do not match");
 
     if (errors.length === 0) {
       try {
-        await auth?.login(email, password);
         setLoading(false);
       } catch (err) {
         setLoading(false);
-
-        if (err.response.data.message === "This route is forbidden!")
-          setBanned(true);
-
-        if (err.response.data.message === "User not verified")
-          addToast("Verification link sent to mail");
-
-        setErrors([err.response.data.message]);
       }
     } else {
       setLoading(false);
@@ -51,22 +42,14 @@ export default function Login({}: Props): ReactElement {
   };
 
   return (
-    <div className="auth-page login">
+    <div className="auth-page login forgot">
       <Img src={desktopBG} className="background" />
       <h1>HAWKEYE</h1>
-      <h2>Log in</h2>
-      <h3>Welcome back player</h3>
+      <h2>Reset Password</h2>
       {errors.map((err: string) => {
         return <div className="error">{err}</div>;
       })}
       <form onSubmit={handleSubmit}>
-        <Input
-          value={email}
-          onChange={setEmail}
-          type="text"
-          placeholder="Email ID"
-          className="input"
-        />
         <Input
           value={password}
           onChange={setPassword}
@@ -74,14 +57,15 @@ export default function Login({}: Props): ReactElement {
           placeholder="Password"
           className="input"
         />
-        <div className="forgot">
-          <Link to="/forgot-password">Forgot Password?</Link>
-        </div>
-        <Button className="auth-button" name="Login" />
+        <Input
+          value={confirm}
+          onChange={setConfirm}
+          type="password"
+          placeholder="Confirm Password"
+          className="input"
+        />
+        <Button className="auth-button" name="Submit" />
       </form>
-      <div className="swap">
-        New to hawkeye? <Link to="/register">Create Account</Link>{" "}
-      </div>
     </div>
   );
 }

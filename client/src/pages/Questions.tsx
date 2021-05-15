@@ -7,15 +7,17 @@ import { Nullable, QuestionType, RegionType, User } from "../utils/types";
 
 export default function Home(): ReactElement {
   const auth = useAuth();
+
   const [userDetails, setuserDetails] = useState<Nullable<User> | any>(null);
   const [leftTab, setleftTab] = useState<boolean>(true);
-  const [currentRegion, setcurrentRegion] =
-    useState<Nullable<RegionType> | any>(null);
+  const [currentRegion, setcurrentRegion] = useState<
+    Nullable<RegionType> | any
+  >(null);
   const [curindex, setcurindex] = useState<number>(0);
   const [question, setQuestion] = useState<Nullable<QuestionType> | any>();
   const [hints, setHints] = useState<Array<string>>([]);
   const [attempts, setAttempts] = useState<Array<string>>([]);
-  const [answer , setAnswer] = useState<string>('');
+  const [answer, setAnswer] = useState<string>("");
 
   const fetchQuestion = async () => {
     try {
@@ -32,25 +34,27 @@ export default function Home(): ReactElement {
     }
   };
 
- 
   useEffect(() => {
     console.log(auth?.user);
-      setuserDetails(auth?.user);
-     if(auth?.user?.lastUnlockedIndex) setcurindex(auth?.user?.lastUnlockedIndex);
-     fetchQuestion();
+    setuserDetails(auth?.user);
+    if (auth?.user?.lastUnlockedIndex)
+      setcurindex(auth?.user?.lastUnlockedIndex);
+    fetchQuestion();
   }, []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<any> => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<any> => {
     event.preventDefault();
     try {
       await post(`questions/submit/${question._id}`, {
-        answer
+        answer,
       }).then((data) => console.log(data));
     } catch (err) {
       throw err;
     }
-    setAnswer('');
- };
+    setAnswer("");
+  };
 
   return (
     <div className="question-page">
@@ -79,8 +83,10 @@ export default function Home(): ReactElement {
           <p>{question.text}</p>
           <div>
             <form onSubmit={handleSubmit} id="answer">
-            <input type="text" onChange={(e) => setAnswer(e.target.value)}/>
-            <button form="answer" type="submit">Submit</button>
+              <input type="text" onChange={(e) => setAnswer(e.target.value)} />
+              <button form="answer" type="submit">
+                Submit
+              </button>
             </form>
           </div>
         </div>

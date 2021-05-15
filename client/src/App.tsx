@@ -6,17 +6,26 @@ import AdminPage from "./pages/Admin";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Questions from "./pages/Questions";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
+import { get } from "./utils/requests";
 
 //TODO
-//***Correct the fonts
+//***Correct the fonts EVERYWHERE
 
 export default function App(): ReactElement {
+  React.useEffect(() => {
+    get("/api").then(console.log);
+  }, []);
+
   return (
     <React.Fragment>
       <Switch>
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/questions" component={Questions} /> 
+        <Route path="/reset-password/:token" component={ResetPassword} />
+        <Route path="/forgot-password" component={ForgotPassword} />
+        <Route path="/questions" component={Questions} />
         {/* questions to be made private */}
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />

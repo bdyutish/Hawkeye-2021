@@ -1,4 +1,5 @@
 version: '3.3'
+
 services:
   api:
     build:
@@ -14,10 +15,19 @@ services:
       - 4000
     ports:
       - 4000:4000
-    env_file: ../.env
+    # env_file: ../.env
     environment:
       WAIT_HOSTS: db:27018,redis:6379
       WAIT_HOSTS_TIMEOUT: 120
+      # mongo and redis hoste env variables
+      MONGO_URI: mongodb://db:27017/hawk
+      REDIS_HOST: redis
+      PORT: 4000
+      MAX_LEVEL: 6
+    depends_on:
+      - db
+      - redis
+
   db:
     image: mongo:latest
     container_name: DevOps_DB
@@ -27,14 +37,16 @@ services:
       - 27018:27017
     networks:
       - network
-    logging:
-      driver: none
+    # logging:
+    #   driver: none
+
   redis:
     image: redis:alpine
     container_name: Hawk-redis
     restart: unless-stopped
     networks:
       - network
+
   client:
     stdin_open: true
     build:
@@ -48,8 +60,10 @@ services:
       - ../client:/usr/src/client
     ports:
       - 3005:3000
-    environment:
-      REACT_APP_API_URI: api:4000
+    # environment:
+    # CLIENT WONT START UP TILL API HAS STARTED (uncomment for this)
+    # depends_on:
+    #   - api
 
 networks:
   network:

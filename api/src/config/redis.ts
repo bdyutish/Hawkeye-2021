@@ -1,8 +1,13 @@
 import redis from 'redis';
 
+if (!process.env.REDIS_HOST) {
+  console.log('redis host not found in the env variables');
+  process.exit(0);
+}
+
 // initialised redis client
 const client = redis.createClient({
-  host: 'redis',
+  host: process.env.REDIS_HOST,
   port: 6379,
 });
 client.on('connect', () => {
