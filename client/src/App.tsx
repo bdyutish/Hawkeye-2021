@@ -15,7 +15,7 @@ import { get } from "./utils/requests";
 
 export default function App(): ReactElement {
   React.useEffect(() => {
-    get("/api").then(console.log);
+    get("").then(console.log);
   }, []);
 
   return (
