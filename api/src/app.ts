@@ -55,11 +55,11 @@ app.use(
 );
 
 // link routers here
-app.use(indexRouter);
-app.use(authRouter);
-app.use(questionRouter);
-app.use(regionRouter);
-app.use(adminRouter);
+app.use('/api/', indexRouter);
+app.use('/api/', authRouter);
+app.use('/api/', questionRouter);
+app.use('/api/', regionRouter);
+app.use('/api/', adminRouter);
 
 // error handler
 app.use(errorhandler);
