@@ -7,16 +7,10 @@ import React, {
 } from "react";
 import { Nullable, User, Children } from "../utils/types";
 
- 
-
 import { get, post, put } from "../utils/requests";
 import { useHistory, useLocation } from "react-router-dom";
 
- 
-
 import { useToasts } from "react-toast-notifications";
-
- 
 
 type Value = {
   user: Nullable<User>;
@@ -38,32 +32,20 @@ type Value = {
   check: () => Promise<void>;
 };
 
- 
-
 const AuthContext = createContext<Nullable<Value>>(null);
-
- 
 
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
- 
-
 export default function AuthProvider({ children }: Children): ReactElement {
   const [user, setUser] = useState<Nullable<User> | any>(null);
   const [loading, setLoading] = useState<Boolean>(true);
 
- 
-
   const location = useLocation();
   const history = useHistory();
 
- 
-
   const { addToast } = useToasts();
-
- 
 
   const fetchMe = async () => {
     try {
@@ -72,8 +54,6 @@ export default function AuthProvider({ children }: Children): ReactElement {
       logout();
     }
   };
-
- 
 
   useEffect(() => {
     (async () => {
@@ -86,12 +66,8 @@ export default function AuthProvider({ children }: Children): ReactElement {
     })();
   }, []);
 
- 
-
   const login = async (email: string, password: string) => {
     // setLoading(true);
-
- 
 
     try {
       await post("/login", {
@@ -99,15 +75,13 @@ export default function AuthProvider({ children }: Children): ReactElement {
         password,
       });
 
- 
-
       await fetchMe();
+
+      history.push("/");
     } catch (err) {
       throw err;
     }
   };
-
- 
 
   const register = async (
     name: string,
@@ -123,16 +97,12 @@ export default function AuthProvider({ children }: Children): ReactElement {
         password,
       });
 
- 
-
       history.push("/login");
       addToast("Verification Mail Sent", { appearance: "info" });
     } catch (err) {
       throw err;
     }
   };
-
- 
 
   const logout = async () => {
     try {
@@ -144,13 +114,9 @@ export default function AuthProvider({ children }: Children): ReactElement {
     }
   };
 
- 
-
   const isCurrentUserProfile = () =>
     location.pathname.split("/").slice(-1)[0] === user?._id ||
     location.pathname.split("/").slice(-2)[0] === user?._id;
-
- 
 
   const forgotPassword = async (email: string) => {
     try {
@@ -160,8 +126,6 @@ export default function AuthProvider({ children }: Children): ReactElement {
       addToast("Something Went Wrong", { appearance: "error" });
     }
   };
-
- 
 
   const resetPassword = async (password: string, token: string) => {
     try {
@@ -173,17 +137,11 @@ export default function AuthProvider({ children }: Children): ReactElement {
     }
   };
 
- 
-
   const isAdmin = () => user?.role === 1;
-
- 
 
   const updateUser = (userData: User) => {
     setUser(userData);
   };
-
- 
 
   const check = async () => {
     try {
@@ -202,8 +160,6 @@ export default function AuthProvider({ children }: Children): ReactElement {
     }
   };
 
- 
-
   const value = {
     user,
     login,
@@ -218,8 +174,6 @@ export default function AuthProvider({ children }: Children): ReactElement {
     updateUser,
     check,
   };
-
- 
 
   // {children}
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

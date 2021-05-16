@@ -40,12 +40,10 @@ export default function Register({}: Props): ReactElement {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!name) errors.push("Name is Required");
-    if (!username) errors.push("Username is Required");
-    if (!email) errors.push("Email is Required");
-    else if (!validateEmail(email)) errors.push("Email is invalid");
-    if (!password) errors.push("Password is Required");
-    else if (password.length < 8)
+    if (!name || !username || !email || !password)
+      errors.push("All fields are required");
+    if (!validateEmail(email) && email) errors.push("Email is invalid");
+    if (password.length < 8 && password)
       errors.push("Password must be atleast 8 Characters");
     else if (password !== confirm) errors.push("Passwords do not match");
     if (!captcha) errors.push("Captcha must be completed");
@@ -69,6 +67,9 @@ export default function Register({}: Props): ReactElement {
       <Img src={desktopBG} className="background" />
       <h1>HAWKEYE</h1>
       <h2>Sign Up</h2>
+      {errors.map((err: string) => {
+        return <div className="error">{err}</div>;
+      })}
       <form onSubmit={handleSubmit}>
         <Input
           value={name}

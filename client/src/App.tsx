@@ -14,10 +14,6 @@ import { get } from "./utils/requests";
 //***Correct the fonts EVERYWHERE
 
 export default function App(): ReactElement {
-  React.useEffect(() => {
-    get("").then(console.log);
-  }, []);
-
   return (
     <React.Fragment>
       <Switch>
