@@ -3,8 +3,8 @@ import { get } from "../utils/requests";
 
 export default (url: string, lazy = false) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [data, setData] = useState(null);
+  const [error, setError] = useState<any>(null);
+  const [data, setData] = useState<any>(null);
 
   const fetch = () => {
     setIsLoading(true);

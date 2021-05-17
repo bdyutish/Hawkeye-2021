@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import desktopBG from "../assets/backround/desktop.png";
 import Img from "../components/Img";
 import { useAuth } from "../context/AuthContext";
+import useFetch from "../hooks/useFetch";
 import useInputState from "../hooks/useInputState";
 import { get, post } from "../utils/requests";
 import { Nullable, QuestionType, RegionType, User } from "../utils/types";
