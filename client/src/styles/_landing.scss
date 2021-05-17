@@ -2,4 +2,40 @@
     background-color: #212121;
     min-height: 100vh;
     padding: 10rem;
+
+    .hints{
+        background: linear-gradient(112.11deg, rgba(255, 255, 255, 0.09) 12.41%, rgba(255, 255, 255, 0.05) 84.54%);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
+        width: 24.4rem;
+height: 24.4rem;
+padding: 2rem;
+display: flex;
+flex-direction: column;
+
+.hint-locked{
+    background-color: #212121;
+    height: 3.25rem;
+color: #ddd;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+
+h4{
+    color: #5C63FF;
+    font-size: 2rem;
+    text-align: center;
+
+
+}
+
+section{
+flex: 1;
+padding: .5rem;
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+}
+    }
 }

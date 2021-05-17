@@ -2,6 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import desktopBG from "../assets/backround/desktop.png";
 import Img from "../components/Img";
 import { useAuth } from "../context/AuthContext";
+import useInputState from "../hooks/useInputState";
 import { get, post } from "../utils/requests";
 import { Nullable, QuestionType, RegionType, User } from "../utils/types";
 
@@ -14,10 +15,12 @@ export default function Home(): ReactElement {
     Nullable<RegionType> | any
   >(null);
   const [curindex, setcurindex] = useState<number>(0);
+
   const [question, setQuestion] = useState<Nullable<QuestionType> | any>();
   const [hints, setHints] = useState<Array<string>>([]);
   const [attempts, setAttempts] = useState<Array<string>>([]);
-  const [answer, setAnswer] = useState<string>("");
+
+  const [answer, setAnswer, resetAnswer] = useInputState();
 
   const fetchQuestion = async () => {
     try {
@@ -83,7 +86,7 @@ export default function Home(): ReactElement {
           <p>{question.text}</p>
           <div>
             <form onSubmit={handleSubmit} id="answer">
-              <input type="text" onChange={(e) => setAnswer(e.target.value)} />
+              <input type="text" value={answer} onChange={setAnswer} />
               <button form="answer" type="submit">
                 Submit
               </button>
