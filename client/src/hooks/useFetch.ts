@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import { get } from "../utils/requests";
 
 export default (url: string, lazy = false) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [data, setData] = useState<any>(null);
+
+  const auth = useAuth();
 
   const fetch = () => {
     setIsLoading(true);
@@ -13,7 +16,10 @@ export default (url: string, lazy = false) => {
         setData(data);
         setIsLoading(false);
       })
-      .catch(setError);
+      .catch((err) => {
+        setError(err);
+        auth?.check();
+      });
   };
 
   useEffect(() => {
