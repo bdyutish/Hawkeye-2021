@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import React, { ReactElement, useEffect, useState } from "react";
 import desktopBG from "../assets/backround/desktop.png";
 import Img from "../components/Img";
@@ -5,32 +6,48 @@ import { useAuth } from "../context/AuthContext";
 import useFetch from "../hooks/useFetch";
 import useInputState from "../hooks/useInputState";
 import { get, post } from "../utils/requests";
-import { Nullable, QuestionType, RegionType, User } from "../utils/types";
+import iecseSvg from "../assets/iecseLogo.svg";
+import buttonImage from "../assets/button.png";
+import {
+  Nullable,
+  QuestionType,
+  RegionType,
+  StatsType,
+  User,
+} from "../utils/types";
+import Button from "../components/Button";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 
-export default function Home(): ReactElement {
+type TParams = { id: string };
+export default function Home({
+  match,
+}: RouteComponentProps<TParams>): ReactElement {
   const auth = useAuth();
-
-  const [userDetails, setuserDetails] = useState<Nullable<User> | any>(null);
   const [leftTab, setleftTab] = useState<boolean>(true);
-  const [currentRegion, setcurrentRegion] = useState<
-    Nullable<RegionType> | any
-  >(null);
+  const [currentRegion, setcurrentRegion] =
+    useState<Nullable<RegionType> | any>(null);
   const [curindex, setcurindex] = useState<number>(0);
 
   const [question, setQuestion] = useState<Nullable<QuestionType> | any>();
   const [hints, setHints] = useState<Array<string>>([]);
   const [attempts, setAttempts] = useState<Array<string>>([]);
-
-  const [answer, setAnswer, resetAnswer] = useInputState();
-
+  const [stats, setStats] = useState<Nullable<StatsType> | any>();
+  const [answer, setAnswer] = useState<string>("");
+  const [replyText, setreplyText] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const history = useHistory();
   const fetchQuestion = async () => {
     try {
-      await get(`/questions/${userDetails.regions[curindex].regionid}`).then(
+      const ind = parseInt(match.params.id);
+      await get(`/questions/${auth?.user?.regions[ind].regionid}`).then(
         (data) => {
-          let ques = data.question;
-          setQuestion(ques);
-          setAttempts(data.attempts);
-          setHints(data.question.hints);
+          console.log(data);
+          setQuestion(data.question);
+          if (data.attempts) setAttempts(data.attempts);
+          else setAttempts([]);
+          //setHints(data.question.hints);
+          setStats(data.stats);
+          setLoading(false);
         }
       );
     } catch (err) {
@@ -39,25 +56,48 @@ export default function Home(): ReactElement {
   };
 
   useEffect(() => {
-    console.log(auth?.user);
-    setuserDetails(auth?.user);
-    if (auth?.user?.lastUnlockedIndex)
-      setcurindex(auth?.user?.lastUnlockedIndex);
-    fetchQuestion();
+    (async () => {
+      try {
+        await fetchQuestion();
+      } catch (err) {
+        setLoading(false);
+      }
+    })();
+    return () => {
+      setQuestion({});
+    };
   }, []);
-
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<any> => {
     event.preventDefault();
     try {
       await post(`questions/submit/${question._id}`, {
-        answer,
-      }).then((data) => console.log(data));
+        attempt: answer,
+      }).then((data) => {
+        if (data.success === false) {
+          setreplyText(data.message);
+          setTimeout(() => {
+            setreplyText("");
+          }, 3000);
+          fetchQuestion();
+        } else {
+          if (question.level === 6) {
+            setreplyText("New Region Unlocked!");
+            
+          } else setreplyText("Correct Answer");
+
+          setTimeout(() => {
+            history.push("/");
+            fetchQuestion();
+            setAnswer("");
+            setreplyText("");
+          }, 3000);
+        }
+      });
     } catch (err) {
       throw err;
     }
-    setAnswer("");
   };
 
   return (
@@ -65,61 +105,80 @@ export default function Home(): ReactElement {
       <Img src={desktopBG} className="background" />
       <h1>HAWKEYE</h1>
       <div className="region-display">
-        <span style={{ float: "left" }}>\</span>
+        <span style={{ float: "left" }}>
+          <i className="fas fa-chevron-left"></i>
+        </span>
         <span>region</span>
-        <span style={{ float: "right" }}>ic</span>
+        <span style={{ float: "right" }}>
+          <i className="fas fa-map-marker-alt"></i>
+        </span>
       </div>
-      <div className="three-containers">
-        <div className="con-1">
-          <p className="headers">Hints</p>
-          {hints && hints.length != 0 ? (
-            <div>
-              {hints.map((hint, ind) => {
-                return <p key={ind}>{hint}</p>;
-              })}
+      {!loading ? (
+        <div className="three-containers">
+          <div className="con-1">
+            <p className="headers">Hints</p>
+            {hints && hints.length != 0 ? (
+              <div className="hints">
+                {hints.map((hint, ind) => {
+                  return <p key={ind}>{hint}</p>;
+                })}
+              </div>
+            ) : (
+              <div className="hint-locked">
+                <i data-tip="Hint Locked" className="fas fa-lock"></i>
+              </div>
+            )}
+          </div>
+          <div className="con-2">
+            <p className="headers">Level {question.level}</p>
+            <p>{question.text}</p>
+            <div className="form">
+              <form onSubmit={handleSubmit} id="answer">
+                <input
+                  type="text"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                />
+
+                <div>
+                <button className="primary-btn ">
+                  <div className="submit">Submit</div>
+                  <img src={buttonImage} alt="" />
+                </button>
+                </div>
+              </form>
             </div>
-          ) : (
-            <div>iecse logo</div>
-          )}
-        </div>
-        <div className="con-2">
-          <p className="headers">Level {question.level}</p>
-          <p>{question.text}</p>
-          <div>
-            <form onSubmit={handleSubmit} id="answer">
-              <input type="text" value={answer} onChange={setAnswer} />
-              <button form="answer" type="submit">
-                Submit
-              </button>
-            </form>
+            {replyText != "" && <div className="replyText">{replyText}</div>}
+          </div>
+          <div className="con-3">
+            {leftTab ? (
+              <p className="headers">
+                Attempts <span onClick={() => setleftTab(false)}>| Stats</span>
+              </p>
+            ) : (
+              <p className="headers">
+                <span onClick={() => setleftTab(true)}>Attempts |</span> Stats
+              </p>
+            )}
+            {leftTab ? (
+              <div>
+                {attempts.reverse().map((att, ind) => {
+                  return <p key={ind}>{att}</p>;
+                })}
+              </div>
+            ) : (
+              <>
+                <div>
+                  <p>At Par : {stats.atPar}</p>
+                  <p>Trailing : {stats.leading}</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
-        <div className="con-3">
-          {leftTab ? (
-            <p className="headers">
-              Attempts <span onClick={() => setleftTab(false)}>| Stats</span>
-            </p>
-          ) : (
-            <p className="headers">
-              <span onClick={() => setleftTab(true)}>Attempts |</span> Stats
-            </p>
-          )}
-          {leftTab ? (
-            <div>
-              {attempts.map((att, ind) => {
-                return <p key={ind}>{att}</p>;
-              })}
-            </div>
-          ) : (
-            <>
-              <div>
-                <p>Leading : 10</p>
-                <p>Trailing : 1001</p>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+      ) : (
+        <h1>Loading</h1>
+      )}
     </div>
   );
 }

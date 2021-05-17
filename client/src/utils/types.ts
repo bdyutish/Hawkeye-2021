@@ -17,7 +17,7 @@ export type User = {
   isVerified: boolean;
   score: number;
   lastUnlockedIndex: number;
-  regions: RegionType;
+  regions: Array<RegionType>;
   
 };
 
@@ -37,4 +37,9 @@ export type QuestionType = {
     level: number,
     region: string,
     __v: number
+}
+
+export type StatsType = {
+  atPar: number,
+leading: number
 }
