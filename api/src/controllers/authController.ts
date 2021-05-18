@@ -36,6 +36,7 @@ export const register = async (
       regionid: mongoose.Schema.Types.ObjectId;
       level: number;
       multiplier: number;
+      isCompleted: boolean;
     }[] = [];
 
     for (let i = 0; i < regions.length; i++) {
@@ -43,6 +44,7 @@ export const register = async (
         regionid: regions[i]._id,
         level: 1,
         multiplier: 1,
+        isCompleted: false,
       });
     }
 

@@ -21,6 +21,7 @@ export interface UserDoc extends mongoose.Document {
     regionid: mongoose.Schema.Types.ObjectId;
     level: number;
     multiplier: number;
+    isCompleted: boolean;
   }[];
   attempts: {
     question: mongoose.Schema.Types.ObjectId;
@@ -77,6 +78,7 @@ const UserSchema = new mongoose.Schema({
       regionid: mongoose.Schema.Types.ObjectId,
       level: Number,
       multiplier: Number,
+      isCompleted: Boolean,
     },
   ],
   attempts: [
