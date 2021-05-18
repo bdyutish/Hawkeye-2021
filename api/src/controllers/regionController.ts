@@ -20,3 +20,16 @@ export const addRegion = async (
     return next(new ErrorResponse(err.name, err.code));
   }
 };
+
+export const getAllRegions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const regions = await Region.find();
+    res.status(201).send(regions);
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};

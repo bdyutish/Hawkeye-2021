@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { addRegion } from '../controllers/regionController';
+import { addRegion, getAllRegions } from '../controllers/regionController';
 import { protect, isBanned } from '../middlewares/auth';
 import { validateRequest } from '../middlewares/requestValidator';
 import { body } from 'express-validator';
@@ -15,4 +15,5 @@ router.post(
   addRegion
 );
 
+router.get('/regions/', protect, getAllRegions);
 export { router as regionRouter };
