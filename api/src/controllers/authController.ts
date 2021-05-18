@@ -191,7 +191,7 @@ export const forgotPassword = async (
 
   try {
     const resp = await fetch(
-      'https://mail.iecsemanipal.com/hawk/resetpassword',
+      'https://mail.iecsemanipal.com/hawk/forgotpassword',
       {
         method: 'POST',
         headers: {
