@@ -21,7 +21,7 @@ export default function App(): ReactElement {
         <Route path="/register" component={Register} />
         <Route path="/reset-password/:token" component={ResetPassword} />
         <Route path="/forgot-password" component={ForgotPassword} />
-        <Route path="/questions" component={Questions} />
+        <PrivateRoute path="/questions/:id" component={Questions} />
         {/* questions to be made private */}
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />

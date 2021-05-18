@@ -20,5 +20,9 @@ export const checkUserRegionUnlocked = async (
         return next();
     }
   }
+<<<<<<< HEAD
   return next(new ErrorResponse("Region not unlocked", 404));
+=======
+  return next(new ErrorResponse('Region Locked', 400));
+>>>>>>> 998ac73991a04a0d7f84a23223f24b59a2af7023
 };

@@ -67,6 +67,10 @@ export const getQuestionByRegionId = async (
       if (
         user.regions[i].regionid.toString() == req.params.regionId.toString()
       ) {
+        //check if region already completed
+        if (user.regions[i].isCompleted == true) {
+          return next(new ErrorResponse('Region already completed', 400));
+        }
         level = user.regions[i].level;
         break;
       }
@@ -123,7 +127,7 @@ export const getQuestionByRegionId = async (
         },
       },
       {
-        $count: 'atPar',
+        $count: 'leading',
       },
     ]);
 
@@ -142,7 +146,7 @@ export const getQuestionByRegionId = async (
         },
       },
       {
-        $count: 'atPar',
+        $count: 'lagging',
       },
     ]);
 
@@ -223,6 +227,8 @@ export const submitQuestion = async (
             user.regions[i].level.toString() ==
             process.env.MAX_LEVEL?.toString()
           ) {
+            user.regions[i].isCompleted = true;
+            await user.save();
             unlockRegion(req);
           } else {
             user.regions[i].level++;

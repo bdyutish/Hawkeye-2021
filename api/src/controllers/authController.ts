@@ -36,6 +36,7 @@ export const register = async (
       regionid: mongoose.Schema.Types.ObjectId;
       level: number;
       multiplier: number;
+      isCompleted: boolean;
     }[] = [];
 
     for (let i = 0; i < regions.length; i++) {
@@ -43,6 +44,7 @@ export const register = async (
         regionid: regions[i]._id,
         level: 1,
         multiplier: 1,
+        isCompleted: false,
       });
     }
 
@@ -189,7 +191,7 @@ export const forgotPassword = async (
 
   try {
     const resp = await fetch(
-      'https://mail.iecsemanipal.com/hawk/resetpassword',
+      'https://mail.iecsemanipal.com/hawk/forgotpassword',
       {
         method: 'POST',
         headers: {

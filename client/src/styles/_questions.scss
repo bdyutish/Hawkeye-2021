@@ -21,9 +21,8 @@
   }
 
   p {
-    margin: 24px;
+    margin: 1.7rem;
     text-align: center;
-    font-family: Catamaran;
     font-style: normal;
     font-weight: 500;
     font-size: 1.3rem;
@@ -33,7 +32,6 @@
   }
 
   .headers {
-    font-family: Coda;
     font-style: normal;
     font-weight: normal;
     font-size: 2rem;
@@ -49,10 +47,11 @@
   }
 
   .con-1 {
+    
     p{
       text-align: center;
     }
-    div {
+    .hints {
       height: 70%;
        overflow: auto
     }
@@ -97,7 +96,10 @@
     }
     div {
       height: 70%;
-      overflow: auto
+      overflow: auto;
+      -ms-overflow-style: none;  /* Internet Explorer 10+ */
+      scrollbar-width: none; 
+      
     }
   }
 
@@ -119,21 +121,40 @@
     );
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
     backdrop-filter: blur(26px);
-
-  div{
+    
+  .form{
     width: 100%;
     position: absolute;
-    bottom: 25px;
+    bottom: 3.2rem;
   }
-  button{
-    border: 2px solid white;
-    color: white;
-    border-radius: 10px;
-    background: transparent;
-    padding: 10px 20px;
-    font-size: 1.3rem;
-    
+  .replyText{
+    width: 100%;
+    position: absolute;
+    bottom: 1.2rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color :#5c63ff;
   }
+  .primary-btn{
+    color: #fefefe;
+    position: relative;
+    width: max-content;
+    cursor: pointer;
+    background-color: transparent;
+    font-weight: bold;
+
+    img{
+        width: 12rem;
+    }
+
+    .submit{
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%,-64%);
+font-size: 1rem;
+    }
+}
 
   }
 
@@ -159,6 +180,7 @@
     font-size: 1.5rem;
     border-bottom: 1px solid #5c63ff;
     width: 80%;
-    margin: 40px auto;
+    margin: 2.5rem auto;
+    text-align: center;
   }
 }
