@@ -1,0 +1,20 @@
+.shop-modal{
+    height: 90%;
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #eaeaea;
+    border-radius: 8px;
+    padding:1rem;
+    outline: none;
+    animation: open .4s ease;
+
+    box-shadow: 2px 4px 65px -50px rgba(0,0,0,1);
+    -webkit-box-shadow: 2px 4px 65px -50px rgba(0,0,0,1);
+    -moz-box-shadow: 2px 4px 65px -50px rgba(0,0,0,1);
+
+    background:  radial-gradient(50% 50% at 50% 50%, rgba(1, 3, 4, 0.9) 0%, #070707 100%) ;
+    color: #fff;
+}

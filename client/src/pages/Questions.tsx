@@ -16,16 +16,16 @@ import {
   User,
 } from "../utils/types";
 import Button from "../components/Button";
-import { RouteComponentProps, useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory, useLocation } from "react-router-dom";
 
 type TParams = { id: string };
 export default function Home({
   match,
 }: RouteComponentProps<TParams>): ReactElement {
-  const auth = useAuth();
   const [leftTab, setleftTab] = useState<boolean>(true);
-  const [currentRegion, setcurrentRegion] =
-    useState<Nullable<RegionType> | any>(null);
+  const [currentRegion, setcurrentRegion] = useState<
+    Nullable<RegionType> | any
+  >(null);
   const [curindex, setcurindex] = useState<number>(0);
 
   const [question, setQuestion] = useState<Nullable<QuestionType> | any>();
@@ -36,20 +36,18 @@ export default function Home({
   const [replyText, setreplyText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const history = useHistory();
+
   const fetchQuestion = async () => {
     try {
-      const ind = parseInt(match.params.id);
-      await get(`/questions/${auth?.user?.regions[ind].regionid}`).then(
-        (data) => {
-          console.log(data);
-          setQuestion(data.question);
-          if (data.attempts) setAttempts(data.attempts);
-          else setAttempts([]);
-          //setHints(data.question.hints);
-          setStats(data.stats);
-          setLoading(false);
-        }
-      );
+      await get(`/questions/${match.params.id}`).then((data) => {
+        console.log(data);
+        setQuestion(data.question);
+        if (data.attempts) setAttempts(data.attempts);
+        else setAttempts([]);
+        //setHints(data.question.hints);
+        setStats(data.stats);
+        setLoading(false);
+      });
     } catch (err) {
       console.log(err);
     }
@@ -67,38 +65,45 @@ export default function Home({
       setQuestion({});
     };
   }, []);
+
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<any> => {
     event.preventDefault();
-    try {
-      await post(`questions/submit/${question._id}`, {
-        attempt: answer,
-      }).then((data) => {
-        if (data.success === false) {
-          setreplyText(data.message);
-          setTimeout(() => {
-            setreplyText("");
-          }, 3000);
-          fetchQuestion();
-        } else {
-          if (question.level === 6) {
-            setreplyText("New Region Unlocked!");
-            
-          } else setreplyText("Correct Answer");
 
-          setTimeout(() => {
-            history.push("/");
-            fetchQuestion();
-            setAnswer("");
-            setreplyText("");
-          }, 3000);
-        }
+    if (!answer) return;
+
+    try {
+      const data = await post(`questions/submit/${question._id}`, {
+        attempt: answer,
       });
+
+      if (!data.success) {
+        setreplyText(data.message);
+        setTimeout(() => {
+          setreplyText("");
+        }, 3000);
+        fetchQuestion();
+      } else {
+        if (question.level === 6) {
+          setreplyText("New Region Unlocked!");
+        } else setreplyText("Correct Answer");
+
+        setTimeout(() => {
+          history.push("/");
+          fetchQuestion();
+          setAnswer("");
+          setreplyText("");
+        }, 3000);
+      }
     } catch (err) {
       throw err;
     }
   };
+
+  const location = useLocation();
+
+  console.log(location);
 
   return (
     <div className="question-page">
@@ -108,7 +113,7 @@ export default function Home({
         <span style={{ float: "left" }}>
           <i className="fas fa-chevron-left"></i>
         </span>
-        <span>region</span>
+        <span>Australia</span>
         <span style={{ float: "right" }}>
           <i className="fas fa-map-marker-alt"></i>
         </span>
@@ -135,16 +140,17 @@ export default function Home({
             <div className="form">
               <form onSubmit={handleSubmit} id="answer">
                 <input
+                  placeholder="Answer"
                   type="text"
                   value={answer}
                   onChange={(e) => setAnswer(e.target.value)}
                 />
 
                 <div>
-                <button className="primary-btn ">
-                  <div className="submit">Submit</div>
-                  <img src={buttonImage} alt="" />
-                </button>
+                  <button className="primary-btn ">
+                    <div className="submit">Submit</div>
+                    <img src={buttonImage} alt="" />
+                  </button>
                 </div>
               </form>
             </div>

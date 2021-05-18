@@ -76,6 +76,16 @@
     height: 26rem;
     margin: auto;
 
+    .headers {
+      font-size: 1.5rem;
+      cursor: pointer;
+
+      &::after{
+        content: "";
+
+      }
+    }
+
     /* white */
     background: linear-gradient(
       112.11deg,
@@ -183,4 +193,9 @@ font-size: 1rem;
     margin: 2.5rem auto;
     text-align: center;
   }
+}
+
+
+.underline{
+
 }

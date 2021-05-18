@@ -12,17 +12,21 @@ import { get } from "./utils/requests";
 
 //TODO
 //***Correct the fonts EVERYWHERE
+// ok why is HUD working outside proivder
 
 export default function App(): ReactElement {
   return (
     <React.Fragment>
       <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/reset-password/:token" component={ResetPassword} />
-        <Route path="/forgot-password" component={ForgotPassword} />
-        <PrivateRoute path="/questions/:id" component={Questions} />
-        {/* questions to be made private */}
+        <PrivateRoute auth path="/login" component={Login} />
+        <PrivateRoute auth path="/register" component={Register} />
+        <PrivateRoute
+          auth
+          path="/reset-password/:token"
+          component={ResetPassword}
+        />
+        <PrivateRoute auth path="/forgot-password" component={ForgotPassword} />
+        <PrivateRoute path="/question/:id" component={Questions} />
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />
       </Switch>
