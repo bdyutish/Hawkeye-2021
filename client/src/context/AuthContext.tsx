@@ -151,6 +151,9 @@ export default function AuthProvider({ children }: Children): ReactElement {
         addToast("Session Timed Out", { appearance: "error" });
         return;
       }
+      // else if (res.isBanned){
+
+      // }
       setUser(res);
       history.push("/");
       addToast("Something Went Wrong", { appearance: "error" });
