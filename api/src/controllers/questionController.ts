@@ -127,7 +127,7 @@ export const getQuestionByRegionId = async (
         },
       },
       {
-        $count: 'atPar',
+        $count: 'leading',
       },
     ]);
 
@@ -146,7 +146,7 @@ export const getQuestionByRegionId = async (
         },
       },
       {
-        $count: 'atPar',
+        $count: 'lagging',
       },
     ]);
 
@@ -228,6 +228,7 @@ export const submitQuestion = async (
             process.env.MAX_LEVEL?.toString()
           ) {
             user.regions[i].isCompleted = true;
+            await user.save();
             unlockRegion(req);
           } else {
             user.regions[i].level++;
