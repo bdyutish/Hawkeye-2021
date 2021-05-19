@@ -7,12 +7,8 @@ import HUD from "../components/HUD";
 import { Link } from "react-router-dom";
 
 import Select from "react-select";
-
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
+import { get } from "../utils/requests";
+import { useAuth } from "../context/AuthContext";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibmlzaGlrYTI1IiwiYSI6ImNrb2R4ODlvcjA1cWEyd3A1eWFqZThsZGMifQ.hk-3XzdHKUYiV5p1SIi_mQ";
@@ -20,7 +16,11 @@ mapboxgl.accessToken =
 export default function Home(): ReactElement {
   const map = React.useRef<any>(null);
 
-  const [selected, setSelected] = React.useState(null);
+  const [selected, setSelected] = React.useState<any>(null);
+
+  const [options, setOptions] = React.useState<any>([]);
+
+  const auth = useAuth();
 
   React.useEffect(() => {
     map.current = new mapboxgl.Map({
@@ -29,6 +29,24 @@ export default function Home(): ReactElement {
     });
 
     map.current.setMaxZoom(3);
+
+    get("/regions").then((data) => {
+      setOptions(
+        data.map((option: any, index: number) => {
+          if (index === auth?.user?.lastUnlockedIndex) {
+            setSelected({
+              value: option._id,
+              label: option.name,
+            });
+          }
+
+          return {
+            value: option._id,
+            label: option.name,
+          };
+        })
+      );
+    });
 
     // map.current.style.stylesheet.layers.forEach(function (layer: any) {
     //   if (layer.type === "symbol") {
@@ -46,8 +64,10 @@ export default function Home(): ReactElement {
         <Select
           className="react-select"
           value={selected}
-          // onChange={this.handleChange}
+          onChange={(option) => setSelected(option)}
           options={options}
+          isSearchable={false}
+          // isRtl={true}
         />
         <i className="fas fa-map-marker-alt"></i>
         <p>
@@ -55,7 +75,7 @@ export default function Home(): ReactElement {
           corruption..
         </p>
         <Button
-          pathname={`/question/${"6096ec69f165570143f6d968"}`}
+          pathname={`/question/${selected?.value}`}
           state={{ allow: true }}
           link
           name="Start"
