@@ -1,48 +1,11 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { get, post ,put} from "../utils/requests";
-import { QuestionType } from "../utils/types";
+import { Nullable, QuestionType } from "../utils/types";
 
 export default function AdminPage(): ReactElement {
-    const [questions , setQuestions] = useState([
-      {
-        "hints": [
-            "hint 1 ",
-            "this 2 ",
-            "this hint 3"
-        ],
-        "keywords": [
-            "hi",
-            "hello",
-            "bye"
-        ],
-        "_id": "609ab5ccecfe7900296906ae",
-        "text": "some ques111",
-        "answer": "answer111",
-        "level": 5,
-        "region": "609ab4cfecfe7900296906ad",
-        "__v": 0
-    },
-    {
-      "hints": [
-          "hint 111111 ",
-          "this 2 ",
-          "this hint 3"
-      ],
-      "keywords": [
-          "hi",
-          "hello",
-          "bye"
-      ],
-      "_id": "609ab5ccecfe7900296906ae",
-      "text": "some ques222",
-      "answer": "answe22222r",
-      "level": 5,
-      "region": "609ab4cfecfe7900296906ad",
-      "__v": 0
-  }
-    ]);
-    const [leaderboard, setLeaderboard] = useState([]);
     
+    const [leaderboard, setLeaderboard] = useState([]);
+    const [questions, setQuestions] = useState<Nullable<QuestionType> | any>();
     
     const fetchLeaderboard = async () => {
         try {
@@ -53,10 +16,17 @@ export default function AdminPage(): ReactElement {
       };
 
       useEffect(() => {
-        fetchLeaderboard();
-        fetchQuestions();
-
-      }, [leaderboard , questions])
+        (async () => {
+          try {
+            await fetchQuestions();
+          } catch (err) {
+           
+          }
+        })();
+        return () => {
+          setQuestions({});
+        };
+      }, [leaderboard , questions]);
 
       const fetchQuestions = async () => {
         try {
@@ -72,7 +42,7 @@ export default function AdminPage(): ReactElement {
   return <div className="admin">
     <p onClick={() => {setEdit(!edit)}}>Add a questiondd</p>
     {edit && <AdminAddQuestion />}
-    {questions.map((question , index) => {
+    {questions.map((question: any , index: any) => {
     return(
       <AdminQuestion question={question} key={index} />
     );

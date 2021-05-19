@@ -6,8 +6,9 @@ import { useAuth } from "../context/AuthContext";
 import useFetch from "../hooks/useFetch";
 import useInputState from "../hooks/useInputState";
 import { get, post } from "../utils/requests";
-import iecseSvg from "../assets/iecseLogo.svg";
 import buttonImage from "../assets/button.png";
+import Confetti from "react-confetti";
+
 import {
   Nullable,
   QuestionType,
@@ -17,17 +18,13 @@ import {
 } from "../utils/types";
 import Button from "../components/Button";
 import { RouteComponentProps, useHistory } from "react-router-dom";
-
+import { useToasts } from "react-toast-notifications";
 type TParams = { id: string };
 export default function Home({
   match,
 }: RouteComponentProps<TParams>): ReactElement {
   const auth = useAuth();
   const [leftTab, setleftTab] = useState<boolean>(true);
-  const [currentRegion, setcurrentRegion] =
-    useState<Nullable<RegionType> | any>(null);
-  const [curindex, setcurindex] = useState<number>(0);
-
   const [question, setQuestion] = useState<Nullable<QuestionType> | any>();
   const [hints, setHints] = useState<Array<string>>([]);
   const [attempts, setAttempts] = useState<Array<string>>([]);
@@ -36,6 +33,8 @@ export default function Home({
   const [replyText, setreplyText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const history = useHistory();
+  const { addToast } = useToasts();
+
   const fetchQuestion = async () => {
     try {
       const ind = parseInt(match.params.id);
@@ -45,13 +44,14 @@ export default function Home({
           setQuestion(data.question);
           if (data.attempts) setAttempts(data.attempts);
           else setAttempts([]);
-          //setHints(data.question.hints);
+          console.log(data.question.hints);
+          setHints(data.question.hints);
           setStats(data.stats);
           setLoading(false);
         }
       );
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   };
 
@@ -76,6 +76,7 @@ export default function Home({
         attempt: answer,
       }).then((data) => {
         if (data.success === false) {
+          addToast("Inorrect Answer", { appearance: "error" });
           setreplyText(data.message);
           setTimeout(() => {
             setreplyText("");
@@ -83,12 +84,14 @@ export default function Home({
           fetchQuestion();
         } else {
           if (question.level === 6) {
+            addToast("New Region Unlocked", { appearance: "success" });
             setreplyText("New Region Unlocked!");
-            
+            setTimeout(() => {
+              history.push("/");
+            }, 3000);
           } else setreplyText("Correct Answer");
-
+          addToast("Correct Answer", { appearance: "success" });
           setTimeout(() => {
-            history.push("/");
             fetchQuestion();
             setAnswer("");
             setreplyText("");
@@ -105,11 +108,11 @@ export default function Home({
       <Img src={desktopBG} className="background" />
       <h1>HAWKEYE</h1>
       <div className="region-display">
-        <span style={{ float: "left" }}>
+        <span className="back-button">
           <i className="fas fa-chevron-left"></i>
         </span>
         <span>region</span>
-        <span style={{ float: "right" }}>
+        <span className="pin-icon">
           <i className="fas fa-map-marker-alt"></i>
         </span>
       </div>
@@ -122,11 +125,24 @@ export default function Home({
                 {hints.map((hint, ind) => {
                   return <p key={ind}>{hint}</p>;
                 })}
+                {[...Array(3-hints.length)].map((value: undefined, index: number) => {
+                return (
+                  <p className="locks" key={index}>
+                    <i data-tip="Hint Locked" className="fas fa-lock"></i>
+                  </p>
+                );
+              })}
               </div>
             ) : (
-              <div className="hint-locked">
-                <i data-tip="Hint Locked" className="fas fa-lock"></i>
-              </div>
+              <div className="hints">
+                {[...Array(3)].map((value: undefined, index: number) => {
+                return (
+                  <p className="locks" key={index} >
+                    <i data-tip="Hint Locked" className="fas fa-lock"></i>
+                  </p>
+                );
+              })}
+                </div>
             )}
           </div>
           <div className="con-2">
@@ -141,10 +157,10 @@ export default function Home({
                 />
 
                 <div>
-                <button className="primary-btn ">
-                  <div className="submit">Submit</div>
-                  <img src={buttonImage} alt="" />
-                </button>
+                  <button className="primary-btn ">
+                    <div className="submit">Submit</div>
+                    <img src={buttonImage} alt="" />
+                  </button>
                 </div>
               </form>
             </div>
@@ -170,14 +186,17 @@ export default function Home({
               <>
                 <div>
                   <p>At Par : {stats.atPar}</p>
-                  <p>Trailing : {stats.leading}</p>
+                  <p>Leading : {stats.leading ? stats.leading : 0}</p>
+                  <p>Trailing : {stats.lagging ? stats.lagging : 0}</p>
                 </div>
               </>
             )}
           </div>
         </div>
       ) : (
-        <h1>Loading</h1>
+        <div className="loading">
+          <h3>Loading...</h3>
+        </div>
       )}
     </div>
   );
