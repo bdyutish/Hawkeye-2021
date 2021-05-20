@@ -103,7 +103,7 @@ export default function Home({
 
   const location = useLocation();
 
-  console.log(location);
+  // console.log(location);
 
   return (
     <div className="question-page">

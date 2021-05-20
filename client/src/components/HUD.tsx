@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext";
 import ReactTooltip from "react-tooltip";
 import Shop from "./Shop";
 import Rulebook from "./Rulebook";
+import { useLocation } from "react-router-dom";
 
 interface Props {}
 
@@ -17,6 +18,8 @@ export default function HUD({}: Props): ReactElement {
   const [shopOpen, setShopOpen] = React.useState(false);
 
   const [rulebookOpen, setRulebookOpen] = React.useState(false);
+
+  const location = useLocation();
 
   return (
     <div className="hud">
@@ -32,6 +35,8 @@ export default function HUD({}: Props): ReactElement {
           <img src={cart} alt="" className="logo" />
         </div>
       )}
+      <ReactTooltip effect="solid" type="light" />
+
       <div
         onClick={() => {
           setRulebookOpen(true);
@@ -42,13 +47,16 @@ export default function HUD({}: Props): ReactElement {
         <img src={squareRight} alt="" />
         <img src={rules} alt="" className="logo" />
       </div>
-      {auth?.user && (
+      <ReactTooltip effect="solid" type="light" />
+
+      {auth?.user && location.pathname === "/" && (
         <div onClick={auth?.logout} data-tip="Logout" className="logout">
           <img src={squareLeft} alt="" />
           <i className="fas fa-power-off"></i>
         </div>
       )}
       <ReactTooltip effect="solid" type="light" />
+
       <Shop
         open={shopOpen}
         closeHandler={() => {

@@ -9,10 +9,10 @@ import Questions from "./pages/Questions";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import { get } from "./utils/requests";
+import Question from "./pages/Question";
 
 //TODO
 //***Correct the fonts EVERYWHERE
-// ok why is HUD working outside proivder
 
 export default function App(): ReactElement {
   return (
@@ -27,6 +27,8 @@ export default function App(): ReactElement {
         />
         <PrivateRoute auth path="/forgot-password" component={ForgotPassword} />
         <PrivateRoute path="/question/:id" component={Questions} />
+        <PrivateRoute path="/question2/:id" component={Question} />
+
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />
       </Switch>

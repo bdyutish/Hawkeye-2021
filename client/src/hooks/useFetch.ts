@@ -28,5 +28,5 @@ export default (url: string, lazy = false) => {
     }
   }, []);
 
-  return { isLoading, error, data, fetch };
+  return { isLoading, error, setData, data, fetch };
 };
