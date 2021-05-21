@@ -3,14 +3,14 @@ import { useAuth } from "../context/AuthContext";
 import { get } from "../utils/requests";
 
 export default (url: string, lazy = false) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(!lazy);
   const [error, setError] = useState<any>(null);
   const [data, setData] = useState<any>(null);
 
   const auth = useAuth();
 
-  const fetch = () => {
-    setIsLoading(true);
+  const fetch = (loading = true) => {
+    setIsLoading(loading);
     get(url)
       .then((data: any) => {
         setData(data);
@@ -28,5 +28,5 @@ export default (url: string, lazy = false) => {
     }
   }, []);
 
-  return { isLoading, error, setData, data, fetch };
+  return { isLoading, error, data, fetch };
 };

@@ -30,6 +30,7 @@ type Value = {
   fetchMe: () => Promise<void>;
   updateUser: (userData: User) => void;
   check: () => Promise<void>;
+  updateScore: (score: number) => void;
 };
 
 const AuthContext = createContext<Nullable<Value>>(null);
@@ -163,6 +164,10 @@ export default function AuthProvider({ children }: Children): ReactElement {
     }
   };
 
+  const updateScore = (score: number) => {
+    setUser((prev: User) => ({ ...prev, score }));
+  };
+
   const value = {
     user,
     login,
@@ -176,6 +181,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
     fetchMe,
     updateUser,
     check,
+    updateScore,
   };
 
   // {children}

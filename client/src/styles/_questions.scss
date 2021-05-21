@@ -8,10 +8,17 @@
     font-size: 5rem;
     margin-bottom: 1.5rem;
   }
+  .back-button{
+    float: left;
+    cursor: pointer;
+  }
+  .pin-icon{
+    float: right;
+    color: #5c63ff;
+  }
 
   .region-display{
-    width: 12rem;
-    float: left;
+    width: 15rem;
     margin: 1rem 0 1rem 3rem;
     border-bottom: 1px solid white;
     span{
@@ -50,6 +57,10 @@
     
     p{
       text-align: center;
+    }
+    .locks {
+      padding: 0.5rem 0;
+      background-color: #161616;
     }
     .hints {
       height: 70%;
@@ -177,7 +188,9 @@ font-size: 1rem;
     z-index: -1;
   }
 
-
+   .hint-lock{
+     background-color: black;
+   }
 
 
   input{

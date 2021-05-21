@@ -16,7 +16,11 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ErrorBoundary>
-        <ToastProvider autoDismiss autoDismissTimeout={2500}>
+        <ToastProvider
+          autoDismiss
+          autoDismissTimeout={2500}
+          placement="bottom-right"
+        >
           <AuthProvider>
             <HUD />
             <ScrollToTop />

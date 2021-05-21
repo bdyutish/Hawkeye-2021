@@ -32,27 +32,26 @@ export default function Home(): ReactElement {
 
     get("/regions").then((data) => {
       setOptions(
-        data.map((option: any, index: number) => {
-          if (index === auth?.user?.lastUnlockedIndex) {
+        data.map((option: any) => {
+          if (
+            option._id ===
+            auth?.user?.regions[auth?.user?.lastUnlockedIndex].regionid
+          ) {
             setSelected({
               value: option._id,
               label: option.name,
+              description: option.description,
             });
           }
 
           return {
             value: option._id,
             label: option.name,
+            description: option.description,
           };
         })
       );
     });
-
-    // map.current.style.stylesheet.layers.forEach(function (layer: any) {
-    //   if (layer.type === "symbol") {
-    //     map.current.removeLayer(layer.id);
-    //   }
-    // });
   }, []);
 
   return (
@@ -70,10 +69,7 @@ export default function Home(): ReactElement {
           // isRtl={true}
         />
         <i className="fas fa-map-marker-alt"></i>
-        <p>
-          Gather people of your country to fight back the politicians and
-          corruption..
-        </p>
+        <p>{selected?.description}</p>
         <Button
           pathname={`/question/${selected?.value}`}
           state={{ allow: true }}

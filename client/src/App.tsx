@@ -5,14 +5,18 @@ import Home from "./pages/Home";
 import AdminPage from "./pages/Admin";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Questions from "./pages/Questions";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import { get } from "./utils/requests";
-import Question from "./pages/Question";
+import Questions from "./pages/Questions";
 
 //TODO
 //***Correct the fonts EVERYWHERE
+// background blur chage only for mozilla
+// Are you sure question
+// Ask Nishika about sqaure rotation in shop
+// Ask Nishika about shop background color
+// Indication shop mei when something is selected
 
 export default function App(): ReactElement {
   return (
@@ -27,8 +31,6 @@ export default function App(): ReactElement {
         />
         <PrivateRoute auth path="/forgot-password" component={ForgotPassword} />
         <PrivateRoute path="/question/:id" component={Questions} />
-        <PrivateRoute path="/question2/:id" component={Question} />
-
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />
       </Switch>
