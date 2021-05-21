@@ -1,4 +1,5 @@
 import User from '../models/User';
+import IP from '../models/IP';
 import mongoose from 'mongoose';
 import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from '../utils/ErrorResponse';
@@ -56,6 +57,14 @@ export const register = async (
     // console.log(regionArray);
 
     user.regions = regionArray;
+
+    user.powerupsHistory = [
+      {
+        id: 1,
+        available: 2,
+        owned: 0,
+      },
+    ];
 
     await user.save();
     console.log('Register successful! ' + user);
@@ -123,6 +132,17 @@ export const login = async (
     } else {
       req.session!.user = user.username;
       console.log(req.session!.user);
+
+      const logs = await IP.findOne({ user: user!._id, ip: req.ip }).lean();
+
+      if (!logs) {
+        const log = new IP({
+          user: user!._id,
+          ip: req.ip,
+        });
+        await log.save();
+      }
+
       res.status(200).send('Logged in successfullyq');
     }
   } catch (err) {

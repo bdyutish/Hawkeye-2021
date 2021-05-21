@@ -27,6 +27,20 @@ export interface UserDoc extends mongoose.Document {
     question: mongoose.Schema.Types.ObjectId;
     userAttempts: [string];
   }[];
+  inventory: {
+    id: number;
+    purchasedAt: Date;
+    usedAt: Date | null;
+    powerupName: string;
+    active: boolean;
+    region: mongoose.Schema.Types.ObjectId | undefined;
+    question: mongoose.Schema.Types.ObjectId | undefined;
+  }[];
+  powerupsHistory: {
+    id: number;
+    available: number;
+    owned: number;
+  }[];
   matchPassword(enteredPassword: string): boolean;
   getResetPasswordToken(): string;
   getEmailToken(): string;
@@ -85,6 +99,24 @@ const UserSchema = new mongoose.Schema({
     {
       question: mongoose.Schema.Types.ObjectId,
       userAttempts: [String],
+    },
+  ],
+  inventory: [
+    {
+      id: Number,
+      purchasedAt: Date,
+      usedAt: Date,
+      powerupName: String,
+      active: Boolean,
+      region: mongoose.Schema.Types.ObjectId,
+      question: mongoose.Schema.Types.ObjectId,
+    },
+  ],
+  powerupsHistory: [
+    {
+      id: Number,
+      available: Number,
+      owned: Number,
     },
   ],
   resetPasswordToken: String,

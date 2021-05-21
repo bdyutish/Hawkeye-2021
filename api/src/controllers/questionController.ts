@@ -218,8 +218,10 @@ export const submitQuestion = async (
 
     let ratio = compareAnswers(req.body.attempt, question.answer);
 
+    const multiplier = 1;
+
     if (ratio == 1.0) {
-      user.score += question.level * 10;
+      user.score += 100 * multiplier;
       await user.save();
       for (let i = 0; i <= user?.lastUnlockedIndex; i++) {
         if (user.regions[i].regionid.toString() == question.region.toString()) {
