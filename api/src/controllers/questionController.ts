@@ -80,7 +80,7 @@ export const getQuestionByRegionId = async (
       //@ts-ignore
       region: req.params.regionId,
       level,
-    });
+    }).populate('region');
 
     if (!question) return next(new ErrorResponse('Question not found', 404));
 
