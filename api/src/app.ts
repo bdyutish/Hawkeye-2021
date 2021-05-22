@@ -12,6 +12,7 @@ import { authRouter } from "./routes/authRoutes";
 import { questionRouter } from "./routes/questionRoutes";
 import { regionRouter } from "./routes/regionRoutes";
 import { adminRouter } from "./routes/adminRoutes";
+import { shopRouter } from "./routes/powerupRoutes";
 
 // use this client to interact with redis
 import { client } from "./config/redis";
@@ -60,6 +61,7 @@ app.use("/api/", authRouter);
 app.use("/api/", questionRouter);
 app.use("/api/", regionRouter);
 app.use("/api/", adminRouter);
+app.use("/api/", shopRouter);
 
 // error handler
 app.use(errorhandler);

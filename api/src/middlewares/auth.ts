@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/User';
+import IP from '../models/IP';
 import { ForbiddenError } from '../errors/httpErrors/forbiddenError';
+import ErrorResponse from '../utils/ErrorResponse';
 
 /**
  * OUTPUT OF req.currentUser
@@ -22,6 +24,7 @@ export const protect = async (
   res: Response,
   next: NextFunction
 ) => {
+  //@ts-ignore
   let username = req.session!.user;
   if (!username) {
     // throw new ForbiddenError();   // NOT WORKING?
@@ -59,6 +62,29 @@ export const isBanned = async (
   const user = await User.findOne({ email: req.body.email });
   if (user) {
     if (user.isBanned) return next(new ForbiddenError());
+  }
+  return next();
+};
+
+export const logIP = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = req.currentUser;
+    const ip = req.ip;
+    const logs = await IP.findOne({ user: user!._id, ip: ip }).lean();
+
+    if (!logs) {
+      const log = new IP({
+        user: user!._id,
+        ip: ip,
+      });
+      await log.save();
+    }
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
   }
   return next();
 };

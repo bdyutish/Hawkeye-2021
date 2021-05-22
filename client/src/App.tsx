@@ -17,6 +17,7 @@ import Questions from "./pages/Questions";
 // Ask Nishika about sqaure rotation in shop
 // Ask Nishika about shop background color
 // Indication shop mei when something is selected
+// Are you sure
 
 export default function App(): ReactElement {
   return (

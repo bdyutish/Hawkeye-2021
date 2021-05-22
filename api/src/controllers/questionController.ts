@@ -80,11 +80,11 @@ export const getQuestionByRegionId = async (
       //@ts-ignore
       region: req.params.regionId,
       level,
-    });
+    }).populate("region");
 
     if (!question) return next(new ErrorResponse("Question not found", 404));
 
-    let attempts;
+    let attempts: string[] = [];
 
     for (let i = 0; i < user.attempts.length; i++) {
       if (user.attempts[i].question.toString() == question._id) {
@@ -218,8 +218,10 @@ export const submitQuestion = async (
 
     let ratio = compareAnswers(req.body.attempt, question.answer);
 
+    const multiplier = 1;
+
     if (ratio == 1.0) {
-      user.score += question.level * 10;
+      user.score += 100 * multiplier;
       await user.save();
       for (let i = 0; i <= user?.lastUnlockedIndex; i++) {
         if (user.regions[i].regionid.toString() == question.region.toString()) {
@@ -241,13 +243,11 @@ export const submitQuestion = async (
         .send({ success: true, message: "Answer is correct" });
     }
     if (ratio >= 0.6) {
-      return res
-        .status(200)
-        .send({
-          success: false,
-          message: "Hawk thinks you're close",
-          close: true,
-        });
+      return res.status(200).send({
+        success: false,
+        message: "Hawk thinks you're close",
+        close: true,
+      });
     }
     return res
       .status(200)

@@ -5,7 +5,7 @@ import {
   getQuestionByRegionId,
   submitQuestion,
 } from '../controllers/questionController';
-import { protect, isBanned, isAdmin } from '../middlewares/auth';
+import { protect, isBanned, isAdmin, logIP } from '../middlewares/auth';
 import { validateRequest } from '../middlewares/requestValidator';
 import { body } from 'express-validator';
 import { checkUserRegionUnlocked } from '../middlewares/region';
@@ -45,6 +45,7 @@ router.post(
   [body('attempt', 'attempt not enetered').notEmpty()],
   validateRequest,
   protect,
+  logIP,
   submitQuestion
 );
 

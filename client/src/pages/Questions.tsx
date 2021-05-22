@@ -70,7 +70,24 @@ export default function Questions({
     );
   }
 
-  const handleUsePowerUp = async () => {};
+  console.log(questionFetcher);
+
+  const handleUsePowerUp = async () => {
+    try {
+      const res = await post(`/shop/apply/${1}`, {
+        regionid: match.params.id,
+        questionid: questionFetcher.data.question._id,
+      });
+
+      if (res.success) {
+        addToast("Applied Successfully", { appearance: "success" });
+      } else {
+        addToast("Something went wrong", { appearance: "error" });
+      }
+    } catch (err) {
+      auth?.check();
+    }
+  };
 
   return (
     <div className="question">
@@ -136,7 +153,15 @@ function Stats({ attempts }: IStatsProps): ReactElement {
           })}
         </section>
       )}
-      {!attemptsOpen && <section className="stats"></section>}
+      {!attemptsOpen && (
+        <section className="stats">
+          {/* <div>
+            <p>At Par : {stats.atPar}</p>
+            <p>Leading : {stats.leading ? stats.leading : 0}</p>
+            <p>Trailing : {stats.lagging ? stats.lagging : 0}</p>
+          </div> */}
+        </section>
+      )}
     </div>
   );
 }
