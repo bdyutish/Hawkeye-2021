@@ -202,10 +202,6 @@ export const apply = async (
       user.powerupsHistory[0].owned--;
 
       await user!.save();
-
-      res.status(200).send({
-        success: true,
-      });
     } else if (id == '2') {
       const question = await Question.findById(req.body.questionid);
       if (!question) return next(new ErrorResponse('Question not found', 404));
@@ -237,12 +233,20 @@ export const apply = async (
           }
         }
         skipQuestion(req, user, question);
+        user.powerupsHistory[1].owned--;
+      } else {
+        user.powerupsHistory[1].owned--;
+        return res.status(200).send({
+          success: false,
+          message: 'Bad luck',
+        });
       }
 
       user.powerupsHistory[1].owned--;
-
-      if (!question) return next(new ErrorResponse('Question not found', 404));
     }
+    res.status(200).send({
+      success: true,
+    });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }
