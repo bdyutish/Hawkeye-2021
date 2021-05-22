@@ -18,6 +18,7 @@ import Questions from "./pages/Questions";
 // Ask Nishika about shop background color
 // Indication shop mei when something is selected
 // Are you sure
+// Make sure HUD is in every page
 
 export default function App(): ReactElement {
   return (

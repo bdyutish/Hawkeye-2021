@@ -1,16 +1,17 @@
-import React, { ReactElement } from "react";
-import { get, post } from "../utils/requests";
-import { Link, RouteComponentProps, useHistory } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
-import Loading from "../components/Loading";
-import useInputState from "../hooks/useInputState";
-import Img from "../components/Img";
+import React, { ReactElement } from 'react';
+import { get, post } from '../utils/requests';
+import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
+import useFetch from '../hooks/useFetch';
+import Loading from '../components/Loading';
+import useInputState from '../hooks/useInputState';
+import Img from '../components/Img';
 
-import desktopBG from "../assets/backround/desktop.png";
-import ReactTooltip from "react-tooltip";
-import Button from "../components/Button";
-import { useToasts } from "react-toast-notifications";
-import { useAuth } from "../context/AuthContext";
+import desktopBG from '../assets/backround/desktop.png';
+import ReactTooltip from 'react-tooltip';
+import Button from '../components/Button';
+import { useToasts } from 'react-toast-notifications';
+import { useAuth } from '../context/AuthContext';
+import HUD from '../components/HUD';
 
 type TParams = { id: string };
 
@@ -19,6 +20,7 @@ export default function Questions({
 }: RouteComponentProps<TParams>): ReactElement {
   const questionFetcher = useFetch(`/questions/${match.params.id}`);
   const [answer, setAnswer, resetAnswer] = useInputState();
+  const inventoryFetcher = useFetch(`/shop/inventory`);
 
   const { addToast } = useToasts();
   const history = useHistory();
@@ -44,18 +46,18 @@ export default function Questions({
           //TODO
           return;
         }
-        addToast(data.message, { appearance: "error" });
+        addToast(data.message, { appearance: 'error' });
         resetAnswer();
         return;
       }
 
       if (questionFetcher.data.question.level === 6) {
-        history.push("/");
-        addToast("New Region Unlocked!", { appearance: "success" });
+        history.push('/');
+        addToast('New Region Unlocked!', { appearance: 'success' });
         return;
       }
 
-      addToast("Correct answer", { appearance: "success" });
+      addToast('Correct answer', { appearance: 'success' });
       questionFetcher.fetch();
       resetAnswer();
     } catch (err) {
@@ -63,7 +65,7 @@ export default function Questions({
     }
   };
 
-  if (questionFetcher.isLoading) {
+  if (questionFetcher.isLoading || inventoryFetcher.isLoading) {
     return (
       <div className="screen-center">
         <Loading />
@@ -79,9 +81,9 @@ export default function Questions({
       });
 
       if (res.success) {
-        addToast("Applied Successfully", { appearance: "success" });
+        addToast('Applied Successfully', { appearance: 'success' });
       } else {
-        addToast("Something went wrong", { appearance: "error" });
+        addToast('Something went wrong', { appearance: 'error' });
       }
     } catch (err) {
       auth?.check();
@@ -90,6 +92,7 @@ export default function Questions({
 
   return (
     <div className="question">
+      <HUD />
       <Img src={desktopBG} className="background" />
       <h1>Hawkeye</h1>
       <div className="region">
@@ -113,7 +116,10 @@ export default function Questions({
         </form>
         <Stats attempts={questionFetcher.data.attempts} />
       </main>
-      <BottomBar />
+      <BottomBar
+        handleUsePowerUp={handleUsePowerUp}
+        data={inventoryFetcher.data}
+      />
     </div>
   );
 }
@@ -129,13 +135,13 @@ function Stats({ attempts }: IStatsProps): ReactElement {
     <div className="data">
       <div className="top">
         <h2
-          className={attemptsOpen ? "active" : ""}
+          className={attemptsOpen ? 'active' : ''}
           onClick={() => setAttemptsOpen(true)}
         >
           Attempts
         </h2>
         <h2
-          className={!attemptsOpen ? "active" : ""}
+          className={!attemptsOpen ? 'active' : ''}
           onClick={() => setAttemptsOpen(false)}
         >
           Stats
@@ -185,6 +191,32 @@ function Hints(): ReactElement {
   );
 }
 
-function BottomBar({}): ReactElement {
-  return <div className="bottom-bar"></div>;
+interface IBottomBarProps {
+  data: any[];
+  handleUsePowerUp: (id: number) => Promise<void>;
+}
+
+function BottomBar({ data, handleUsePowerUp }: IBottomBarProps): ReactElement {
+  const [selected, setSelected] = React.useState(0);
+
+  return (
+    <div className="bottom-bar">
+      <aside>
+        {data.map((powerUp: any) => (
+          <div
+            onClick={() => setSelected(powerUp.id)}
+            key={powerUp._id}
+            className={
+              selected === powerUp.id ? 'square square--selected' : 'square'
+            }
+          >
+            {powerUp.id}
+          </div>
+        ))}
+      </aside>
+      <div className="right">
+        <Button onClick={() => handleUsePowerUp(selected)} name="Use" />
+      </div>
+    </div>
+  );
 }

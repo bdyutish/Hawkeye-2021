@@ -22,7 +22,6 @@ ReactDOM.render(
           placement="bottom-right"
         >
           <AuthProvider>
-            <HUD />
             <ScrollToTop />
             <App />
           </AuthProvider>
