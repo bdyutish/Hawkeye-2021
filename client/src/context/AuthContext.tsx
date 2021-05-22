@@ -30,6 +30,7 @@ type Value = {
   fetchMe: () => Promise<void>;
   updateUser: (userData: User) => void;
   check: () => Promise<void>;
+  updateScore: (score: number) => void;
 };
 
 const AuthContext = createContext<Nullable<Value>>(null);
@@ -151,6 +152,9 @@ export default function AuthProvider({ children }: Children): ReactElement {
         addToast("Session Timed Out", { appearance: "error" });
         return;
       }
+      // else if (res.isBanned){
+
+      // }
       setUser(res);
       history.push("/");
       addToast("Something Went Wrong", { appearance: "error" });
@@ -158,6 +162,10 @@ export default function AuthProvider({ children }: Children): ReactElement {
       logout();
       addToast("Session Timed Out", { appearance: "error" });
     }
+  };
+
+  const updateScore = (score: number) => {
+    setUser((prev: User) => ({ ...prev, score }));
   };
 
   const value = {
@@ -173,6 +181,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
     fetchMe,
     updateUser,
     check,
+    updateScore,
   };
 
   // {children}

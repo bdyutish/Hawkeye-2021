@@ -5,24 +5,33 @@ import Home from "./pages/Home";
 import AdminPage from "./pages/Admin";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Questions from "./pages/Questions";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import { get } from "./utils/requests";
+import Questions from "./pages/Questions";
 
 //TODO
 //***Correct the fonts EVERYWHERE
+// background blur chage only for mozilla
+// Are you sure question
+// Ask Nishika about sqaure rotation in shop
+// Ask Nishika about shop background color
+// Indication shop mei when something is selected
+// Are you sure
 
 export default function App(): ReactElement {
   return (
     <React.Fragment>
       <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/reset-password/:token" component={ResetPassword} />
-        <Route path="/forgot-password" component={ForgotPassword} />
-        <PrivateRoute path="/questions/:id" component={Questions} />
-        {/* questions to be made private */}
+        <PrivateRoute auth path="/login" component={Login} />
+        <PrivateRoute auth path="/register" component={Register} />
+        <PrivateRoute
+          auth
+          path="/reset-password/:token"
+          component={ResetPassword}
+        />
+        <PrivateRoute auth path="/forgot-password" component={ForgotPassword} />
+        <PrivateRoute path="/question/:id" component={Questions} />
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />
       </Switch>

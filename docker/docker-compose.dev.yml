@@ -30,7 +30,7 @@ services:
 
   db:
     image: mongo:latest
-    container_name: DevOps_DB
+    container_name: Hawk-db
     volumes:
       - ./data:/data/db
     ports:
@@ -52,7 +52,7 @@ services:
     build:
       context: ../client
       dockerfile: ./client.dev.Dockerfile
-    container_name: DevOps_CLIENT
+    container_name: Hawk-client
     restart: unless-stopped
     networks:
       - network

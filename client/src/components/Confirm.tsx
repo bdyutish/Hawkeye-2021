@@ -1,4 +1,3 @@
-// Implement Later
 import React, { ReactElement } from "react";
 import Modal from "react-modal";
 

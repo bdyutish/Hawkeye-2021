@@ -1,203 +1,190 @@
-import { stat } from "fs";
-import React, { ReactElement, useEffect, useState } from "react";
-import desktopBG from "../assets/backround/desktop.png";
-import Img from "../components/Img";
-import { useAuth } from "../context/AuthContext";
-import useFetch from "../hooks/useFetch";
-import useInputState from "../hooks/useInputState";
+import React, { ReactElement } from "react";
 import { get, post } from "../utils/requests";
-import buttonImage from "../assets/button.png";
-import Confetti from "react-confetti";
+import { Link, RouteComponentProps, useHistory } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
+import Loading from "../components/Loading";
+import useInputState from "../hooks/useInputState";
+import Img from "../components/Img";
 
-import {
-  Nullable,
-  QuestionType,
-  RegionType,
-  StatsType,
-  User,
-} from "../utils/types";
+import desktopBG from "../assets/backround/desktop.png";
+import ReactTooltip from "react-tooltip";
 import Button from "../components/Button";
-import { RouteComponentProps, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
+import { useAuth } from "../context/AuthContext";
+
 type TParams = { id: string };
-export default function Home({
+
+export default function Questions({
   match,
 }: RouteComponentProps<TParams>): ReactElement {
-  const auth = useAuth();
-  const [leftTab, setleftTab] = useState<boolean>(true);
-  const [question, setQuestion] = useState<Nullable<QuestionType> | any>();
-  const [hints, setHints] = useState<Array<string>>([]);
-  const [attempts, setAttempts] = useState<Array<string>>([]);
-  const [stats, setStats] = useState<Nullable<StatsType> | any>();
-  const [answer, setAnswer] = useState<string>("");
-  const [replyText, setreplyText] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-  const history = useHistory();
-  const { addToast } = useToasts();
+  const questionFetcher = useFetch(`/questions/${match.params.id}`);
+  const [answer, setAnswer, resetAnswer] = useInputState();
 
-  const fetchQuestion = async () => {
+  const { addToast } = useToasts();
+  const history = useHistory();
+  const auth = useAuth();
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<any> => {
+    e.preventDefault();
+    if (!answer) return;
+
     try {
-      const ind = parseInt(match.params.id);
-      await get(`/questions/${auth?.user?.regions[ind].regionid}`).then(
-        (data) => {
-          console.log(data);
-          setQuestion(data.question);
-          if (data.attempts) setAttempts(data.attempts);
-          else setAttempts([]);
-          console.log(data.question.hints);
-          setHints(data.question.hints);
-          setStats(data.stats);
-          setLoading(false);
+      const data = await post(
+        `questions/submit/${questionFetcher.data.question._id}`,
+        {
+          attempt: answer,
         }
       );
+
+      if (!data.success) {
+        questionFetcher.fetch(false);
+        if (data.close) {
+          //TODO
+          return;
+        }
+        addToast(data.message, { appearance: "error" });
+        resetAnswer();
+        return;
+      }
+
+      if (questionFetcher.data.question.level === 6) {
+        history.push("/");
+        addToast("New Region Unlocked!", { appearance: "success" });
+        return;
+      }
+
+      addToast("Correct answer", { appearance: "success" });
+      questionFetcher.fetch();
+      resetAnswer();
     } catch (err) {
-      console.log(err.response);
+      auth?.check();
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        await fetchQuestion();
-      } catch (err) {
-        setLoading(false);
-      }
-    })();
-    return () => {
-      setQuestion({});
-    };
-  }, []);
-  const handleSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
-  ): Promise<any> => {
-    event.preventDefault();
+  if (questionFetcher.isLoading) {
+    return (
+      <div className="screen-center">
+        <Loading />
+      </div>
+    );
+  }
+
+  const handleUsePowerUp = async (id: number) => {
     try {
-      await post(`questions/submit/${question._id}`, {
-        attempt: answer,
-      }).then((data) => {
-        if (data.success === false) {
-          addToast("Inorrect Answer", { appearance: "error" });
-          setreplyText(data.message);
-          setTimeout(() => {
-            setreplyText("");
-          }, 3000);
-          fetchQuestion();
-        } else {
-          if (question.level === 6) {
-            addToast("New Region Unlocked", { appearance: "success" });
-            setreplyText("New Region Unlocked!");
-            setTimeout(() => {
-              history.push("/");
-            }, 3000);
-          } else setreplyText("Correct Answer");
-          addToast("Correct Answer", { appearance: "success" });
-          setTimeout(() => {
-            fetchQuestion();
-            setAnswer("");
-            setreplyText("");
-          }, 3000);
-        }
+      const res = await post(`/shop/apply/${id}`, {
+        regionid: match.params.id,
+        questionid: questionFetcher.data.question._id,
       });
+
+      if (res.success) {
+        addToast("Applied Successfully", { appearance: "success" });
+      } else {
+        addToast("Something went wrong", { appearance: "error" });
+      }
     } catch (err) {
-      throw err;
+      auth?.check();
     }
   };
 
   return (
-    <div className="question-page">
+    <div className="question">
       <Img src={desktopBG} className="background" />
-      <h1>HAWKEYE</h1>
-      <div className="region-display">
-        <span className="back-button">
+      <h1>Hawkeye</h1>
+      <div className="region">
+        <Link to="/">
           <i className="fas fa-chevron-left"></i>
-        </span>
-        <span>region</span>
-        <span className="pin-icon">
-          <i className="fas fa-map-marker-alt"></i>
-        </span>
+        </Link>
+        <p>Australia</p>
+        <i className="fas fa-map-marker-alt marker"></i>
       </div>
-      {!loading ? (
-        <div className="three-containers">
-          <div className="con-1">
-            <p className="headers">Hints</p>
-            {hints && hints.length != 0 ? (
-              <div className="hints">
-                {hints.map((hint, ind) => {
-                  return <p key={ind}>{hint}</p>;
-                })}
-                {[...Array(3-hints.length)].map((value: undefined, index: number) => {
-                return (
-                  <p className="locks" key={index}>
-                    <i data-tip="Hint Locked" className="fas fa-lock"></i>
-                  </p>
-                );
-              })}
-              </div>
-            ) : (
-              <div className="hints">
-                {[...Array(3)].map((value: undefined, index: number) => {
-                return (
-                  <p className="locks" key={index} >
-                    <i data-tip="Hint Locked" className="fas fa-lock"></i>
-                  </p>
-                );
-              })}
-                </div>
-            )}
+      <main>
+        <Hints />
+        <form className="answer" onSubmit={handleSubmit}>
+          <div className="top">
+            <h2>Level {questionFetcher.data.question.level}</h2>
+            <p>{questionFetcher.data.question.text}</p>
           </div>
-          <div className="con-2">
-            <p className="headers">Level {question.level}</p>
-            <p>{question.text}</p>
-            <div className="form">
-              <form onSubmit={handleSubmit} id="answer">
-                <input
-                  type="text"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                />
+          <div className="bottom">
+            <input type="text" value={answer} onChange={setAnswer} />
+            <Button name="Submit" />
+          </div>
+        </form>
+        <Stats attempts={questionFetcher.data.attempts} />
+      </main>
+      <BottomBar />
+    </div>
+  );
+}
 
-                <div>
-                  <button className="primary-btn ">
-                    <div className="submit">Submit</div>
-                    <img src={buttonImage} alt="" />
-                  </button>
-                </div>
-              </form>
-            </div>
-            {replyText != "" && <div className="replyText">{replyText}</div>}
-          </div>
-          <div className="con-3">
-            {leftTab ? (
-              <p className="headers">
-                Attempts <span onClick={() => setleftTab(false)}>| Stats</span>
-              </p>
-            ) : (
-              <p className="headers">
-                <span onClick={() => setleftTab(true)}>Attempts |</span> Stats
-              </p>
-            )}
-            {leftTab ? (
-              <div>
-                {attempts.reverse().map((att, ind) => {
-                  return <p key={ind}>{att}</p>;
-                })}
+interface IStatsProps {
+  attempts: any[];
+}
+
+function Stats({ attempts }: IStatsProps): ReactElement {
+  const [attemptsOpen, setAttemptsOpen] = React.useState(true);
+
+  return (
+    <div className="data">
+      <div className="top">
+        <h2
+          className={attemptsOpen ? "active" : ""}
+          onClick={() => setAttemptsOpen(true)}
+        >
+          Attempts
+        </h2>
+        <h2
+          className={!attemptsOpen ? "active" : ""}
+          onClick={() => setAttemptsOpen(false)}
+        >
+          Stats
+        </h2>
+      </div>
+      {attemptsOpen && (
+        <section className="attempts">
+          {attempts.reverse().map((attempt: string) => {
+            return (
+              <div key={attempt} className="attempt">
+                {attempt}
               </div>
-            ) : (
-              <>
-                <div>
-                  <p>At Par : {stats.atPar}</p>
-                  <p>Leading : {stats.leading ? stats.leading : 0}</p>
-                  <p>Trailing : {stats.lagging ? stats.lagging : 0}</p>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className="loading">
-          <h3>Loading...</h3>
-        </div>
+            );
+          })}
+        </section>
+      )}
+      {!attemptsOpen && (
+        <section className="stats">
+          {/* <div>
+            <p>At Par : {stats.atPar}</p>
+            <p>Leading : {stats.leading ? stats.leading : 0}</p>
+            <p>Trailing : {stats.lagging ? stats.lagging : 0}</p>
+          </div> */}
+        </section>
       )}
     </div>
   );
+}
+
+function Hints(): ReactElement {
+  return (
+    <div className="hints">
+      <h2>Hints</h2>
+      <section>
+        <div className="hint-locked">
+          <i data-tip="Hint Locked" className="fas fa-lock"></i>
+        </div>
+        <div className="hint-locked">
+          <i data-tip="Hint Locked" className="fas fa-lock"></i>
+        </div>
+        <div className="hint-locked">
+          <i data-tip="Hint Locked" className="fas fa-lock"></i>
+        </div>
+        <ReactTooltip effect="solid" type="light" />
+      </section>
+    </div>
+  );
+}
+
+function BottomBar({}): ReactElement {
+  return <div className="bottom-bar"></div>;
 }

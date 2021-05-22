@@ -2,18 +2,27 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.scss";
 import App from "./App";
+import Modal from "react-modal";
 import { BrowserRouter } from "react-router-dom";
 import { ToastProvider } from "react-toast-notifications";
 import AuthProvider from "./context/AuthContext";
 import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
+import HUD from "./components/HUD";
+
+Modal.setAppElement("#root");
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <ErrorBoundary>
-        <ToastProvider autoDismiss autoDismissTimeout={2500}>
+        <ToastProvider
+          autoDismiss
+          autoDismissTimeout={2500}
+          placement="bottom-right"
+        >
           <AuthProvider>
+            <HUD />
             <ScrollToTop />
             <App />
           </AuthProvider>
