@@ -37,6 +37,7 @@ export default function Questions({
           attempt: answer,
         }
       );
+
       if (!data.success) {
         questionFetcher.fetch(false);
         if (data.close) {
@@ -70,11 +71,9 @@ export default function Questions({
     );
   }
 
-  console.log(questionFetcher);
-
-  const handleUsePowerUp = async () => {
+  const handleUsePowerUp = async (id: number) => {
     try {
-      const res = await post(`/shop/apply/${1}`, {
+      const res = await post(`/shop/apply/${id}`, {
         regionid: match.params.id,
         questionid: questionFetcher.data.question._id,
       });
@@ -114,7 +113,7 @@ export default function Questions({
         </form>
         <Stats attempts={questionFetcher.data.attempts} />
       </main>
-      <Button onClick={handleUsePowerUp} name="Use" />
+      <BottomBar />
     </div>
   );
 }
@@ -184,4 +183,8 @@ function Hints(): ReactElement {
       </section>
     </div>
   );
+}
+
+function BottomBar({}): ReactElement {
+  return <div className="bottom-bar"></div>;
 }
