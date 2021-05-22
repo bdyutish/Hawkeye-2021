@@ -218,13 +218,13 @@ export const submitQuestion = async (
 
     let ratio = compareAnswers(req.body.attempt, question.answer);
 
-    const multiplier = 1;
+    let multiplier = 1;
 
     if (ratio == 1.0) {
-      user.score += 100 * multiplier;
-      await user.save();
       for (let i = 0; i <= user?.lastUnlockedIndex; i++) {
         if (user.regions[i].regionid.toString() == question.region.toString()) {
+          multiplier = user.regions[i].multiplier;
+          user.score += 100 * multiplier;
           if (
             user.regions[i].level.toString() ==
             process.env.MAX_LEVEL?.toString()

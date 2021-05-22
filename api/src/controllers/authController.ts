@@ -64,6 +64,21 @@ export const register = async (
         available: 2,
         owned: 0,
       },
+      {
+        id: 2,
+        available: 1,
+        owned: 0,
+      },
+      {
+        id: 3,
+        available: 2,
+        owned: 0,
+      },
+      {
+        id: 4,
+        available: 2,
+        owned: 0,
+      },
     ];
 
     await user.save();
