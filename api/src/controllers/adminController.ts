@@ -1,9 +1,61 @@
 import Region from '../models/Region';
-import Question from '../models/Question';
+import Question, { Hint } from '../models/Question';
 import User from '../models/User';
 import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from '../utils/ErrorResponse';
 
+export const addQuestion = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // checks if region exists
+    const region = await Region.findById(req.body.region);
+    if (!region) {
+      return res.status(400).send({
+        err: 'region doesnt exist',
+      });
+    }
+    const question = new Question({
+      text: req.body.text,
+      answer: req.body.answer,
+      hints: req.body.hints,
+      level: req.body.level,
+      region: req.body.region,
+    });
+
+    await question.save();
+
+    return res.status(201).send(question);
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+export const editQuestion = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const question = await Question.findByIdAndUpdate(
+      req.params.questionid,
+      {
+        text: req.body.text,
+        answer: req.body.answer,
+        hints: req.body.hints,
+        keywords: req.body.keywords,
+        level: req.body.level,
+        region: req.body.region,
+      },
+      { new: true, upsert: true, useFindAndModify: false }
+    );
+
+    res.status(201).send(question);
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
 export const getLeaderboard = async (
   req: Request,
   res: Response,
@@ -26,6 +78,7 @@ export const addHint = async (
   next: NextFunction
 ) => {
   try {
+    // "+hints" is used to access hints where select: false in schema
     const question = await Question.findById(req.params.questionid).select(
       '+hints'
     );
@@ -34,10 +87,14 @@ export const addHint = async (
     console.log(question.hints);
 
     for (let i = 0; i < req.body.hints.length; i++) {
-      question.hints.push(req.body.hints[i]);
+      const hint: Hint = {
+        hint: req.body.hints[i].hint,
+        level: req.body.hints[i].level,
+      };
+      question.hints.push(hint);
     }
     await question.save();
-    res.status(200).send(question);
+    return res.status(200).send(question);
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }
