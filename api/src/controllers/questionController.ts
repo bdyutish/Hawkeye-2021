@@ -1,8 +1,8 @@
-import Question from "../models/Question";
-import User from "../models/User";
-import { NextFunction, Request, Response } from "express";
-import ErrorResponse from "../utils/ErrorResponse";
-import { compareAnswers, unlockRegion } from "../utils/helperFunctions";
+import Question from '../models/Question';
+import User from '../models/User';
+import { NextFunction, Request, Response } from 'express';
+import ErrorResponse from '../utils/ErrorResponse';
+import { compareAnswers, unlockRegion } from '../utils/helperFunctions';
 
 export const addQuestion = async (
   req: Request,
@@ -59,7 +59,7 @@ export const getQuestionByRegionId = async (
   try {
     const user = req.currentUser;
     if (!user) {
-      return next(new ErrorResponse("User does not exist", 404));
+      return next(new ErrorResponse('User does not exist', 404));
     }
 
     let level;
@@ -69,7 +69,7 @@ export const getQuestionByRegionId = async (
       ) {
         //check if region already completed
         if (user.regions[i].isCompleted == true) {
-          return next(new ErrorResponse("Region already completed", 400));
+          return next(new ErrorResponse('Region already completed', 400));
         }
         level = user.regions[i].level;
         break;
@@ -80,9 +80,9 @@ export const getQuestionByRegionId = async (
       //@ts-ignore
       region: req.params.regionId,
       level,
-    }).populate("region");
+    }).populate('region');
 
-    if (!question) return next(new ErrorResponse("Question not found", 404));
+    if (!question) return next(new ErrorResponse('Question not found', 404));
 
     let attempts: string[] = [];
 
@@ -108,7 +108,7 @@ export const getQuestionByRegionId = async (
         },
       },
       {
-        $count: "atPar",
+        $count: 'atPar',
       },
     ]);
 
@@ -127,7 +127,7 @@ export const getQuestionByRegionId = async (
         },
       },
       {
-        $count: "leading",
+        $count: 'leading',
       },
     ]);
 
@@ -146,7 +146,7 @@ export const getQuestionByRegionId = async (
         },
       },
       {
-        $count: "lagging",
+        $count: 'lagging',
       },
     ]);
 
@@ -179,17 +179,17 @@ export const submitQuestion = async (
 ) => {
   try {
     const question = await Question.findById(req.params.questionid).select(
-      "+answer"
+      '+answer'
     );
     const user = req.currentUser;
     // console.log(question);
 
     if (!question) {
-      return next(new ErrorResponse("Question does not exist", 404));
+      return next(new ErrorResponse('Question does not exist', 404));
     }
 
     if (!user) {
-      return next(new ErrorResponse("User does not exist", 404));
+      return next(new ErrorResponse('User does not exist', 404));
     }
 
     // console.log(req.currentUser!._id);
@@ -224,7 +224,7 @@ export const submitQuestion = async (
       for (let i = 0; i <= user?.lastUnlockedIndex; i++) {
         if (user.regions[i].regionid.toString() == question.region.toString()) {
           multiplier = user.regions[i].multiplier;
-          user.score += 100 * multiplier;
+          user.score += 100 * multiplier * user.streakMultiplier;
           if (
             user.regions[i].level.toString() ==
             process.env.MAX_LEVEL?.toString()
@@ -240,7 +240,20 @@ export const submitQuestion = async (
       }
       return res
         .status(200)
-        .send({ success: true, message: "Answer is correct" });
+        .send({ success: true, message: 'Answer is correct' });
+    }
+    if (user.streakMultiplier > 1) {
+      user.strikes--;
+      if (user.strikes == 0) {
+        user.streakMultiplier = 1;
+        for (let i = 0; i < user.inventory.length; i++) {
+          if (user.inventory[i].id == 3 && user.inventory[i].usedAt != null) {
+            user.inventory[i].active = false;
+            break;
+          }
+        }
+      }
+      await user.save();
     }
     if (ratio >= 0.6) {
       return res.status(200).send({
@@ -251,7 +264,7 @@ export const submitQuestion = async (
     }
     return res
       .status(200)
-      .send({ success: false, message: "Incorrect answer" });
+      .send({ success: false, message: 'Incorrect answer' });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

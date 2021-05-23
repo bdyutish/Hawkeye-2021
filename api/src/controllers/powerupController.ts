@@ -182,6 +182,8 @@ export const apply = async (
     const id = req.params.id;
     const user = req.currentUser;
     if (!user) return next(new ErrorResponse('User not found', 404));
+    if (user.powerupsHistory[parseInt(id) - 1].owned == 0)
+      return next(new ErrorResponse('Powerup not owned', 400));
     if (id == '1') {
       for (let i = 0; i < user.inventory.length; i++) {
         if (user.inventory[i].id == 1 && user.inventory[i].usedAt == null) {
@@ -200,6 +202,7 @@ export const apply = async (
       }
 
       user.powerupsHistory[0].owned--;
+      await user.save();
 
       await user!.save();
     } else if (id == '2') {
@@ -218,13 +221,28 @@ export const apply = async (
       skipQuestion(req, user, question);
 
       user.powerupsHistory[1].owned--;
+      await user.save();
+    } else if (id == '3') {
+      for (let i = 0; i < user.inventory.length; i++) {
+        if (user.inventory[i].id == 3 && user.inventory[i].usedAt == null) {
+          user.inventory[i].usedAt = new Date(Date.now());
+          user.inventory[i].region = req.body.regionid;
+          user.inventory[i].question = req.body.questionid;
+          user.inventory[i].active = true;
+          break;
+        }
+      }
+      user.strikes = 3;
+      user.streakMultiplier = 2;
+      user.powerupsHistory[2].owned--;
+      await user.save();
     } else if (id == '4') {
       const question = await Question.findById(req.body.questionid);
       if (!question) return next(new ErrorResponse('Question not found', 404));
 
       if (coinFlip() == 'heads') {
         for (let i = 0; i < user.inventory.length; i++) {
-          if (user.inventory[i].id == 3 && user.inventory[i].usedAt == null) {
+          if (user.inventory[i].id == 4 && user.inventory[i].usedAt == null) {
             user.inventory[i].usedAt = new Date(Date.now());
             user.inventory[i].region = req.body.regionid;
             user.inventory[i].question = req.body.questionid;
@@ -233,16 +251,18 @@ export const apply = async (
           }
         }
         skipQuestion(req, user, question);
-        user.powerupsHistory[1].owned--;
+        user.powerupsHistory[3].owned--;
+        await user.save();
       } else {
-        user.powerupsHistory[1].owned--;
+        user.powerupsHistory[3].owned--;
+        await user.save();
         return res.status(200).send({
           success: false,
           message: 'Bad luck',
         });
       }
 
-      user.powerupsHistory[1].owned--;
+      user.powerupsHistory[3].owned--;
     }
     res.status(200).send({
       success: true,
