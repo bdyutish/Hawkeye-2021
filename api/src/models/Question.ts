@@ -4,9 +4,14 @@ import { RegionDoc } from './Region';
 export interface QuestionDoc extends mongoose.Document {
   text: string;
   answer: string;
-  hints: [string];
+  hints: [Hint];
   level: number;
   region: mongoose.Schema.Types.ObjectId;
+}
+
+export interface Hint {
+  hint: string;
+  level: Number;
 }
 
 const QuestionSchema = new mongoose.Schema({

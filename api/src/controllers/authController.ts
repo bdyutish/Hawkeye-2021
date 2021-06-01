@@ -111,7 +111,8 @@ export const register = async (
     } catch (err) {
       return next(new ErrorResponse(err.name, err.code));
     }
-    res.status(200).send(user);
+    const resp = user.toJSON();
+    res.status(200).send({ ...resp, password: undefined });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }
