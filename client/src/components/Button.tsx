@@ -1,12 +1,12 @@
-import React, { ReactElement } from "react";
-import { Link } from "react-router-dom";
-import buttonImage from "../assets/button.png";
+import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
+import buttonImage from '../assets/button.png';
 
 interface Props {
   name: string;
   width?: number;
   fSize?: number;
-  onClick?: () => {};
+  onClick?: () => any;
   className?: string;
   link?: boolean;
   pathname?: string;

@@ -1,14 +1,14 @@
-import React, { ReactElement } from "react";
-import { Switch, Route } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute";
-import Home from "./pages/Home";
-import AdminPage from "./pages/Admin";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import ResetPassword from "./pages/auth/ResetPassword";
-import { get } from "./utils/requests";
-import Questions from "./pages/Questions";
+import React, { ReactElement } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
+import Home from './pages/Home';
+import AdminPage from './pages/Admin';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
+import { get } from './utils/requests';
+import Questions from './pages/Questions';
 
 //TODO
 //***Correct the fonts EVERYWHERE
@@ -19,6 +19,8 @@ import Questions from "./pages/Questions";
 // Indication shop mei when something is selected
 // Are you sure
 // Make sure HUD is in every page
+// Spread auth pages background
+// Add corners
 
 export default function App(): ReactElement {
   return (

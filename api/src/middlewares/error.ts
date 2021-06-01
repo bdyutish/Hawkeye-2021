@@ -32,6 +32,6 @@ export const errorhandler = (
   }
 
   res
-    .status(err.statusCode)
+    .status(400)
     .json({ success: false, message: error.message || 'Server error' });
 };

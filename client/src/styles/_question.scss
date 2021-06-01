@@ -5,7 +5,20 @@
     padding: 1.5rem 2rem;
     position: relative;
 
+    .empty-bar{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .bottom-bar{
+
+        .empty{
+            font-size: 2rem;
+            transform: translateY(.25rem);
+           
+        }
+
         width: 50%;
         height: 4rem;
         position: absolute;

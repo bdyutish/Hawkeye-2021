@@ -117,6 +117,7 @@ export default function Questions({
         <Stats attempts={questionFetcher.data.attempts} />
       </main>
       <BottomBar
+        refresh={() => questionFetcher.fetch(false)}
         handleUsePowerUp={handleUsePowerUp}
         data={inventoryFetcher.data}
       />
@@ -194,29 +195,50 @@ function Hints(): ReactElement {
 interface IBottomBarProps {
   data: any[];
   handleUsePowerUp: (id: number) => Promise<void>;
+  refresh: () => any;
 }
 
-function BottomBar({ data, handleUsePowerUp }: IBottomBarProps): ReactElement {
+function BottomBar({
+  data,
+  handleUsePowerUp,
+  refresh,
+}: IBottomBarProps): ReactElement {
   const [selected, setSelected] = React.useState(0);
 
+  const hasPoweUps = data.filter((powerUp: any) => powerUp.owned).length > 0;
+
+  const handleClick = () => {
+    handleUsePowerUp(selected);
+    refresh();
+  };
+
   return (
-    <div className="bottom-bar">
-      <aside>
-        {data.map((powerUp: any) => (
-          <div
-            onClick={() => setSelected(powerUp.id)}
-            key={powerUp._id}
-            className={
-              selected === powerUp.id ? 'square square--selected' : 'square'
-            }
-          >
-            {powerUp.id}
-          </div>
-        ))}
-      </aside>
-      <div className="right">
-        <Button onClick={() => handleUsePowerUp(selected)} name="Use" />
-      </div>
+    <div className={!hasPoweUps ? 'bottom-bar empty-bar' : 'bottom-bar'}>
+      {!hasPoweUps && <h1 className="empty">You own no power ups</h1>}
+      {hasPoweUps && (
+        <>
+          <aside>
+            {data.map((powerUp: any) => {
+              return powerUp.owned ? (
+                <div
+                  onClick={() => setSelected(powerUp.id)}
+                  key={powerUp._id}
+                  className={
+                    selected === powerUp.id
+                      ? 'square square--selected'
+                      : 'square'
+                  }
+                >
+                  {powerUp.id}
+                </div>
+              ) : null;
+            })}
+          </aside>
+          <div className="right">
+            <Button onClick={handleClick} name="Use" />
+          </div>{' '}
+        </>
+      )}
     </div>
   );
 }
