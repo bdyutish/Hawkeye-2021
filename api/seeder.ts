@@ -15,6 +15,7 @@ mongoose.connect('mongodb://localhost:27018/hawk', {
 
 import Region from './src/models/Region';
 import Question from './src/models/Question';
+import HawksNestQuestion from './src/models/HawksNestQuestion';
 //Read Json Files
 // const users = JSON.parse(
 //   fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
@@ -26,12 +27,17 @@ const regions = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/regions.json`, 'utf-8')
 );
 
+const nestQuestions = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/nestQuestions.json`, 'utf-8')
+);
+
 //IMport data into DB
 const importData = async () => {
   try {
     // await User.create(users);
     await Question.create(questions);
     await Region.create(regions);
+    await HawksNestQuestion.create(nestQuestions);
     console.log('Data imported...');
     process.exit();
   } catch (err) {
@@ -45,6 +51,7 @@ const deleteData = async () => {
     // await User.deleteMany(); //Delete everything
     await Region.deleteMany();
     await Question.deleteMany();
+    await HawksNestQuestion.deleteMany();
     console.log('Data destroyed...');
     process.exit();
   } catch (err) {

@@ -15,6 +15,8 @@ export interface UserDoc extends mongoose.Document {
   emailVerificationExpire: string | undefined;
   isBanned: boolean;
   isVerified: boolean;
+  hawksNest: boolean;
+  nestLevel: number;
   score: number;
   strikes: number;
   streakMultiplier: number;
@@ -26,6 +28,10 @@ export interface UserDoc extends mongoose.Document {
     isCompleted: boolean;
   }[];
   attempts: {
+    question: mongoose.Schema.Types.ObjectId;
+    userAttempts: [string];
+  }[];
+  nestAttempts: {
     question: mongoose.Schema.Types.ObjectId;
     userAttempts: [string];
   }[];
@@ -111,6 +117,12 @@ const UserSchema = new mongoose.Schema({
       userAttempts: [String],
     },
   ],
+  nestAttempts: [
+    {
+      question: mongoose.Schema.Types.ObjectId,
+      userAttempts: [String],
+    },
+  ],
   inventory: [
     {
       id: Number,
@@ -140,6 +152,14 @@ const UserSchema = new mongoose.Schema({
   isVerified: {
     type: Boolean,
     default: false,
+  },
+  hawksNest: {
+    type: Boolean,
+    default: false,
+  },
+  nestLevel: {
+    type: Number,
+    default: 1,
   },
   createdAt: {
     type: Date,
