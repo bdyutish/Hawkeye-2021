@@ -1,10 +1,9 @@
 import express, { Request, Response } from 'express';
 import {
-  addQuestion,
-  editQuestion,
   getQuestionByRegionId,
   submitQuestion,
 } from '../controllers/questionController';
+import { addQuestion, editQuestion } from './../controllers/adminController';
 import { protect, isBanned, isAdmin, logIP } from '../middlewares/auth';
 import { validateRequest } from '../middlewares/requestValidator';
 import { body } from 'express-validator';
