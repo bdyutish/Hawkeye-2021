@@ -80,6 +80,7 @@ export const logIP = async (
       const log = new IP({
         user: user!._id,
         ip: ip,
+        time: Date.now(),
       });
       await log.save();
     }

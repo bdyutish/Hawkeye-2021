@@ -14,6 +14,10 @@ const RegionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  colorData: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.model<RegionDoc>('Region', RegionSchema);
