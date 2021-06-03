@@ -1,9 +1,9 @@
-import React, { ReactElement } from "react";
-import { Redirect, Route } from "react-router-dom";
+import React, { ReactElement } from 'react';
+import { Redirect, Route } from 'react-router-dom';
 
-import { useAuth } from "../context/AuthContext";
-import Landing from "../pages/Landing";
-import Loading from "./Loading";
+import { useAuth } from '../context/AuthContext';
+import Landing from '../pages/Landing';
+import Loading from './Loading';
 
 interface Props {
   component: React.FC<any>;

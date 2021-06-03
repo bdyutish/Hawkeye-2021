@@ -1,25 +1,32 @@
-[{
-    "_id":  "6096ec69f165570143f6d968",
-    "name": "Test region 1",
+[
+  {
+    "_id": "6096ec69f165570143f6d968",
+    "name": "Antarctica",
     "description": "Test description for region 1"
-  },{
+  },
+  {
     "_id": "6096ede6f165570143f6d969",
-    "name": "Test region 2",
+    "name": "Africa",
     "description": "Test description for region 2"
-  },{
+  },
+  {
     "_id": "6096ee0ff165570143f6d96a",
-    "name": "Test region 3",
+    "name": "Americas",
     "description": "Test description for region 3"
-  },{
+  },
+  {
     "_id": "6096ee1bf165570143f6d96b",
-    "name": "Test region 4",
+    "name": "Asia",
     "description": "Test description for region 4"
-  },{
+  },
+  {
     "_id": "6096ee29f165570143f6d96c",
-    "name": "Test region 5",
+    "name": "Europe",
     "description": "Test description for region 5"
-  },{
-    "_id":  "6096ee43f165570143f6d96d",
-    "name": "Test region 6",
+  },
+  {
+    "_id": "6096ee43f165570143f6d96d",
+    "name": "Australia",
     "description": "Test description for region 6"
-  }]
+  }
+]

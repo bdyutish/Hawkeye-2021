@@ -95,12 +95,17 @@ export default function Questions({
       <HUD />
       <Img src={desktopBG} className="background" />
       <h1>Hawkeye</h1>
-      <div className="region">
-        <Link to="/">
-          <i className="fas fa-chevron-left"></i>
-        </Link>
-        <p>Australia</p>
-        <i className="fas fa-map-marker-alt marker"></i>
+      <div className="top-bar">
+        <div className="region">
+          <Link to="/">
+            <i className="fas fa-chevron-left"></i>
+          </Link>
+          <p>Australia</p>
+          <i className="fas fa-map-marker-alt marker"></i>
+        </div>
+        <div className="points">
+          <span>Reputation points : </span> {auth?.user?.score}
+        </div>
       </div>
       <main>
         <Hints />

@@ -5,6 +5,25 @@
     padding: 1.5rem 2rem;
     position: relative;
 
+    .top-bar{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .points{
+        text-align: left;
+        margin-right: 2.5rem;
+        font-size: 1.5rem;
+        margin-top: -1rem;
+
+
+
+        span{
+            color:  #5157E7;
+        }
+    }
+
     .empty-bar{
         display: flex;
         align-items: center;
@@ -14,7 +33,7 @@
     .bottom-bar{
 
         .empty{
-            font-size: 2rem;
+            font-size: 1.5rem;
             transform: translateY(.25rem);
            
         }
