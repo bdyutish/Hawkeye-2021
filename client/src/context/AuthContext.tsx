@@ -4,13 +4,13 @@ import React, {
   createContext,
   useState,
   useEffect,
-} from "react";
-import { Nullable, User, Children } from "../utils/types";
+} from 'react';
+import { Nullable, User, Children } from '../utils/types';
 
-import { get, post, put } from "../utils/requests";
-import { useHistory, useLocation } from "react-router-dom";
+import { get, post, put } from '../utils/requests';
+import { useHistory, useLocation } from 'react-router-dom';
 
-import { useToasts } from "react-toast-notifications";
+import { useToasts } from 'react-toast-notifications';
 
 type Value = {
   user: Nullable<User>;
@@ -24,13 +24,13 @@ type Value = {
   ) => Promise<void>;
   isAdmin: () => boolean;
   loading: Boolean;
-  isCurrentUserProfile: () => boolean;
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (password: string, token: string) => Promise<void>;
   fetchMe: () => Promise<void>;
   updateUser: (userData: User) => void;
   check: () => Promise<void>;
   updateScore: (score: number) => void;
+  inNest: () => any;
 };
 
 const AuthContext = createContext<Nullable<Value>>(null);
@@ -50,7 +50,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
 
   const fetchMe = async () => {
     try {
-      await get("/me").then(setUser);
+      await get('/me').then(setUser);
     } catch (err) {
       logout();
     }
@@ -71,14 +71,14 @@ export default function AuthProvider({ children }: Children): ReactElement {
     // setLoading(true);
 
     try {
-      await post("/login", {
+      await post('/login', {
         email,
         password,
       });
 
       await fetchMe();
 
-      history.push("/");
+      history.push('/');
     } catch (err) {
       throw err;
     }
@@ -91,15 +91,15 @@ export default function AuthProvider({ children }: Children): ReactElement {
     password: string
   ) => {
     try {
-      await post("/register", {
+      await post('/register', {
         name,
         username,
         email,
         password,
       });
 
-      history.push("/login");
-      addToast("Verification Mail Sent", { appearance: "info" });
+      history.push('/login');
+      addToast('Verification Mail Sent', { appearance: 'info' });
     } catch (err) {
       throw err;
     }
@@ -109,32 +109,28 @@ export default function AuthProvider({ children }: Children): ReactElement {
     try {
       setUser(null);
       setLoading(false);
-      await post("/logout");
+      await post('/logout');
     } catch (err) {
       throw err;
     }
   };
 
-  const isCurrentUserProfile = () =>
-    location.pathname.split("/").slice(-1)[0] === user?._id ||
-    location.pathname.split("/").slice(-2)[0] === user?._id;
-
   const forgotPassword = async (email: string) => {
     try {
-      await post("/forgotpassword", { email });
-      addToast("Mail Sent!", { appearance: "success" });
+      await post('/forgotpassword', { email });
+      addToast('Mail Sent!', { appearance: 'success' });
     } catch (err) {
-      addToast("Something Went Wrong", { appearance: "error" });
+      addToast('Something Went Wrong', { appearance: 'error' });
     }
   };
 
   const resetPassword = async (password: string, token: string) => {
     try {
       await put(`/resetpassword/${token}`, { password });
-      history.push("/login");
-      addToast("Password Changed!", { appearance: "success" });
+      history.push('/login');
+      addToast('Password Changed!', { appearance: 'success' });
     } catch (err) {
-      addToast("Something Went Wrong", { appearance: "error" });
+      addToast('Something Went Wrong', { appearance: 'error' });
     }
   };
 
@@ -146,27 +142,29 @@ export default function AuthProvider({ children }: Children): ReactElement {
 
   const check = async () => {
     try {
-      const res = await get("/me");
+      const res = await get('/me');
       if (!res) {
         logout();
-        addToast("Session Timed Out", { appearance: "error" });
+        addToast('Session Timed Out', { appearance: 'error' });
         return;
       }
       // else if (res.isBanned){
 
       // }
       setUser(res);
-      history.push("/");
-      addToast("Something Went Wrong", { appearance: "error" });
+      history.push('/');
+      addToast('Something Went Wrong', { appearance: 'error' });
     } catch (err) {
       logout();
-      addToast("Session Timed Out", { appearance: "error" });
+      addToast('Session Timed Out', { appearance: 'error' });
     }
   };
 
   const updateScore = (score: number) => {
     setUser((prev: User) => ({ ...prev, score }));
   };
+
+  const inNest = () => user.hawksNest;
 
   const value = {
     user,
@@ -176,12 +174,12 @@ export default function AuthProvider({ children }: Children): ReactElement {
     isAdmin,
     forgotPassword,
     loading,
-    isCurrentUserProfile,
     resetPassword,
     fetchMe,
     updateUser,
     check,
     updateScore,
+    inNest,
   };
 
   // {children}

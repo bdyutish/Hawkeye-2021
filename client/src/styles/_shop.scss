@@ -109,10 +109,30 @@ margin-bottom: 1rem;
     .item{
         margin: 1.5rem ;
         justify-items: center;
+        position: relative;
+
         
 
         img{
             cursor: pointer;
+        }
+
+        .power{
+            // z-index: 3;
+            position: absolute;
+            top: 0;left: 0;transform: translate(23%,25%);
+
+            &--1{
+                transform: translate(40%,30%);
+            }
+
+            &--2{
+                transform: translate(65%,30%);
+            }
+
+            &--3{
+                transform: translate(65%,18%);
+            }
         }
 
  

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 export interface RegionDoc extends mongoose.Document {
   name: string;
   description: string;
+  colorData: string;
 }
 
 const RegionSchema = new mongoose.Schema({

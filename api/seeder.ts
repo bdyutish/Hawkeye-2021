@@ -23,9 +23,21 @@ import HawksNestQuestion from './src/models/HawksNestQuestion';
 const questions = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/questions.json`, 'utf-8')
 );
-const regions = JSON.parse(
+
+const colors = JSON.parse(
+  fs.readFileSync(`${__dirname}/_data/colors.json`, 'utf-8')
+);
+
+let regions = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/regions.json`, 'utf-8')
 );
+
+regions = regions.map((region: any, index: number) => {
+  return {
+    ...region,
+    colorData: JSON.stringify(colors[index]),
+  };
+});
 
 const nestQuestions = JSON.parse(
   fs.readFileSync(`${__dirname}/_data/nestQuestions.json`, 'utf-8')

@@ -1,13 +1,13 @@
-import React, { ReactElement } from "react";
-import Modal from "react-modal";
+import React, { ReactElement } from 'react';
+import Modal from 'react-modal';
 
-import square from "../assets/shop-square.png";
-import Button from "./Button";
+import square from '../assets/shop-square.png';
+import Button from './Button';
 
-import { powerUps, IPowerUp } from "../utils/data";
-import { post } from "../utils/requests";
-import { useToasts } from "react-toast-notifications";
-import { useAuth } from "../context/AuthContext";
+import { powerUps, IPowerUp } from '../utils/data';
+import { post } from '../utils/requests';
+import { useToasts } from 'react-toast-notifications';
+import { useAuth } from '../context/AuthContext';
 
 interface Props {
   closeHandler: () => void;
@@ -34,14 +34,16 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
       const res = await post(`/shop/buy/${selected}`);
 
       if (res.success) {
-        addToast("Purchase Successful", { appearance: "success" });
+        addToast('Purchase Successful', { appearance: 'success' });
         auth?.updateScore(res.updatedScore);
+        handleClose();
       } else {
-        addToast("Something Went Wrong", { appearance: "error" });
+        addToast('Something Went Wrong', { appearance: 'error' });
       }
     } catch (err) {
-      await auth?.check();
-      closeHandler();
+      addToast(err.response.data.message, { appearance: 'error' });
+      // await auth?.check();
+      // closeHandler();
     }
   };
 
@@ -58,8 +60,13 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
       </div>
       <main>
         <section className="left">
-          {powerUps.map((item: IPowerUp) => (
+          {powerUps.map((item: IPowerUp, index: number) => (
             <div className="item">
+              <img
+                src={powerUps[index].image}
+                alt=""
+                className={`power power--${index}`}
+              />
               <img onClick={() => setSelected(item.id)} src={square} alt="" />
               <h3>{item.name}</h3>
               <p>

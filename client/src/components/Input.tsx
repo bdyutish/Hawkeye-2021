@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement } from 'react';
 
 interface Props {
   value: string;
@@ -19,18 +19,18 @@ export default function Input({
 
   return (
     <div className="input-container">
-      {type === "password" && !seen && (
+      {type === 'password' && !seen && (
         <i onClick={() => setSeen(true)} className="fas fa-eye-slash"></i>
       )}
-      {type === "password" && seen && (
+      {type === 'password' && seen && (
         <i onClick={() => setSeen(false)} className="fas fa-eye"></i>
       )}
       <input
         value={value}
         onChange={onChange}
-        type={!seen ? (type ? type : "text") : "text"}
+        type={!seen ? (type ? type : 'text') : 'text'}
         placeholder={placeholder}
-        className={className}
+        className={className || ''}
       />
     </div>
   );

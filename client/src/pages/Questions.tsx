@@ -12,6 +12,7 @@ import Button from '../components/Button';
 import { useToasts } from 'react-toast-notifications';
 import { useAuth } from '../context/AuthContext';
 import HUD from '../components/HUD';
+import { powerUps } from '../utils/data';
 
 type TParams = { id: string };
 
@@ -44,6 +45,7 @@ export default function Questions({
         questionFetcher.fetch(false);
         if (data.close) {
           //TODO
+          resetAnswer();
           return;
         }
         addToast(data.message, { appearance: 'error' });
@@ -54,6 +56,7 @@ export default function Questions({
       if (questionFetcher.data.question.level === 6) {
         history.push('/');
         addToast('New Region Unlocked!', { appearance: 'success' });
+        await auth?.fetchMe();
         return;
       }
 
@@ -72,6 +75,10 @@ export default function Questions({
       </div>
     );
   }
+
+  // console.log(questionFetcher.data);
+
+  // console.log(JSON.parse(questionFetcher.data.question.region.colorData).color);
 
   const handleUsePowerUp = async (id: number) => {
     try {
@@ -100,7 +107,7 @@ export default function Questions({
           <Link to="/">
             <i className="fas fa-chevron-left"></i>
           </Link>
-          <p>Australia</p>
+          <p>{questionFetcher.data.question.region.name}</p>
           <i className="fas fa-map-marker-alt marker"></i>
         </div>
         <div className="points">
@@ -119,7 +126,10 @@ export default function Questions({
             <Button name="Submit" />
           </div>
         </form>
-        <Stats attempts={questionFetcher.data.attempts} />
+        <Stats
+          stats={questionFetcher.data.stats}
+          attempts={questionFetcher.data.attempts}
+        />
       </main>
       <BottomBar
         refresh={() => questionFetcher.fetch(false)}
@@ -132,10 +142,18 @@ export default function Questions({
 
 interface IStatsProps {
   attempts: any[];
+  stats: {
+    atPar: number;
+    leading: number;
+    lagging: number;
+  };
 }
 
-function Stats({ attempts }: IStatsProps): ReactElement {
+function Stats({ attempts, stats }: IStatsProps): ReactElement {
   const [attemptsOpen, setAttemptsOpen] = React.useState(true);
+
+  const percentage =
+    (100 / (stats.leading + stats.lagging)) * stats.lagging || 0;
 
   return (
     <div className="data">
@@ -166,11 +184,32 @@ function Stats({ attempts }: IStatsProps): ReactElement {
       )}
       {!attemptsOpen && (
         <section className="stats">
-          {/* <div>
-            <p>At Par : {stats.atPar}</p>
-            <p>Leading : {stats.leading ? stats.leading : 0}</p>
-            <p>Trailing : {stats.lagging ? stats.lagging : 0}</p>
-          </div> */}
+          <div className="graph">
+            <div className="bar">
+              <div
+                style={{
+                  transform: `translateX(${percentage}%)`,
+                }}
+                className="user"
+              >
+                <i
+                  data-tip={`You are at par with ${stats.atPar} ${
+                    stats.atPar > 1 ? 'players' : 'player'
+                  }`}
+                  className="fas fa-user"
+                ></i>
+              </div>
+            </div>
+            <div
+              style={{
+                transform: `translateX(${percentage}%)`,
+              }}
+              className="indicator"
+            >
+              <i className="fas fa-sort-up"></i>
+            </div>
+            <ReactTooltip effect="solid" type="light" />
+          </div>
         </section>
       )}
     </div>
@@ -223,7 +262,7 @@ function BottomBar({
       {hasPoweUps && (
         <>
           <aside>
-            {data.map((powerUp: any) => {
+            {data.map((powerUp: any, index: number) => {
               return powerUp.owned ? (
                 <div
                   onClick={() => setSelected(powerUp.id)}
@@ -234,7 +273,7 @@ function BottomBar({
                       : 'square'
                   }
                 >
-                  {powerUp.id}
+                  <img src={powerUps[index].image} alt="" />
                 </div>
               ) : null;
             })}

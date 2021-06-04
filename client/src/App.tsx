@@ -10,6 +10,8 @@ import ResetPassword from './pages/auth/ResetPassword';
 import { get } from './utils/requests';
 import Questions from './pages/Questions';
 
+import NotFound from './pages/NotFound';
+
 //TODO
 //***Correct the fonts EVERYWHERE
 // background blur chage only for mozilla
@@ -21,6 +23,7 @@ import Questions from './pages/Questions';
 // Make sure HUD is in every page
 // Spread auth pages background
 // Add corners
+// HUD is breaking in Home
 
 export default function App(): ReactElement {
   return (
@@ -37,6 +40,7 @@ export default function App(): ReactElement {
         <PrivateRoute path="/question/:id" component={Questions} />
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />
+        <Route path="**" component={NotFound} />
       </Switch>
     </React.Fragment>
   );

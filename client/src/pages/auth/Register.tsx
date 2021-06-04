@@ -1,14 +1,14 @@
-import React, { ReactElement } from "react";
-import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
-import desktopBG from "../../assets/backround/desktop.png";
-import Button from "../../components/Button";
-import Img from "../../components/Img";
-import Input from "../../components/Input";
-import { useAuth } from "../../context/AuthContext";
-import useInputState from "../../hooks/useInputState";
+import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
+import desktopBG from '../../assets/backround/desktop.png';
+import Button from '../../components/Button';
+import Img from '../../components/Img';
+import Input from '../../components/Input';
+import { useAuth } from '../../context/AuthContext';
+import useInputState from '../../hooks/useInputState';
 
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 interface Props {}
 
@@ -41,12 +41,12 @@ export default function Register({}: Props): ReactElement {
     setLoading(true);
     const errors: string[] = [];
     if (!name || !username || !email || !password)
-      errors.push("All fields are required");
-    if (!validateEmail(email) && email) errors.push("Email is invalid");
+      errors.push('All fields are required');
+    if (!validateEmail(email) && email) errors.push('Email is invalid');
     if (password.length < 8 && password)
-      errors.push("Password must be atleast 8 Characters");
-    else if (password !== confirm) errors.push("Passwords do not match");
-    if (!captcha) errors.push("Captcha must be completed");
+      errors.push('Password must be atleast 8 Characters');
+    else if (password !== confirm) errors.push('Passwords do not match');
+    if (!captcha) errors.push('Captcha must be completed');
 
     if (errors.length === 0) {
       try {
@@ -62,6 +62,7 @@ export default function Register({}: Props): ReactElement {
     }
   };
 
+  //Take phone number or something
   return (
     <div className="auth-page register">
       <Img src={desktopBG} className="background" />
@@ -117,7 +118,7 @@ export default function Register({}: Props): ReactElement {
         <Button className="auth-button" name="Sign up" />
       </form>
       <div className="swap">
-        Already have an account? <Link to="/login">Log In</Link>{" "}
+        Already have an account? <Link to="/login">Log In</Link>{' '}
       </div>
     </div>
   );

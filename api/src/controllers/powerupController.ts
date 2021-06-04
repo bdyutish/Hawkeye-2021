@@ -54,7 +54,7 @@ export const purchase = async (
         return next(new ErrorResponse('Out of stock', 400));
 
       if (user!.score < costs.regionMult)
-        return next(new ErrorResponse('Not enough Credits', 400));
+        return next(new ErrorResponse('Not enough credits', 400));
 
       user!.score -= costs.regionMult;
 
@@ -84,7 +84,7 @@ export const purchase = async (
         return next(new ErrorResponse('Out of stock', 400));
 
       if (user!.score < costs.questionSkip)
-        return next(new ErrorResponse('Not enough Credits', 400));
+        return next(new ErrorResponse('Not enough credits', 400));
 
       user!.score -= costs.questionSkip;
 
@@ -114,7 +114,7 @@ export const purchase = async (
         return next(new ErrorResponse('Out of stock', 400));
 
       if (user!.score < costs.strike)
-        return next(new ErrorResponse('Not enough Credits', 400));
+        return next(new ErrorResponse('Not enough credits', 400));
 
       user!.score -= costs.strike;
 
@@ -144,7 +144,7 @@ export const purchase = async (
         return next(new ErrorResponse('Out of stock', 400));
 
       if (user!.score < costs.fiftyfifty)
-        return next(new ErrorResponse('Not enough Credits', 400));
+        return next(new ErrorResponse('Not enough credits', 400));
 
       user!.score -= costs.fiftyfifty;
 
