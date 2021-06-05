@@ -1,8 +1,10 @@
 import Region from '../models/Region';
-import Question, { Hint } from '../models/Question';
+import Question from '../models/Question';
 import User from '../models/User';
 import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from '../utils/ErrorResponse';
+import Hint, { HintAttrs } from '../models/Hint';
+import { Types } from 'mongoose';
 
 export const addQuestion = async (
   req: Request,
@@ -72,6 +74,7 @@ export const getLeaderboard = async (
   }
 };
 
+// adds hint to the hint Collection
 export const addHint = async (
   req: Request,
   res: Response,
@@ -83,21 +86,66 @@ export const addHint = async (
       '+hints'
     );
     if (!question) return next(new ErrorResponse('Question not found', 404));
-
-    console.log(question.hints);
-
+    let hints: [Types.ObjectId] = [Types.ObjectId()];
     for (let i = 0; i < req.body.hints.length; i++) {
-      const hint: Hint = {
-        hint: req.body.hints[i].hint,
+      // deletes existing hint (if exists)
+      const hintQuery = Hint.findOne({
         level: req.body.hints[i].level,
-      };
-      question.hints.push(hint);
+        question: question._id,
+      });
+      if (hintQuery) await hintQuery.remove();
+
+      // creates new hint
+      const hint = new Hint({
+        hintText: req.body.hints[i].hint,
+        level: req.body.hints[i].level,
+        question: question._id,
+      });
+      await hint.save();
+      hints[i] = hint._id;
     }
+
+    // attaching the array to questions model
+    question.hints = hints;
     await question.save();
-    return res.status(200).send(question);
+    return res.status(201).send(question);
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }
+};
+
+// edits existing hint
+export const editHint = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const hint = await Hint.findByIdAndUpdate(req.params.hintId, {
+    hintText: req.body.hintText,
+    level: req.body.level,
+  });
+  if (!hint) {
+    return next(new ErrorResponse('hint couldnt be updated', 400));
+  }
+  return res.status(200).send({ success: true });
+};
+
+// deletes existing hint
+export const deleteHint = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const hint = await Hint.findById(req.params.hintId);
+  if (!hint) {
+    return next(new ErrorResponse('hint couldnt be deleted', 400));
+  }
+  const ques = Question.findOne({ _id: hint.question });
+  if (!ques) return next(new ErrorResponse('question cant be found', 400));
+
+  // BHA KYA HAI YE
+  // for (let i = 0; i < ques.hints.length; i++) {}
+  return res.status(200).send({ success: true });
 };
 
 // controller for BANNING the user
