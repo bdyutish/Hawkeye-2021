@@ -35,7 +35,7 @@ const skipQuestion = async (
 };
 
 const coinFlip = () => {
-  return Math.floor(Math.random() * 2) == 0 ? 'heads' : 'tails';
+  return Math.random() <= 0.2 ? 'heads' : 'tails';
 };
 
 export const purchase = async (

@@ -13,7 +13,16 @@ export const register = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { name, username, email, password, role } = req.body;
+  const {
+    name,
+    username,
+    email,
+    password,
+    role,
+    college,
+    phone,
+    regNo,
+  } = req.body;
 
   let userTest = await User.findOne({ username });
   if (userTest)
@@ -27,6 +36,9 @@ export const register = async (
       username: username,
       email: email,
       password: password,
+      regNo: regNo,
+      college: college,
+      phone: phone,
       role: role,
     });
     console.log('register');
