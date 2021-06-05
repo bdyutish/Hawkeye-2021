@@ -11,6 +11,7 @@ import ReactTooltip from "react-tooltip";
 import Button from "../components/Button";
 import { useToasts } from "react-toast-notifications";
 import { useAuth } from "../context/AuthContext";
+import ReadyToPlay from "./ReadyToPlay";
 
 type TParams = { id: string };
 
@@ -23,6 +24,9 @@ export default function Questions({
   const { addToast } = useToasts();
   const history = useHistory();
   const auth = useAuth();
+
+  
+
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -68,6 +72,14 @@ export default function Questions({
       <div className="screen-center">
         <Loading />
       </div>
+    );
+  }
+
+  const a =localStorage.getItem('ready')
+  if((a===undefined || a!="1") && questionFetcher.data.question.level === 1 ){
+
+    return(
+      <ReadyToPlay id={match.params.id}/>
     );
   }
 
