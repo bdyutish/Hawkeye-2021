@@ -216,6 +216,7 @@ export const submitQuestion = async (
         success: true,
         score: user.score,
         regions: user.regions,
+        nestUnlocked: user.hawksNest,
         message: 'Answer is correct',
       });
     }
