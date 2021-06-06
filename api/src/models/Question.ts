@@ -1,17 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import { RegionDoc } from './Region';
+import { HintDoc } from './Hint';
 
 export interface QuestionDoc extends mongoose.Document {
   text: string;
   answer: string;
-  hints: [Hint];
+  hints: [Types.ObjectId];
   level: number;
-  region: mongoose.Schema.Types.ObjectId;
-}
-
-export interface Hint {
-  hint: string;
-  level: Number;
+  region: Types.ObjectId | RegionDoc;
 }
 
 const QuestionSchema = new mongoose.Schema({
@@ -24,10 +20,12 @@ const QuestionSchema = new mongoose.Schema({
     select: false,
     required: true,
   },
-  hints: {
-    type: Array,
-    select: false,
-  },
+  hints: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Hint',
+    },
+  ],
   level: {
     type: Number,
     required: true,

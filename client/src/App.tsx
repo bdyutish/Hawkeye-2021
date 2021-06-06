@@ -42,7 +42,9 @@ export default function App(): ReactElement {
         <PrivateRoute path="/question/:id" component={Question} />
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />
-        <PrivateRoute exact path="/nest" component={Nest} />
+        {auth?.user?.hawksNest && (
+          <PrivateRoute exact path="/nest" component={Nest} />
+        )}
         <Route
           path="**"
           render={() => {

@@ -61,7 +61,9 @@ export default function Home(): ReactElement {
 
     get('/regions').then((data) => {
       setOptions(
-        data.map((option: any) => {
+        data.map((option: any, index: number) => {
+          const lastUnlockedIndex = auth?.user?.lastUnlockedIndex || 0;
+
           if (
             option._id ===
             auth?.user?.regions[auth?.user?.lastUnlockedIndex].regionid
@@ -73,6 +75,7 @@ export default function Home(): ReactElement {
               color: JSON.parse(option.colorData).color,
               pin: JSON.parse(option.colorData).pin,
               button: JSON.parse(option.colorData).button,
+              locked: index > lastUnlockedIndex,
             });
           }
 
@@ -83,6 +86,7 @@ export default function Home(): ReactElement {
             color: JSON.parse(option.colorData).color,
             pin: JSON.parse(option.colorData).pin,
             button: JSON.parse(option.colorData).button,
+            locked: index > lastUnlockedIndex,
           };
         })
       );
@@ -95,7 +99,11 @@ export default function Home(): ReactElement {
       <h2>Select Your Region</h2>
       <HUD />
       <main>
-        <Dropdown setter={setSelected} defaultIndex={0} options={options} />
+        <Dropdown
+          setter={setSelected}
+          defaultIndex={auth?.user?.lastUnlockedIndex || 0}
+          options={options}
+        />
         <p>{selected?.description}</p>
         <Button
           pathname={`/question/${selected?.value}`}

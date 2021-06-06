@@ -2,7 +2,7 @@
     background-color: #141414;
     height: 100vh;
     img{
-        width: 25rem;
+        width: 22rem;
         max-width: 90%;
     }
     display: flex;
@@ -13,6 +13,24 @@
     h1{
         color: #ddd;
         font-size: 3rem;
+        @media (max-width:360px) {
+            font-size: 2.5rem;
+        }
     }
+
+    &--nest{
+
+        img{
+            width: 22rem;
+            max-width: 80%;
+        }
+        h1{
+            @media (max-width:460px) {
+                font-size: 2rem;
+            }
+        }
+    }
+
+ 
 
 }

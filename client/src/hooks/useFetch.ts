@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { get } from "../utils/requests";
+import { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { get } from '../utils/requests';
 
 export default (url: string, lazy = false) => {
   const [isLoading, setIsLoading] = useState(!lazy);

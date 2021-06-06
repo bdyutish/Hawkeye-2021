@@ -21,7 +21,6 @@ export default function Nest({}: Props): ReactElement {
   const [answer, setAnswer, resetAnswer] = useInputState();
 
   const { addToast } = useToasts();
-  const history = useHistory();
   const auth = useAuth();
 
   const handleSubmit = async (
@@ -32,7 +31,7 @@ export default function Nest({}: Props): ReactElement {
 
     try {
       const data = await post(
-        `questions/submit/${questionFetcher.data.question._id}`,
+        `/nest/submit/${questionFetcher.data.question._id}`,
         {
           attempt: answer,
         }
@@ -40,20 +39,8 @@ export default function Nest({}: Props): ReactElement {
 
       if (!data.success) {
         questionFetcher.fetch(false);
-        if (data.close) {
-          //TODO
-          resetAnswer();
-          return;
-        }
         addToast(data.message, { appearance: 'error' });
         resetAnswer();
-        return;
-      }
-
-      if (questionFetcher.data.question.level === 6) {
-        history.push('/');
-        addToast('New Region Unlocked!', { appearance: 'success' });
-        await auth?.fetchMe();
         return;
       }
 
@@ -69,15 +56,6 @@ export default function Nest({}: Props): ReactElement {
     return (
       <div className="screen-center">
         <Loading />
-      </div>
-    );
-  }
-
-  if (!auth?.user?.hawksNest) {
-    return (
-      <div className="nest-illegal">
-        <img src={hawk} alt="" />
-        <h1>Hawk thinks you're not worthy</h1>
       </div>
     );
   }

@@ -9,12 +9,20 @@ interface Props {
 }
 
 export default function Loading({
-  height = 1200,
-  width = 1200,
+  height = 1920,
+  width = 1080,
 }: Props): ReactElement {
   return (
     <div className="loading-page">
-      <video width={width} height={height} playsInline autoPlay muted loop>
+      <video
+        width={'100%'}
+        height={'100%'}
+        playsInline
+        autoPlay
+        muted
+        loop
+        onPlay={() => console.log('test')}
+      >
         <source src={loading} type="video/mp4" />
         Loading...
       </video>
