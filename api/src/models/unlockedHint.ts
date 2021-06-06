@@ -3,13 +3,13 @@ import { QuestionDoc } from './Question';
 
 interface HintUnlockedAttrs {
   regionIndex: number;
-  question: QuestionDoc | Types.ObjectId;
+  question: number;
   hintLevel: number;
 }
 
 export interface HintUnlockedDoc extends mongoose.Document {
   regionIndex: number;
-  question: QuestionDoc | Types.ObjectId;
+  question: number;
   hintLevel: number;
 }
 
@@ -24,8 +24,7 @@ const hintUnlockedSchema = new mongoose.Schema({
     required: true,
   },
   question: {
-    type: Types.ObjectId,
-    ref: 'Question',
+    type: Number,
     required: true,
   },
   hintLevel: {
@@ -34,13 +33,7 @@ const hintUnlockedSchema = new mongoose.Schema({
   },
 });
 
-hintUnlockedSchema.statics.build = (attrs: HintUnlockedAttrs) => {
-  return new Hint(attrs);
-};
-
-const Hint = mongoose.model<HintUnlockedDoc, HintUnlockedModel>(
-  'Hint',
+export default mongoose.model<HintUnlockedDoc, HintUnlockedModel>(
+  'UnlockedHint',
   hintUnlockedSchema
 );
-
-export default HintUnlocked;

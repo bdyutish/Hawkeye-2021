@@ -2,7 +2,7 @@ import mongoose, { Types } from 'mongoose';
 import { QuestionDoc } from './Question';
 
 export interface HintAttrs {
-  question: QuestionDoc | Types.ObjectId;
+  question: QuestionDoc | mongoose.Schema.Types.ObjectId;
   hintText: String;
   level: Number;
 }
@@ -18,7 +18,7 @@ interface HintModel extends mongoose.Model<HintDoc> {
 
 const hintSchema = new mongoose.Schema({
   question: {
-    type: Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Question',
     required: true,
   },

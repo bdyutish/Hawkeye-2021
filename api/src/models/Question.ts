@@ -20,12 +20,6 @@ const QuestionSchema = new mongoose.Schema({
     select: false,
     required: true,
   },
-  hints: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Hint',
-    },
-  ],
   level: {
     type: Number,
     required: true,
