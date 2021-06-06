@@ -233,7 +233,11 @@ export const submitHawksNestQuestion = async (
       await user.save();
       return res
         .status(200)
-        .send({ success: true, message: 'Answer is correct' });
+        .send({
+          success: true,
+          score: user.score,
+          message: 'Answer is correct',
+        });
     }
     if (ratio >= 0.6) {
       return res.status(200).send({
