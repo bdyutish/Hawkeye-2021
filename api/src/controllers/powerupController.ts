@@ -76,6 +76,8 @@ export const purchase = async (
       res.status(200).send({
         success: true,
         updatedScore: user.score,
+        inventory: user.inventory,
+        updatedShop: user.powerupsHistory,
       });
     } else if (id == '2') {
       //QuestionSkip
@@ -106,6 +108,8 @@ export const purchase = async (
       res.status(200).send({
         success: true,
         updatedScore: user.score,
+        inventory: user.inventory,
+        updatedShop: user.powerupsHistory,
       });
     } else if (id == '3') {
       //Strike
@@ -136,6 +140,8 @@ export const purchase = async (
       res.status(200).send({
         success: true,
         updatedScore: user.score,
+        inventory: user.inventory,
+        updatedShop: user.powerupsHistory,
       });
     } else if (id == '4') {
       //Fifty Fifty
@@ -166,6 +172,8 @@ export const purchase = async (
       res.status(200).send({
         success: true,
         updatedScore: user.score,
+        inventory: user.inventory,
+        updatedShop: user.powerupsHistory,
       });
     }
   } catch (err) {
@@ -266,6 +274,8 @@ export const apply = async (
     }
     res.status(200).send({
       success: true,
+      inventory: user.inventory,
+      updatedShop: user.powerupsHistory,
     });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
