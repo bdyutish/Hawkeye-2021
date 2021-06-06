@@ -9,6 +9,7 @@ import { get } from '../utils/requests';
 import { useAuth } from '../context/AuthContext';
 
 import Dropdown from '../components/Dropdown';
+import Loading from '../components/Loading';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoibmlzaGlrYTI1IiwiYSI6ImNrb2R4ODlvcjA1cWEyd3A1eWFqZThsZGMifQ.hk-3XzdHKUYiV5p1SIi_mQ';
@@ -27,6 +28,15 @@ export default function Home(): ReactElement {
 
   const auth = useAuth();
 
+  const pinElement = React.useRef(document.createElement('i')).current;
+  pinElement.className = 'fas fa-map-marker-alt map-marker';
+  pinElement.style.fontSize = 20 + 'px';
+
+  React.useEffect(() => {
+    if (!selected) return;
+    pinElement.style.color = selected.color;
+  }, [selected]);
+
   React.useEffect(() => {
     map.current = new mapboxgl.Map({
       container: 'map',
@@ -34,14 +44,9 @@ export default function Home(): ReactElement {
       // zoom: 10,
     });
 
-    var el = document.createElement('i');
-    el.className = 'fas fa-map-marker-alt';
-    el.style.fontSize = 20 + 'px';
-    el.style.color = 'red';
-
     //@ts-ignore
     map.current.on('load', () => {
-      new mapboxgl.Marker(el)
+      new mapboxgl.Marker(pinElement)
         .setLngLat([78.486671, 17.385044])
         .addTo(map.current);
 
@@ -65,6 +70,9 @@ export default function Home(): ReactElement {
               value: option._id,
               label: option.name,
               description: option.description,
+              color: JSON.parse(option.colorData).color,
+              pin: JSON.parse(option.colorData).pin,
+              button: JSON.parse(option.colorData).button,
             });
           }
 
@@ -72,6 +80,9 @@ export default function Home(): ReactElement {
             value: option._id,
             label: option.name,
             description: option.description,
+            color: JSON.parse(option.colorData).color,
+            pin: JSON.parse(option.colorData).pin,
+            button: JSON.parse(option.colorData).button,
           };
         })
       );
@@ -84,7 +95,7 @@ export default function Home(): ReactElement {
       <h2>Select Your Region</h2>
       <HUD />
       <main>
-        <Dropdown setter={() => {}} defaultIndex={0} options={options} />
+        <Dropdown setter={setSelected} defaultIndex={0} options={options} />
         <p>{selected?.description}</p>
         <Button
           pathname={`/question/${selected?.value}`}

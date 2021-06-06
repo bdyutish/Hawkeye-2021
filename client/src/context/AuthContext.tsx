@@ -30,7 +30,6 @@ type Value = {
   updateUser: (userData: User) => void;
   check: () => Promise<void>;
   updateScore: (score: number) => void;
-  inNest: () => any;
 };
 
 const AuthContext = createContext<Nullable<Value>>(null);
@@ -164,8 +163,6 @@ export default function AuthProvider({ children }: Children): ReactElement {
     setUser((prev: User) => ({ ...prev, score }));
   };
 
-  const inNest = () => user.hawksNest;
-
   const value = {
     user,
     login,
@@ -179,7 +176,6 @@ export default function AuthProvider({ children }: Children): ReactElement {
     updateUser,
     check,
     updateScore,
-    inNest,
   };
 
   // {children}

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useHistory, useLocation } from 'react-router-dom';
 
 import { useAuth } from '../context/AuthContext';
 import Landing from '../pages/Landing';
@@ -21,6 +21,8 @@ export default function PrivateRoute({
 }: Props): ReactElement {
   const authContext = useAuth();
 
+  const location = useLocation();
+
   return (
     <Route
       {...rest}
@@ -30,6 +32,9 @@ export default function PrivateRoute({
         if (auth) check = !authContext?.user;
 
         if (check) {
+          if (location.pathname === '/' && authContext?.user?.hawksNest) {
+            return <Redirect to="/nest" />;
+          }
           return <Component {...props} />;
         } else {
           if (auth) {
@@ -42,6 +47,7 @@ export default function PrivateRoute({
                 <Loading />
               </div>
             );
+
           return <Landing />;
         }
       }}

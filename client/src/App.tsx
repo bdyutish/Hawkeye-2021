@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
 import AdminPage from './pages/Admin';
@@ -8,24 +8,26 @@ import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import { get } from './utils/requests';
-import Questions from './pages/Questions';
+import Question from './pages/Question';
 
 import NotFound from './pages/NotFound';
+import { useAuth } from './context/AuthContext';
+import Nest from './pages/Nest';
 
 //TODO
 //***Correct the fonts EVERYWHERE
 // background blur chage only for mozilla
-// Are you sure question
-// Ask Nishika about sqaure rotation in shop
-// Ask Nishika about shop background color
 // Indication shop mei when something is selected
-// Are you sure
+// Are you sure in shop and use
 // Make sure HUD is in every page
-// Spread auth pages background
-// Add corners
+// Add corners to background
 // HUD is breaking in Home
+// Change location string on logout
+// Handle atempts empty case
 
 export default function App(): ReactElement {
+  const auth = useAuth();
+
   return (
     <React.Fragment>
       <Switch>
@@ -37,10 +39,17 @@ export default function App(): ReactElement {
           component={ResetPassword}
         />
         <PrivateRoute auth path="/forgot-password" component={ForgotPassword} />
-        <PrivateRoute path="/question/:id" component={Questions} />
+        <PrivateRoute path="/question/:id" component={Question} />
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />
-        <Route path="**" component={NotFound} />
+        <PrivateRoute exact path="/nest" component={Nest} />
+        <Route
+          path="**"
+          render={() => {
+            if (auth?.user?.hawksNest) return <Redirect to="/nest" />;
+            return <NotFound />;
+          }}
+        />
       </Switch>
     </React.Fragment>
   );

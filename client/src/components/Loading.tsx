@@ -1,15 +1,7 @@
-import React, { ReactElement } from "react";
-import Lottie from "react-lottie";
-import animation from "../assets/animations/loading.json";
-
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: animation,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
+import React, { ReactElement } from 'react';
+import Lottie from 'react-lottie';
+//@ts-ignore
+import loading from '../assets/animations/loading.mp4';
 
 interface Props {
   height?: number;
@@ -17,12 +9,15 @@ interface Props {
 }
 
 export default function Loading({
-  height = 200,
-  width = 200,
+  height = 1200,
+  width = 1200,
 }: Props): ReactElement {
   return (
-    <div>
-      <Lottie options={defaultOptions} height={height} width={width} />
+    <div className="loading-page">
+      <video width={width} height={height} playsInline autoPlay muted loop>
+        <source src={loading} type="video/mp4" />
+        Loading...
+      </video>
     </div>
   );
 }

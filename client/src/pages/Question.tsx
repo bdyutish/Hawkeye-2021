@@ -26,6 +26,11 @@ export default function Questions({
   const { addToast } = useToasts();
   const history = useHistory();
   const auth = useAuth();
+  const answerRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    answerRef.current?.focus();
+  }, []);
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -76,6 +81,9 @@ export default function Questions({
     );
   }
 
+  const color = JSON.parse(questionFetcher.data.question.region.colorData)
+    .color;
+
   // console.log(questionFetcher.data);
 
   // console.log(JSON.parse(questionFetcher.data.question.region.colorData).color);
@@ -111,24 +119,34 @@ export default function Questions({
           <i className="fas fa-map-marker-alt marker"></i>
         </div>
         <div className="points">
-          <span>Reputation points : </span> {auth?.user?.score}
+          <span style={{ color }}>Reputation points : </span>{' '}
+          {auth?.user?.score}
         </div>
       </div>
       <main>
-        <Hints />
+        <Hints color={color} />
         <form className="answer" onSubmit={handleSubmit}>
           <div className="top">
-            <h2>Level {questionFetcher.data.question.level}</h2>
+            <h2 style={{ color }}>
+              Level {questionFetcher.data.question.level}
+            </h2>
             <p>{questionFetcher.data.question.text}</p>
           </div>
           <div className="bottom">
-            <input type="text" value={answer} onChange={setAnswer} />
+            <input
+              ref={answerRef}
+              type="text"
+              value={answer}
+              onChange={setAnswer}
+              style={{ color, borderBottom: `1px solid ${color}` }}
+            />
             <Button name="Submit" />
           </div>
         </form>
         <Stats
           stats={questionFetcher.data.stats}
           attempts={questionFetcher.data.attempts}
+          color={color}
         />
       </main>
       <BottomBar
@@ -147,9 +165,10 @@ interface IStatsProps {
     leading: number;
     lagging: number;
   };
+  color: string;
 }
 
-function Stats({ attempts, stats }: IStatsProps): ReactElement {
+function Stats({ attempts, stats, color }: IStatsProps): ReactElement {
   const [attemptsOpen, setAttemptsOpen] = React.useState(true);
 
   const percentage =
@@ -161,12 +180,14 @@ function Stats({ attempts, stats }: IStatsProps): ReactElement {
         <h2
           className={attemptsOpen ? 'active' : ''}
           onClick={() => setAttemptsOpen(true)}
+          style={{ color }}
         >
           Attempts
         </h2>
         <h2
           className={!attemptsOpen ? 'active' : ''}
           onClick={() => setAttemptsOpen(false)}
+          style={{ color }}
         >
           Stats
         </h2>
@@ -180,6 +201,9 @@ function Stats({ attempts, stats }: IStatsProps): ReactElement {
               </div>
             );
           })}
+          {!attempts.length && (
+            <h2 className="zero">You're attempts will show up here</h2>
+          )}
         </section>
       )}
       {!attemptsOpen && (
@@ -216,10 +240,10 @@ function Stats({ attempts, stats }: IStatsProps): ReactElement {
   );
 }
 
-function Hints(): ReactElement {
+function Hints({ color }: { color: string }): ReactElement {
   return (
     <div className="hints">
-      <h2>Hints</h2>
+      <h2 style={{ color }}>Hints</h2>
       <section>
         <div className="hint-locked">
           <i data-tip="Hint Locked" className="fas fa-lock"></i>

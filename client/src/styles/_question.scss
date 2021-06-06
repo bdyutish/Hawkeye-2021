@@ -155,6 +155,11 @@ flex-direction: column;
 
 .attempts{
     overflow: auto;
+
+    .zero{
+        font-size: 1.2rem;
+        margin-top: 5rem;
+    }
 }
 
 section{
@@ -241,7 +246,7 @@ h2{
     &::after {
         content: "";
         position: absolute;
-        background: #5C63FF;
+        background: red;
         height: 2px;
         width: 40%;
         bottom: -5px;
@@ -474,4 +479,13 @@ flex-direction: column;
 justify-content: space-around;
 }
     }
+
+&--nest{
+    main{
+        margin-top: 4rem;
+    }
+}
+
+
+
 }

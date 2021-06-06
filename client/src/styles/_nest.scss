@@ -1,0 +1,21 @@
+.nest-illegal{
+    background-color: #141414;
+    height: 100vh;
+    img{
+        width: 25rem;
+        max-width: 90%;
+    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1{
+        color: #ddd;
+        font-size: 3rem;
+    }
+}
+
+.nest{
+
+}

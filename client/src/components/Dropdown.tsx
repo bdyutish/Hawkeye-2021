@@ -21,6 +21,8 @@ export default function Dropdown({
 
   const divRef = React.useRef<HTMLDivElement>(null);
 
+  // <i class="fas fa-lock"></i>
+
   useClickOut(
     divRef,
     () => {},
@@ -30,8 +32,10 @@ export default function Dropdown({
   );
 
   React.useEffect(() => {
-    setter(options[defaultIndex].value);
+    setter(options[defaultIndex]);
   }, []);
+
+  console.log(options[defaultIndex]);
 
   if (Object.keys(options).length === 0) return null;
   return (
@@ -43,9 +47,10 @@ export default function Dropdown({
         className={open ? 'dropdown-top dropdown-top--open' : 'dropdown-top'}
         onClick={() => setOpen((prev) => !prev)}
       >
-        <div className="img">{/* <img src={arrow} alt="down_arrow" /> */}</div>
+        <div className="arrow">
+          <i className="fas fa-angle-down"></i>
+        </div>
         <h4>{options[currentOption].label}</h4>
-        <i className="fas fa-map-marker-alt"></i>
       </div>
       {open && (
         <div
@@ -59,7 +64,7 @@ export default function Dropdown({
                 onClick={() => {
                   setCurrentOption(index);
                   setOpen(false);
-                  setter(options[index].value);
+                  setter(options[index]);
                 }}
                 key={option.value}
                 className="option"

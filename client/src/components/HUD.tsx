@@ -1,14 +1,14 @@
-import React, { ReactElement } from "react";
-import squareLeft from "../assets/square-one.png";
-import squareRight from "../assets/square-two.png";
+import React, { ReactElement } from 'react';
+import squareLeft from '../assets/square-one.png';
+import squareRight from '../assets/square-two.png';
 
-import cart from "../assets/cart.png";
-import rules from "../assets/rules.png";
-import { useAuth } from "../context/AuthContext";
-import ReactTooltip from "react-tooltip";
-import Shop from "./Shop";
-import Rulebook from "./Rulebook";
-import { useLocation } from "react-router-dom";
+import cart from '../assets/cart.png';
+import rules from '../assets/rules.png';
+import { useAuth } from '../context/AuthContext';
+import ReactTooltip from 'react-tooltip';
+import Shop from './Shop';
+import Rulebook from './Rulebook';
+import { useLocation } from 'react-router-dom';
 
 interface Props {}
 
@@ -23,7 +23,7 @@ export default function HUD({}: Props): ReactElement {
 
   return (
     <div className="hud">
-      {auth?.user && (
+      {auth?.user && location.pathname !== '/nest' && (
         <div
           onClick={() => {
             setShopOpen(true);
@@ -49,7 +49,7 @@ export default function HUD({}: Props): ReactElement {
       </div>
       <ReactTooltip effect="solid" type="light" />
 
-      {auth?.user && location.pathname === "/" && (
+      {auth?.user && location.pathname === '/' && (
         <div onClick={auth?.logout} data-tip="Logout" className="logout">
           <img src={squareLeft} alt="" />
           <i className="fas fa-power-off"></i>

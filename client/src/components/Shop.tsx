@@ -61,13 +61,13 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
       <main>
         <section className="left">
           {powerUps.map((item: IPowerUp, index: number) => (
-            <div className="item">
+            <div onClick={() => setSelected(item.id)} className="item">
               <img
                 src={powerUps[index].image}
                 alt=""
                 className={`power power--${index}`}
               />
-              <img onClick={() => setSelected(item.id)} src={square} alt="" />
+              <img src={square} alt="" />
               <h3>{item.name}</h3>
               <p>
                 <span>OWNED :</span> {1}
@@ -91,6 +91,12 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
               </div>
               <Button onClick={handleBuy} name="Buy" />
             </>
+          )}
+          {!selected && (
+            <div className="not-selected">
+              <div className="name">Welcome to the shop</div>
+              <p>Powerups can be bought here</p>
+            </div>
           )}
         </section>
       </main>

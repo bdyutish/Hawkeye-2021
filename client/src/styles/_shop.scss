@@ -110,6 +110,11 @@ margin-bottom: 1rem;
         margin: 1.5rem ;
         justify-items: center;
         position: relative;
+        width: max-content;
+        h3{
+            cursor: pointer;
+
+        }
 
         
 
@@ -138,7 +143,7 @@ margin-bottom: 1rem;
  
 
         p{
-   
+            pointer-events: none;
             margin-top: .25rem;
             span{
                 color: #5157E7;

@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { ReactElement } from 'react';
 
 export type Nullable<T> = T | null;
 
@@ -18,28 +18,27 @@ export type User = {
   score: number;
   lastUnlockedIndex: number;
   regions: Array<RegionType>;
-  
+  hawksNest: boolean;
 };
 
-
 //for a particular User
-export type RegionType ={
-      regionid: string,
-      level: Number,
-      multiplier: Number,
-}
+export type RegionType = {
+  regionid: string;
+  level: Number;
+  multiplier: Number;
+};
 
 export type QuestionType = {
-    hints: Array<string>,
-    keywords: Array<string>,
-    _id: string,
-    text: string,
-    level: number,
-    region: string,
-    __v: number
-}
+  hints: Array<string>;
+  keywords: Array<string>;
+  _id: string;
+  text: string;
+  level: number;
+  region: string;
+  __v: number;
+};
 
 export type StatsType = {
-  atPar: number,
-leading: number
-}
+  atPar: number;
+  leading: number;
+};

@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement } from 'react';
 
 interface Props {
   src?: string;
@@ -8,12 +8,12 @@ interface Props {
 export default function Img({ src, className }: Props): ReactElement {
   return (
     <div
-      className={className}
+      className={className || ''}
       style={{
         backgroundImage: `url(${src})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}
     ></div>
   );
