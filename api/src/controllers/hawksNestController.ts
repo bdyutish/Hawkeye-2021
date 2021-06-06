@@ -3,6 +3,8 @@ import User from '../models/User';
 import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from '../utils/ErrorResponse';
 import { compareAnswers, unlockRegion } from '../utils/helperFunctions';
+import UnlockedHawksNestHint from '../models/HawksNestHintUnlocked';
+import HawksNestHint from '../models/HawksNestHint';
 
 export const addHawksNestQuestion = async (
   req: Request,
@@ -149,9 +151,24 @@ export const getHawksNestQuestion = async (
       lagging: lag,
     };
 
+    let qhints = [];
+
+    let hints = await UnlockedHawksNestHint.find({
+      question: level,
+    });
+
+    for (let i = 0; i < hints.length; i++) {
+      const hint = await HawksNestHint.find({
+        question: question._id,
+        level: hints[i].hintLevel,
+      });
+      qhints.push(hint);
+    }
+
     res.status(201).send({
       question,
       nestAttempts,
+      qhints,
       stats,
     });
   } catch (err) {
@@ -216,7 +233,11 @@ export const submitHawksNestQuestion = async (
       await user.save();
       return res
         .status(200)
-        .send({ success: true, message: 'Answer is correct' });
+        .send({
+          success: true,
+          score: user.score,
+          message: 'Answer is correct',
+        });
     }
     if (ratio >= 0.6) {
       return res.status(200).send({
@@ -228,6 +249,30 @@ export const submitHawksNestQuestion = async (
     return res
       .status(200)
       .send({ success: false, message: 'Incorrect answer' });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
+export const unlockNestHints = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { question, hintLevel } = req.body;
+
+    const newHint = new UnlockedHawksNestHint({
+      question,
+      hintLevel,
+    });
+
+    await newHint.save();
+
+    res.status(201).send({
+      success: true,
+      message: 'Hints unlocked succesfully',
+    });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

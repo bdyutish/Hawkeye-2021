@@ -212,9 +212,13 @@ export const submitQuestion = async (
           }
         }
       }
-      return res
-        .status(200)
-        .send({ success: true, message: 'Answer is correct' });
+      return res.status(200).send({
+        success: true,
+        score: user.score,
+        regions: user.regions,
+        nestUnlocked: user.hawksNest,
+        message: 'Answer is correct',
+      });
     }
     if (user.streakMultiplier > 1) {
       user.strikes--;
