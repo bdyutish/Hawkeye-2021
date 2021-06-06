@@ -4,6 +4,7 @@ import {
   editHawksNestQuestion,
   getHawksNestQuestion,
   submitHawksNestQuestion,
+  unlockNestHints,
 } from '../controllers/hawksNestController';
 import { protect, isBanned, isAdmin, logIP } from '../middlewares/auth';
 import { validateRequest } from '../middlewares/requestValidator';
@@ -42,6 +43,18 @@ router.post(
   protect,
   logIP,
   submitHawksNestQuestion
+);
+
+router.post(
+  '/nest/hints/unlock',
+  [
+    body('question', 'question not entered').notEmpty(),
+    body('hintLevel', 'hintLevel not entered').notEmpty(),
+  ],
+  validateRequest,
+  protect,
+  isAdmin,
+  unlockNestHints
 );
 
 export { router as nestRouter };
