@@ -70,7 +70,12 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
               <img src={square} alt="" />
               <h3>{item.name}</h3>
               <p>
-                <span>OWNED :</span> {1}
+                <span>OWNED :</span>{' '}
+                {
+                  auth?.user?.powerupsHistory.find(
+                    (powerUp) => powerUp.id === item.id
+                  ).owned
+                }
               </p>
             </div>
           ))}
@@ -82,8 +87,12 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
               <p>{getCurrentPowerUp()?.description}</p>
               <div className="bottom">
                 <aside>
-                  <span>MAXIMUM ALLOWED: </span>
-                  {getCurrentPowerUp()?.maximumAllowed}
+                  <span>Available: </span>
+                  {
+                    auth?.user?.powerupsHistory.find(
+                      (powerUp) => powerUp.id === selected
+                    ).available
+                  }
                 </aside>
                 <aside>
                   <span>COST:</span> {getCurrentPowerUp()?.cost} points

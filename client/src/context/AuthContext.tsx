@@ -20,7 +20,9 @@ type Value = {
     name: string,
     username: string,
     email: string,
-    password: string
+    password: string,
+    collage: string,
+    number: string
   ) => Promise<void>;
   isAdmin: () => boolean;
   loading: Boolean;
@@ -87,7 +89,9 @@ export default function AuthProvider({ children }: Children): ReactElement {
     name: string,
     username: string,
     email: string,
-    password: string
+    password: string,
+    collage: string,
+    number: string
   ) => {
     try {
       await post('/register', {
@@ -95,6 +99,8 @@ export default function AuthProvider({ children }: Children): ReactElement {
         username,
         email,
         password,
+        college: collage,
+        phone: number,
       });
 
       history.push('/login');

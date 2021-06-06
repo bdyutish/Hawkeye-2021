@@ -105,7 +105,8 @@ html {
     top: 15%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #eaeaea;
+    background-image: linear-gradient(135deg, #000000 0%, #414141 180%);
+   color: #fefefe;
     border-radius: 8px;
     padding:1rem;
     outline: none;
@@ -161,11 +162,20 @@ html {
         margin-top: 1rem;
         width: 4rem;
         height: 2rem;
-        background-color:#fefefe;
+        background-color:#7bc74dcc;
         color:#212121 ;
         border-radius: 5px;
         margin-right: 1rem;
         font-weight: bold;
+        color: #fffd;
+
+        &:last-child{
+          background-color: #f33535cc;
+        }
+    }
+
+    .sub-text{
+      color: #fefefe;
     }
 
 }

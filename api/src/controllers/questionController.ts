@@ -4,6 +4,8 @@ import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from '../utils/ErrorResponse';
 import { compareAnswers, unlockRegion } from '../utils/helperFunctions';
 import Region from '../models/Region';
+import UnlockedHint from '../models/unlockedHint';
+import Hint from '../models/Hint';
 
 export const getQuestionByRegionId = async (
   req: Request,
@@ -17,6 +19,7 @@ export const getQuestionByRegionId = async (
     }
 
     let level;
+    let index;
     for (let i = 0; i <= user.lastUnlockedIndex; i++) {
       if (
         user.regions[i].regionid.toString() == req.params.regionId.toString()
@@ -26,6 +29,7 @@ export const getQuestionByRegionId = async (
           return next(new ErrorResponse('Region already completed', 400));
         }
         level = user.regions[i].level;
+        index = i;
         break;
       }
     }
@@ -116,9 +120,25 @@ export const getQuestionByRegionId = async (
       lagging: lag,
     };
 
+    let qhints = [];
+
+    let hints = await UnlockedHint.find({
+      regionIndex: index,
+      question: level,
+    });
+
+    for (let i = 0; i < hints.length; i++) {
+      const hint = await Hint.find({
+        question: question._id,
+        level: hints[i].hintLevel,
+      });
+      qhints.push(hint);
+    }
+
     res.status(201).send({
       question,
       attempts,
+      qhints,
       stats,
     });
   } catch (err) {

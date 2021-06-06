@@ -2,35 +2,37 @@
   {
     "color": "#38B8D3",
     "pin": "linear-gradient(180deg, #20B9EA 0%, rgba(72, 107, 199, 0.99) 100%)",
-    "button": "linear-gradient(266.29deg, rgba(32, 185, 234, 0.16) 12.76%, rgba(32, 185, 234, 0.09) 96.02%)"
+    "button": "linear-gradient(266.29deg, rgba(32, 185, 234, 0.16) 12.76%, rgba(32, 185, 234, 0.09) 96.02%)",
+    "coords": [64.133304, -77.64007]
   },
   {
-    "color": "#38B8D3",
-    "pin": "linear-gradient(180deg, #20B9EA 0%, rgba(72, 107, 199, 0.99) 100%)",
-    "button": "linear-gradient(266.29deg, rgba(32, 185, 234, 0.16) 12.76%, rgba(32, 185, 234, 0.09) 96.02%)",
+    "color": "#8458FF",
+    "pin": "linear-gradient(180deg, #8458FF 0%, #4E0ABD 100%)",
+    "button": "linear-gradient(266.29deg, rgba(132, 88, 255, 0.16) 12.76%, rgba(132, 88, 255, 0.09) 96.02%)",
     "coords": [21.758663, -4.038333]
   },
   {
-    "color": "#38B8D3",
-    "pin": "linear-gradient(180deg, #20B9EA 0%, rgba(72, 107, 199, 0.99) 100%)",
-    "button": "linear-gradient(266.29deg, rgba(32, 185, 234, 0.16) 12.76%, rgba(32, 185, 234, 0.09) 96.02%)"
+    "color": "#5BCD66",
+    "pin": "linear-gradient(180deg, #5BCD66 0%, #0E4E0D 100%)",
+    "button": "linear-gradient(266.29deg, rgba(91, 205, 102, 0.16) 12.76%, rgba(91, 205, 102, 0.09) 96.02%)",
+    "coords": [-98.484245, 39.011902]
   },
   {
-    "color": "#38B8D3",
-    "pin": "linear-gradient(180deg, #20B9EA 0%, rgba(72, 107, 199, 0.99) 100%)",
-    "button": "linear-gradient(266.29deg, rgba(32, 185, 234, 0.16) 12.76%, rgba(32, 185, 234, 0.09) 96.02%)",
+    "color": "#FF5C01",
+    "pin": "linear-gradient(180deg, #FF5C01 8.06%, #A80404 114.52%)",
+    "button": "linear-gradient(266.29deg, rgba(255, 92, 1, 0.16) 12.76%, rgba(255, 92, 1, 0.09) 96.02%)",
     "coords": [94.433983, 51.719082]
   },
   {
-    "color": "#38B8D3",
-    "pin": "linear-gradient(180deg, #20B9EA 0%, rgba(72, 107, 199, 0.99) 100%)",
-    "button": "linear-gradient(266.29deg, rgba(32, 185, 234, 0.16) 12.76%, rgba(32, 185, 234, 0.09) 96.02%)",
+    "color": "#A70379",
+    "pin": "linear-gradient(180deg, #A70379 8.06%, #4D083D 114.52%)",
+    "button": "linear-gradient(266.29deg, rgba(167, 3, 121, 0.16) 12.76%, rgba(167, 3, 121, 0.09) 96.02%)",
     "coords": [28.7806, 55.499908]
   },
   {
-    "color": "#38B8D3",
-    "pin": "linear-gradient(180deg, #20B9EA 0%, rgba(72, 107, 199, 0.99) 100%)",
-    "button": "linear-gradient(266.29deg, rgba(32, 185, 234, 0.16) 12.76%, rgba(32, 185, 234, 0.09) 96.02%)",
+    "color": "#DE071D",
+    "pin": "linear-gradient(180deg, #DE071D 8.06%, #5C0202 114.52%)",
+    "button": "linear-gradient(266.29deg, rgba(222, 7, 29, 0.16) 12.76%, rgba(222, 7, 29, 0.09) 96.02%)",
     "coords": [133.579941, -21.89621]
   }
 ]

@@ -6,6 +6,8 @@ interface Props {
   options: {
     label: string;
     value: string;
+    locked: boolean;
+    completed: boolean;
   }[];
   defaultIndex?: number;
   setter: any;
@@ -21,8 +23,6 @@ export default function Dropdown({
 
   const divRef = React.useRef<HTMLDivElement>(null);
 
-  // <i class="fas fa-lock"></i>
-
   useClickOut(
     divRef,
     () => {},
@@ -34,8 +34,6 @@ export default function Dropdown({
   React.useEffect(() => {
     setter(options[defaultIndex]);
   }, []);
-
-  console.log(options[defaultIndex]);
 
   if (Object.keys(options).length === 0) return null;
   return (
@@ -59,6 +57,10 @@ export default function Dropdown({
           }
         >
           {options.map((option: any, index: number) => {
+            let classNames = ['option'];
+            if (option.locked) classNames.push('option--locked');
+            if (option.completed) classNames.push('option--completed');
+
             return (
               <div
                 onClick={() => {
@@ -67,8 +69,14 @@ export default function Dropdown({
                   setter(options[index]);
                 }}
                 key={option.value}
-                className="option"
+                className={classNames.join(' ')}
               >
+                {!option.locked && !option.completed && (
+                  <i className="fas fa-unlock"></i>
+                )}
+                {(option.locked || option.completed) && (
+                  <i className="fas fa-lock"></i>
+                )}
                 <h4> {option.label} </h4>
               </div>
             );

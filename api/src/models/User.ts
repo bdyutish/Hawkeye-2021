@@ -19,6 +19,8 @@ export interface UserDoc extends mongoose.Document {
   nestLevel: number;
   score: number;
   strikes: number;
+  college: string;
+  phone: string;
   streakMultiplier: number;
   lastUnlockedIndex: number;
   regions: {
@@ -82,6 +84,12 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: Number,
     default: 0,
+  },
+  college: {
+    type: String,
+  },
+  phone: {
+    type: String,
   },
   regNo: {
     type: String,

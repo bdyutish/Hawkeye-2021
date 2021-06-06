@@ -23,6 +23,7 @@ deleteData(){
     cd api && npx ts-node seeder.ts -d
 }
 importData(){
+    deleteData()
     cd api && npx ts-node seeder.ts -i
 }
 "${@:-default}"

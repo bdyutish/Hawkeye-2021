@@ -19,6 +19,8 @@ export type User = {
   lastUnlockedIndex: number;
   regions: Array<RegionType>;
   hawksNest: boolean;
+  powerupsHistory: any[];
+  inventory: any[];
 };
 
 //for a particular User
@@ -26,6 +28,7 @@ export type RegionType = {
   regionid: string;
   level: Number;
   multiplier: Number;
+  isCompleted: boolean;
 };
 
 export type QuestionType = {

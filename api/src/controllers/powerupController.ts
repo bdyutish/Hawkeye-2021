@@ -35,7 +35,7 @@ const skipQuestion = async (
 };
 
 const coinFlip = () => {
-  return Math.floor(Math.random() * 2) == 0 ? 'heads' : 'tails';
+  return Math.random() <= 0.2 ? 'heads' : 'tails';
 };
 
 export const purchase = async (
@@ -203,8 +203,6 @@ export const apply = async (
 
       user.powerupsHistory[0].owned--;
       await user.save();
-
-      await user!.save();
     } else if (id == '2') {
       const question = await Question.findById(req.body.questionid);
       if (!question) return next(new ErrorResponse('Question not found', 404));
@@ -218,8 +216,7 @@ export const apply = async (
           break;
         }
       }
-      skipQuestion(req, user, question);
-
+      await skipQuestion(req, user, question);
       user.powerupsHistory[1].owned--;
       await user.save();
     } else if (id == '3') {

@@ -5,6 +5,7 @@ import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from '../utils/ErrorResponse';
 import Hint, { HintAttrs } from '../models/Hint';
 import { Types } from 'mongoose';
+import unlockedHint from '../models/unlockedHint';
 
 export const addQuestion = async (
   req: Request,
@@ -82,33 +83,20 @@ export const addHint = async (
 ) => {
   try {
     // "+hints" is used to access hints where select: false in schema
-    const question = await Question.findById(req.params.questionid).select(
-      '+hints'
-    );
-    if (!question) return next(new ErrorResponse('Question not found', 404));
-    let hints: [Types.ObjectId] = [Types.ObjectId()];
-    for (let i = 0; i < req.body.hints.length; i++) {
-      // deletes existing hint (if exists)
-      const hintQuery = Hint.findOne({
-        level: req.body.hints[i].level,
-        question: question._id,
-      });
-      if (hintQuery) await hintQuery.remove();
+    const question = await Question.findById(req.params.questionid);
 
-      // creates new hint
-      const hint = new Hint({
-        hintText: req.body.hints[i].hint,
-        level: req.body.hints[i].level,
-        question: question._id,
-      });
-      await hint.save();
-      hints[i] = hint._id;
-    }
+    if (!question)
+      return next(new ErrorResponse('Question does not exist', 400));
 
-    // attaching the array to questions model
-    question.hints = hints;
-    await question.save();
-    return res.status(201).send(question);
+    // creates new hint
+    const hint = new Hint({
+      hintText: req.body.hintText,
+      level: req.body.level,
+      question: question._id,
+    });
+    await hint.save();
+
+    return res.status(201).send(hint);
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }
@@ -176,4 +164,42 @@ export const UnbanUser = async (
   return res.status(200).send({
     success: true,
   });
+};
+
+export const unlockHints = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { question, regionIndex, hintLevel } = req.body;
+
+    const newHint = new unlockedHint({
+      regionIndex,
+      question,
+      hintLevel,
+    });
+
+    await newHint.save();
+
+    res.status(201).send({
+      success: true,
+      message: 'Hints unlocked succesfully',
+    });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
+export const getRegionQuestions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const questions = await Question.find({ region: req.params.regionid });
+    res.status(200).send(questions);
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
 };

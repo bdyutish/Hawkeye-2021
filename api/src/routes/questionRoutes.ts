@@ -25,6 +25,8 @@ router.post(
     body('answer', 'answer not enetered').notEmpty(),
   ],
   validateRequest,
+  protect,
+  isAdmin,
   addQuestion
 );
 
@@ -35,6 +37,7 @@ router.put(
     body('answer', 'answer not enetered').notEmpty(),
   ],
   validateRequest,
+  protect,
   isAdmin,
   editQuestion
 );

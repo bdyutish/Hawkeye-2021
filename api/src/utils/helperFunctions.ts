@@ -28,7 +28,11 @@ export const unlockRegion = async (req: Request) => {
   } else {
     if (user.lastUnlockedIndex < 5) user.lastUnlockedIndex++;
     else {
-      user.hawksNest = true;
+      let flag = true;
+      for (let i = 0; i < user.regions.length; i++) {
+        if (!user.regions[i].isCompleted) flag = false;
+      }
+      if (flag) user.hawksNest = true;
     }
     await user.save();
   }

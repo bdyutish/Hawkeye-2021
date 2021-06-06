@@ -17,10 +17,19 @@ function validateEmail(email: string) {
   return re.test(String(email).toLowerCase());
 }
 
+function validateNumber(number: string) {
+  if (number[0] === '+') number = number.slice(3);
+  const re = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+  return re.test(String(number).toLowerCase());
+}
+
 export default function Register({}: Props): ReactElement {
   const [name, setName, resetName] = useInputState();
   const [username, setUsername, resetUsername] = useInputState();
   const [email, setEmail, resetEmail] = useInputState();
+  const [collage, setCollage, resetCollage] = useInputState();
+  const [number, setNumber, resetNumber] = useInputState();
+
   const [password, setPassword, resetPassword] = useInputState();
   const [confirm, setConfirm, resetConfirm] = useInputState();
 
@@ -40,9 +49,13 @@ export default function Register({}: Props): ReactElement {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!name || !username || !email || !password)
+    if (!name || !username || !email || !password || !collage || !number)
       errors.push('All fields are required');
+    if (!validateNumber(number) && number)
+      errors.push('Phone Number is invalid');
     if (!validateEmail(email) && email) errors.push('Email is invalid');
+    if (name.length > 15 && name) errors.push('Name is too long');
+    if (username.length > 15 && username) errors.push('Username is too long');
     if (password.length < 8 && password)
       errors.push('Password must be atleast 8 Characters');
     else if (password !== confirm) errors.push('Passwords do not match');
@@ -50,7 +63,7 @@ export default function Register({}: Props): ReactElement {
 
     if (errors.length === 0) {
       try {
-        await auth?.register(name, username, email, password);
+        await auth?.register(name, username, email, password, collage, number);
         setLoading(false);
       } catch (err) {
         setErrors([err.response.data.message]);
@@ -91,6 +104,20 @@ export default function Register({}: Props): ReactElement {
           onChange={setEmail}
           type="text"
           placeholder="Email ID"
+          className="input"
+        />
+        <Input
+          value={collage}
+          onChange={setCollage}
+          type="text"
+          placeholder="College"
+          className="input"
+        />
+        <Input
+          value={number}
+          onChange={setNumber}
+          type="text"
+          placeholder="Phone Number"
           className="input"
         />
         <Input

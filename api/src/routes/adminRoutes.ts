@@ -4,6 +4,8 @@ import {
   getLeaderboard,
   banUser,
   UnbanUser,
+  unlockHints,
+  getRegionQuestions,
 } from '../controllers/adminController';
 import { addQuestion, editQuestion } from '../controllers/adminController';
 import { body } from 'express-validator';
@@ -13,7 +15,30 @@ import { validateRequest } from './../middlewares/requestValidator';
 const router = express.Router();
 router.get('/leaderboard', protect, isAdmin, getLeaderboard);
 
-router.post('/hints/:questionid', protect, isAdmin, addHint);
+router.post(
+  '/hints/add/:questionid',
+  [
+    body('hintText', 'text not entered').notEmpty(),
+    body('level', 'level not entered').notEmpty(),
+  ],
+  validateRequest,
+  protect,
+  isAdmin,
+  addHint
+);
+
+router.post(
+  '/hints/unlock',
+  [
+    body('regionIndex', 'regionIndex not entered').notEmpty(),
+    body('question', 'question not entered').notEmpty(),
+    body('hintLevel', 'hintLevel not entered').notEmpty(),
+  ],
+  validateRequest,
+  protect,
+  isAdmin,
+  unlockHints
+);
 
 router.post(
   '/questions/add',
@@ -39,6 +64,8 @@ router.put(
   validateRequest,
   editQuestion
 );
+
+router.get('/region/questions/:regionid', protect, isAdmin, getRegionQuestions);
 
 // ban and unban user
 router.post('/user/ban/:userId', protect, isAdmin, banUser);

@@ -1,5 +1,5 @@
-import React, { ReactElement } from "react";
-import Modal from "react-modal";
+import React, { ReactElement } from 'react';
+import Modal from 'react-modal';
 
 interface Props {
   options: {
@@ -22,7 +22,7 @@ export default function Confrim({
         isOpen={open}
       >
         <h1>Are You Sure?</h1>
-        <p>{subText}</p>
+        <p className="sub-text">{subText}</p>
         <button onClick={yesHandler}>Yes</button>
         <button onClick={noHandler}>No</button>
       </Modal>

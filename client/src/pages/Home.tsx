@@ -24,17 +24,72 @@ export default function Home(): ReactElement {
       value: '',
       label: '',
     },
+    {
+      value: '',
+      label: '',
+    },
+    {
+      value: '',
+      label: '',
+    },
+    {
+      value: '',
+      label: '',
+    },
+    {
+      value: '',
+      label: '',
+    },
+    {
+      value: '',
+      label: '',
+    },
   ]);
 
   const auth = useAuth();
 
-  const pinElement = React.useRef(document.createElement('i')).current;
-  pinElement.className = 'fas fa-map-marker-alt map-marker';
-  pinElement.style.fontSize = 20 + 'px';
+  const pinElement1 = React.useRef(document.createElement('i')).current;
+  pinElement1.className = 'fas fa-map-marker-alt map-marker';
+  pinElement1.style.fontSize = 20 + 'px';
+
+  const pinElement2 = React.useRef(document.createElement('i')).current;
+  pinElement2.className = 'fas fa-map-marker-alt map-marker';
+  pinElement2.style.fontSize = 20 + 'px';
+
+  const pinElement3 = React.useRef(document.createElement('i')).current;
+  pinElement3.className = 'fas fa-map-marker-alt map-marker';
+  pinElement3.style.fontSize = 20 + 'px';
+
+  const pinElement4 = React.useRef(document.createElement('i')).current;
+  pinElement4.className = 'fas fa-map-marker-alt map-marker';
+  pinElement4.style.fontSize = 20 + 'px';
+
+  const pinElement5 = React.useRef(document.createElement('i')).current;
+  pinElement5.className = 'fas fa-map-marker-alt map-marker';
+  pinElement5.style.fontSize = 20 + 'px';
+
+  const pinElement6 = React.useRef(document.createElement('i')).current;
+  pinElement6.className = 'fas fa-map-marker-alt map-marker';
+  pinElement6.style.fontSize = 20 + 'px';
+
+  const pins = [
+    pinElement1,
+    pinElement2,
+    pinElement3,
+    pinElement4,
+    pinElement5,
+    pinElement6,
+  ];
 
   React.useEffect(() => {
     if (!selected) return;
-    pinElement.style.color = selected.color;
+    if (selected.locked) pinElement1.style.color = selected.color;
+    else pinElement1.style.color = selected.color;
+    // map.current.flyTo({
+    //   center: selected.coords,
+    //   essential: true,
+    //   zoom: 6,
+    // });
   }, [selected]);
 
   React.useEffect(() => {
@@ -44,25 +99,26 @@ export default function Home(): ReactElement {
       // zoom: 10,
     });
 
-    //@ts-ignore
-    map.current.on('load', () => {
-      new mapboxgl.Marker(pinElement)
-        .setLngLat([78.486671, 17.385044])
-        .addTo(map.current);
-
-      map.current.flyTo({
-        center: [78.486671, 17.385044],
-        essential: true,
-        zoom: 6,
-      });
+    const markers = pins.map((pin) => {
+      return new mapboxgl.Marker(pin).setLngLat([0, 0]);
     });
 
-    map.current.setMaxZoom(3);
+    //@ts-ignore
+    map.current.on('load', () => {
+      markers.forEach((marker: any) => {
+        marker.addTo(map.current);
+      });
+
+      map.current.setMaxZoom(3);
+    });
 
     get('/regions').then((data) => {
       setOptions(
         data.map((option: any, index: number) => {
           const lastUnlockedIndex = auth?.user?.lastUnlockedIndex || 0;
+          const completed = auth?.user?.regions[index].isCompleted;
+
+          console.log(JSON.parse(option.colorData).coords);
 
           if (
             option._id ===
@@ -76,6 +132,8 @@ export default function Home(): ReactElement {
               pin: JSON.parse(option.colorData).pin,
               button: JSON.parse(option.colorData).button,
               locked: index > lastUnlockedIndex,
+              completed,
+              coords: JSON.parse(option.colorData).coords,
             });
           }
 
@@ -87,6 +145,8 @@ export default function Home(): ReactElement {
             pin: JSON.parse(option.colorData).pin,
             button: JSON.parse(option.colorData).button,
             locked: index > lastUnlockedIndex,
+            completed,
+            coords: JSON.parse(option.colorData).coords,
           };
         })
       );

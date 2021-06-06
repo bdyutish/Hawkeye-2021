@@ -13,6 +13,8 @@ import { useToasts } from 'react-toast-notifications';
 import { useAuth } from '../context/AuthContext';
 import HUD from '../components/HUD';
 import { powerUps } from '../utils/data';
+import { useConfirm } from '../hooks/useConfirm';
+import Confirm from '../components/Confirm';
 
 type TParams = { id: string };
 
@@ -21,12 +23,13 @@ export default function Questions({
 }: RouteComponentProps<TParams>): ReactElement {
   const questionFetcher = useFetch(`/questions/${match.params.id}`);
   const [answer, setAnswer, resetAnswer] = useInputState();
-  const inventoryFetcher = useFetch(`/shop/inventory`);
 
   const { addToast } = useToasts();
   const history = useHistory();
   const auth = useAuth();
   const answerRef = React.useRef<HTMLInputElement>(null);
+
+  const [close, setClose] = React.useState(false);
 
   React.useEffect(() => {
     answerRef.current?.focus();
@@ -49,7 +52,10 @@ export default function Questions({
       if (!data.success) {
         questionFetcher.fetch(false);
         if (data.close) {
-          //TODO
+          setClose(true);
+          setTimeout(() => {
+            setClose(false);
+          }, 2500);
           resetAnswer();
           return;
         }
@@ -73,7 +79,7 @@ export default function Questions({
     }
   };
 
-  if (questionFetcher.isLoading || inventoryFetcher.isLoading) {
+  if (questionFetcher.isLoading) {
     return (
       <div className="screen-center">
         <Loading />
@@ -94,6 +100,8 @@ export default function Questions({
         regionid: match.params.id,
         questionid: questionFetcher.data.question._id,
       });
+
+      console.log(res);
 
       if (res.success) {
         addToast('Applied Successfully', { appearance: 'success' });
@@ -132,6 +140,11 @@ export default function Questions({
             </h2>
             <p>{questionFetcher.data.question.text}</p>
           </div>
+          {close && (
+            <div style={{ color }} className="close">
+              Hawk thinks you're close
+            </div>
+          )}
           <div className="bottom">
             <input
               ref={answerRef}
@@ -150,9 +163,9 @@ export default function Questions({
         />
       </main>
       <BottomBar
+        color={color}
         refresh={() => questionFetcher.fetch(false)}
         handleUsePowerUp={handleUsePowerUp}
-        data={inventoryFetcher.data}
       />
     </div>
   );
@@ -261,27 +274,32 @@ function Hints({ color }: { color: string }): ReactElement {
 }
 
 interface IBottomBarProps {
-  data: any[];
   handleUsePowerUp: (id: number) => Promise<void>;
   refresh: () => any;
+  color: string;
 }
 
 function BottomBar({
-  data,
   handleUsePowerUp,
   refresh,
+  color,
 }: IBottomBarProps): ReactElement {
   const [selected, setSelected] = React.useState(0);
+  const auth = useAuth();
 
+  const data = auth?.user?.powerupsHistory || [];
   const hasPoweUps = data.filter((powerUp: any) => powerUp.owned).length > 0;
 
-  const handleClick = () => {
+  const { confirmed, options } = useConfirm();
+
+  const handleClick = confirmed(() => {
     handleUsePowerUp(selected);
     refresh();
-  };
+  }, `Do you want to use ${powerUps.find((powerUp) => powerUp.id === selected)?.name}`);
 
   return (
     <div className={!hasPoweUps ? 'bottom-bar empty-bar' : 'bottom-bar'}>
+      <Confirm options={options} />
       {!hasPoweUps && <h1 className="empty">You own no power ups</h1>}
       {hasPoweUps && (
         <>
@@ -289,21 +307,45 @@ function BottomBar({
             {data.map((powerUp: any, index: number) => {
               return powerUp.owned ? (
                 <div
+                  data-tip={powerUp.name}
                   onClick={() => setSelected(powerUp.id)}
                   key={powerUp._id}
+                  style={{
+                    border: `1px solid ${
+                      selected === powerUp.id ? color : '#fff'
+                    }`,
+                  }}
                   className={
                     selected === powerUp.id
                       ? 'square square--selected'
                       : 'square'
                   }
                 >
-                  <img src={powerUps[index].image} alt="" />
+                  <img
+                    className={`img-${powerUp.id}`}
+                    src={powerUps[index].image}
+                    alt=""
+                  />
                 </div>
               ) : null;
             })}
           </aside>
           <div className="right">
-            <Button onClick={handleClick} name="Use" />
+            {!selected && <div className="empty">Select a power up</div>}
+            {!!selected && (
+              <>
+                <div className="details">
+                  <div className="name">
+                    {powerUps.find((powerUp) => powerUp.id === selected)?.name}
+                  </div>
+                  <div className="owned">
+                    {' '}
+                    <span style={{ color }}>Owned:</span> 1
+                  </div>
+                </div>
+                <Button onClick={handleClick} name="Use" />
+              </>
+            )}
           </div>{' '}
         </>
       )}

@@ -71,11 +71,62 @@
     font-size: 1.2rem;
     padding-top: .5rem;
     padding-bottom: .5rem;
-    padding-left: 2.5rem;
+    padding-left: 1rem;
     transition: 0.1s all;
+    display: flex;
+align-items: center;
+
+
+    i{
+      width: 1.5rem;
+      font-size: .8rem;
+    }
+
     &:hover {
       background-color: #222;
     }
+
+    &--locked{
+display: flex;
+padding-left: 1rem;
+font-size: center;
+align-items: center;
+cursor: default;
+
+&:hover {
+  background-color: #ff450055;
+}
+
+i{
+  width: 1.5rem;
+  font-size: .8rem;
+  color: #ff4500;
+
+}
+
+    }
+
+    &--completed{
+      display: flex;
+padding-left: 1rem;
+font-size: center;
+align-items: center;
+cursor: default;
+
+&:hover {
+  background-color: #a7d12955;
+}
+
+      i{
+        width: 1.5rem;
+        font-size: .8rem;
+        color: #a7d129;
+      
+      }
+      
+    }
+
+
   }
 
 
