@@ -1,4 +1,4 @@
-import Region from '../models/Region';
+import Region, { RegionDoc } from '../models/Region';
 import { NextFunction, Request, Response } from 'express';
 import ErrorResponse from '../utils/ErrorResponse';
 
@@ -27,7 +27,17 @@ export const getAllRegions = async (
   next: NextFunction
 ) => {
   try {
-    const regions = await Region.find();
+    if (!req.currentUser)
+      return next(new ErrorResponse('user not logged in', 403));
+    const userRegions = req.currentUser?.regions;
+
+    let regions: RegionDoc[] = [];
+
+    for (let i = 0; i < userRegions?.length; i++) {
+      const region = await Region.findById(userRegions[i].regionid);
+      if (region) regions.push(region);
+    }
+
     res.status(201).send(regions);
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));

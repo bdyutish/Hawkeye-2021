@@ -190,3 +190,16 @@ export const unlockHints = async (
     return next(new ErrorResponse(err.name, err.code));
   }
 };
+
+export const getRegionQuestions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const questions = await Question.find({ region: req.params.regionid });
+    res.status(200).send(questions);
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};

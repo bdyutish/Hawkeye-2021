@@ -5,6 +5,7 @@ import {
   banUser,
   UnbanUser,
   unlockHints,
+  getRegionQuestions,
 } from '../controllers/adminController';
 import { addQuestion, editQuestion } from '../controllers/adminController';
 import { body } from 'express-validator';
@@ -63,6 +64,8 @@ router.put(
   validateRequest,
   editQuestion
 );
+
+router.get('/region/questions/:regionid', protect, isAdmin, getRegionQuestions);
 
 // ban and unban user
 router.post('/user/ban/:userId', protect, isAdmin, banUser);
