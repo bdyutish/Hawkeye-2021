@@ -195,6 +195,10 @@ export const submitQuestion = async (
     let multiplier = 1;
 
     if (ratio == 1.0) {
+      if (user.streakMultiplier > 1) {
+        user.strikes = 3;
+        await user.save();
+      }
       for (let i = 0; i <= user?.lastUnlockedIndex; i++) {
         if (user.regions[i].regionid.toString() == question.region.toString()) {
           multiplier = user.regions[i].multiplier;

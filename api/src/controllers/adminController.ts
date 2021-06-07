@@ -45,8 +45,6 @@ export const editQuestion = async (
       {
         text: req.body.text,
         answer: req.body.answer,
-        level: req.body.level,
-        region: req.body.region,
       },
       { new: true, upsert: true, useFindAndModify: false }
     );

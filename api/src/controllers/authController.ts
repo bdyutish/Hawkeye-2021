@@ -100,7 +100,7 @@ export const register = async (
 
     await user.save({ validateBeforeSave: false });
 
-    const resetUrl = `${req.protocol}://${req.get('host')}/verify/${token}`;
+    const resetUrl = `${req.protocol}://${process.env.HOST}/verify/${token}`;
     const message = `Click to verify ${resetUrl}`;
 
     try {
@@ -232,9 +232,7 @@ export const forgotPassword = async (
   await user.save({ validateBeforeSave: false });
 
   //Create reset url
-  const resetUrl = `${req.protocol}://${req.get(
-    'host'
-  )}/resetpassword/${resetToken}`;
+  const resetUrl = `${req.protocol}://${process.env.HOST}/resetpassword/${resetToken}`;
   const message = `Reset Your password at ${resetUrl}`;
 
   try {
@@ -290,7 +288,7 @@ export const resendVerificationEmail = async (
 
     await user.save({ validateBeforeSave: false });
 
-    const resetUrl = `${req.protocol}://${req.get('host')}/verify/${token}`;
+    const resetUrl = `${req.protocol}://${process.env.HOST}/verify/${token}`;
     const message = `Click to verify ${resetUrl}`;
 
     try {
