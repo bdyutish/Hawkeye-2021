@@ -23,7 +23,6 @@ export const addQuestion = async (
     const question = new Question({
       text: req.body.text,
       answer: req.body.answer,
-      hints: req.body.hints,
       level: req.body.level,
       region: req.body.region,
     });
@@ -46,8 +45,6 @@ export const editQuestion = async (
       {
         text: req.body.text,
         answer: req.body.answer,
-        hints: req.body.hints,
-        keywords: req.body.keywords,
         level: req.body.level,
         region: req.body.region,
       },
@@ -199,6 +196,27 @@ export const getRegionQuestions = async (
   try {
     const questions = await Question.find({ region: req.params.regionid });
     res.status(200).send(questions);
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
+export const getQuestionById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    if (!question) return next(new ErrorResponse('Question not found', 404));
+
+    let hints = await Hint.find({ question: question._id }).sort({ level: 1 });
+
+    res.status(200).send({
+      success: true,
+      question,
+      hints,
+    });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

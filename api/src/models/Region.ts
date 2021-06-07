@@ -17,7 +17,6 @@ const RegionSchema = new mongoose.Schema({
   },
   colorData: {
     type: String,
-    required: true,
   },
 });
 

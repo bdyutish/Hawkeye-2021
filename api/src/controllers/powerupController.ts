@@ -262,15 +262,18 @@ export const apply = async (
         user.powerupsHistory[3].owned--;
         await user.save();
         return res.status(200).send({
-          success: false,
+          success: true,
+          worked: false,
           message: 'Bad luck',
+          inventory: user.inventory,
+          updatedShop: user.powerupsHistory,
         });
       }
-
-      user.powerupsHistory[3].owned--;
     }
     res.status(200).send({
       success: true,
+      worked: true,
+      message: 'question skipped',
       inventory: user.inventory,
       updatedShop: user.powerupsHistory,
     });
