@@ -275,6 +275,8 @@ export const apply = async (
     }
     res.status(200).send({
       success: true,
+      worked: true,
+      message: 'question skipped',
       inventory: user.inventory,
       updatedShop: user.powerupsHistory,
     });
