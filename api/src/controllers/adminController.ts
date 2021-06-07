@@ -203,3 +203,24 @@ export const getRegionQuestions = async (
     return next(new ErrorResponse(err.name, err.code));
   }
 };
+
+export const getQuestionById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const question = await Question.findById(req.params.id);
+    if (!question) return next(new ErrorResponse('Question not found', 404));
+
+    let hints = await Hint.find({ question: question._id }).sort({ level: 1 });
+
+    res.status(200).send({
+      success: true,
+      question,
+      hints,
+    });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
