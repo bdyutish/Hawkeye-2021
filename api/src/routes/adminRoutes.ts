@@ -7,6 +7,8 @@ import {
   unlockHints,
   getRegionQuestions,
   getQuestionById,
+  editHint,
+  deleteHint,
 } from '../controllers/adminController';
 import { addQuestion, editQuestion } from '../controllers/adminController';
 import { body } from 'express-validator';
@@ -27,6 +29,20 @@ router.post(
   isAdmin,
   addHint
 );
+
+router.put(
+  'hints/edit/:hintId',
+  [
+    body('hintText', 'text not entered').notEmpty(),
+    body('level', 'level not entered').notEmpty(),
+  ],
+  validateRequest,
+  protect,
+  isAdmin,
+  editHint
+);
+
+router.delete('hints/delete/:hintId', protect, isAdmin, deleteHint);
 
 router.post(
   '/hints/unlock',
