@@ -23,7 +23,6 @@ export const addQuestion = async (
     const question = new Question({
       text: req.body.text,
       answer: req.body.answer,
-      hints: req.body.hints,
       level: req.body.level,
       region: req.body.region,
     });
@@ -46,8 +45,6 @@ export const editQuestion = async (
       {
         text: req.body.text,
         answer: req.body.answer,
-        hints: req.body.hints,
-        keywords: req.body.keywords,
         level: req.body.level,
         region: req.body.region,
       },
