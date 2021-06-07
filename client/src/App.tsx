@@ -13,6 +13,7 @@ import Question from './pages/Question';
 import NotFound from './pages/NotFound';
 import { useAuth } from './context/AuthContext';
 import Nest from './pages/Nest';
+import VerifyMail from './pages/auth/VerifyMail';
 
 //TODO
 //***Correct the fonts EVERYWHERE
@@ -25,6 +26,7 @@ import Nest from './pages/Nest';
 // Change location string on logout
 // Handle atempts empty case
 // Are you sure modal**********
+// ADD hawk logo
 
 export default function App(): ReactElement {
   const auth = useAuth();
@@ -34,12 +36,9 @@ export default function App(): ReactElement {
       <Switch>
         <PrivateRoute auth path="/login" component={Login} />
         <PrivateRoute auth path="/register" component={Register} />
-        <PrivateRoute
-          auth
-          path="/reset-password/:token"
-          component={ResetPassword}
-        />
+        <Route path="/reset-password/:token" component={ResetPassword} />
         <PrivateRoute auth path="/forgot-password" component={ForgotPassword} />
+        <Route path="/verify/:token" component={VerifyMail} />
         <PrivateRoute path="/question/:id" component={Question} />
         <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute exact path="/" component={Home} />

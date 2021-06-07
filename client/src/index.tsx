@@ -12,6 +12,9 @@ import HUD from './components/HUD';
 
 Modal.setAppElement('#root');
 
+//@ts-ignore
+// ReactDOM.createPortal(<HUD />, document.getElementById('hud'));
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

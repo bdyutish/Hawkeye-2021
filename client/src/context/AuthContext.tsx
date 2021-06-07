@@ -29,7 +29,7 @@ type Value = {
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (password: string, token: string) => Promise<void>;
   fetchMe: () => Promise<void>;
-  updateUser: (userData: User) => void;
+  updateUser: (userData: any) => void;
   check: () => Promise<void>;
   updateScore: (score: number) => void;
 };

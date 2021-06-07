@@ -16,6 +16,8 @@ import { powerUps } from '../utils/data';
 import { useConfirm } from '../hooks/useConfirm';
 import Confirm from '../components/Confirm';
 
+import hawk from '../assets/hawk.png';
+
 type TParams = { id: string };
 
 export default function Questions({
@@ -30,6 +32,10 @@ export default function Questions({
   const answerRef = React.useRef<HTMLInputElement>(null);
 
   const [close, setClose] = React.useState(false);
+  const [coin, setCoin] = React.useState({
+    fliping: false,
+    className: 'tails',
+  });
 
   React.useEffect(() => {
     answerRef.current?.focus();
@@ -101,7 +107,25 @@ export default function Questions({
         questionid: questionFetcher.data.question._id,
       });
 
-      console.log(res);
+      auth?.updateUser({
+        ...auth.user,
+        inventory: res.inventory,
+        powerupsHistory: res.updatedShop,
+      });
+
+      if (id === 4 && res.success) {
+        setCoin((prev) => ({ ...prev, fliping: true, className: 'heads' }));
+        setTimeout(() => {
+          setCoin((prev) => ({ ...prev, fliping: false }));
+          addToast('Applied Successfully', { appearance: 'success' });
+        }, 5000);
+      } else if (id === 4 && !res.success) {
+        setCoin((prev) => ({ ...prev, fliping: true, className: 'tails' }));
+        setTimeout(() => {
+          setCoin((prev) => ({ ...prev, fliping: false }));
+          addToast('F', { appearance: 'error' });
+        }, 5000);
+      }
 
       if (res.success) {
         addToast('Applied Successfully', { appearance: 'success' });
@@ -132,7 +156,7 @@ export default function Questions({
         </div>
       </div>
       <main>
-        <Hints color={color} />
+        <Hints hints={questionFetcher.data.qhints} color={color} />
         <form className="answer" onSubmit={handleSubmit}>
           <div className="top">
             <h2 style={{ color }}>
@@ -143,6 +167,14 @@ export default function Questions({
           {close && (
             <div style={{ color }} className="close">
               Hawk thinks you're close
+            </div>
+          )}
+          {coin.fliping && (
+            <div id="coin" className={coin.className}>
+              <div className="side-a">
+                <img src={hawk} alt="" />
+              </div>
+              <div className="side-b"></div>
             </div>
           )}
           <div className="bottom">
@@ -252,21 +284,29 @@ function Stats({ attempts, stats, color }: IStatsProps): ReactElement {
     </div>
   );
 }
-
-function Hints({ color }: { color: string }): ReactElement {
+function Hints({
+  color,
+  hints,
+}: {
+  color: string;
+  hints: string[];
+}): ReactElement {
   return (
     <div className="hints">
       <h2 style={{ color }}>Hints</h2>
       <section>
-        <div className="hint-locked">
-          <i data-tip="Hint Locked" className="fas fa-lock"></i>
-        </div>
-        <div className="hint-locked">
-          <i data-tip="Hint Locked" className="fas fa-lock"></i>
-        </div>
-        <div className="hint-locked">
-          <i data-tip="Hint Locked" className="fas fa-lock"></i>
-        </div>
+        {hints.map((hint: string) => {
+          return <div className="hint-unlocked">{hint}</div>;
+        })}
+
+        {[...Array(3 - hints.length)].map((_: undefined) => {
+          return (
+            <div className="hint-locked">
+              <i data-tip="Hint Locked" className="fas fa-lock"></i>
+            </div>
+          );
+        })}
+
         <ReactTooltip effect="solid" type="light" />
       </section>
     </div>
@@ -340,7 +380,12 @@ function BottomBar({
                   </div>
                   <div className="owned">
                     {' '}
-                    <span style={{ color }}>Owned:</span> 1
+                    <span style={{ color }}>Owned:</span>{' '}
+                    {
+                      auth?.user?.powerupsHistory?.find(
+                        (powerUp) => powerUp.id === selected
+                      ).owned
+                    }
                   </div>
                 </div>
                 <Button onClick={handleClick} name="Use" />

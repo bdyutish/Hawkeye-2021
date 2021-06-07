@@ -10,9 +10,12 @@ import Shop from './Shop';
 import Rulebook from './Rulebook';
 import { useLocation } from 'react-router-dom';
 
-interface Props {}
+interface Props {
+  onOpen?: () => any;
+  onClose?: () => any;
+}
 
-export default function HUD({}: Props): ReactElement {
+export default function HUD({ onOpen, onClose }: Props): ReactElement {
   const auth = useAuth();
 
   const [shopOpen, setShopOpen] = React.useState(false);
@@ -20,6 +23,14 @@ export default function HUD({}: Props): ReactElement {
   const [rulebookOpen, setRulebookOpen] = React.useState(false);
 
   const location = useLocation();
+
+  React.useEffect(() => {
+    if (!shopOpen && !rulebookOpen) return;
+    if (onOpen) onOpen();
+    return () => {
+      if (onClose) onClose();
+    };
+  }, [shopOpen, rulebookOpen]);
 
   return (
     <div className="hud">

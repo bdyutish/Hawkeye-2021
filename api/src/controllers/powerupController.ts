@@ -25,7 +25,7 @@ const skipQuestion = async (
       ) {
         user.regions[i].isCompleted = true;
         await user.save();
-        unlockRegion(req);
+        await unlockRegion(req);
       } else {
         user.regions[i].level++;
         await user.save();

@@ -19,8 +19,6 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
   const { addToast } = useToasts();
   const auth = useAuth();
 
-  console.log(selected);
-
   const handleClose = () => {
     closeHandler();
     setSelected(0);
@@ -33,9 +31,15 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
     try {
       const res = await post(`/shop/buy/${selected}`);
 
+      auth?.updateUser({
+        ...auth.user,
+        inventory: res.inventory,
+        powerupsHistory: res.updatedShop,
+        score: res.updatedScore,
+      });
+
       if (res.success) {
         addToast('Purchase Successful', { appearance: 'success' });
-        auth?.updateScore(res.updatedScore);
         handleClose();
       } else {
         addToast('Something Went Wrong', { appearance: 'error' });
@@ -72,7 +76,7 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
               <p>
                 <span>OWNED :</span>{' '}
                 {
-                  auth?.user?.powerupsHistory.find(
+                  auth?.user?.powerupsHistory?.find(
                     (powerUp) => powerUp.id === item.id
                   ).owned
                 }
@@ -89,7 +93,7 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
                 <aside>
                   <span>Available: </span>
                   {
-                    auth?.user?.powerupsHistory.find(
+                    auth?.user?.powerupsHistory?.find(
                       (powerUp) => powerUp.id === selected
                     ).available
                   }

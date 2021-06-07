@@ -1,12 +1,14 @@
-import React, { ReactElement } from "react";
-import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
-import desktopBG from "../../assets/backround/desktop.png";
-import Button from "../../components/Button";
-import Img from "../../components/Img";
-import Input from "../../components/Input";
-import { useAuth } from "../../context/AuthContext";
-import useInputState from "../../hooks/useInputState";
+import React, { ReactElement } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { Link } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
+import desktopBG from '../../assets/backround/desktop.png';
+import Button from '../../components/Button';
+import Img from '../../components/Img';
+import Input from '../../components/Input';
+import Loading from '../../components/Loading';
+import { useAuth } from '../../context/AuthContext';
+import useInputState from '../../hooks/useInputState';
 
 interface Props {}
 
@@ -21,23 +23,38 @@ export default function ForgotPassword({}: Props): ReactElement {
 
   const auth = useAuth();
 
+  const [captcha, setCaptcha] = React.useState(false);
+  const handleVerify = () => {
+    setCaptcha(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!email) errors.push("Email is Required");
+    if (!email) errors.push('Email is Required');
+    if (!captcha) errors.push('Captcha must be completed');
 
     if (errors.length === 0) {
       try {
+        await auth?.forgotPassword(email);
         setLoading(false);
       } catch (err) {
         setLoading(false);
       }
     } else {
-      setLoading(false);
       setErrors(errors);
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="screen-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="auth-page login forgot">
@@ -55,6 +72,13 @@ export default function ForgotPassword({}: Props): ReactElement {
           placeholder="Email ID"
           className="input"
         />
+        <div className="catcha">
+          <ReCAPTCHA
+            sitekey="6LfvBrsaAAAAAEPwCjRmPaVuK7s8QNP5YLN8h5-W"
+            onChange={handleVerify}
+            theme="dark"
+          />
+        </div>
         <div className="forgot">
           <Link to="/login">Back to login</Link>
         </div>

@@ -66,7 +66,7 @@ export default function Nest({}: Props): ReactElement {
       <Img src={desktopBG} className="background" />
       <h1>Hawkeye</h1>
       <main>
-        <Hints />
+        <Hints hints={[]} />
         <form className="answer" onSubmit={handleSubmit}>
           <div className="top">
             <h2>Level {questionFetcher.data.question.level}</h2>
@@ -162,20 +162,23 @@ function Stats({ attempts, stats }: IStatsProps): ReactElement {
   );
 }
 
-function Hints(): ReactElement {
+function Hints({ hints }: { hints: string[] }): ReactElement {
   return (
     <div className="hints">
       <h2>Hints</h2>
       <section>
-        <div className="hint-locked">
-          <i data-tip="Hint Locked" className="fas fa-lock"></i>
-        </div>
-        <div className="hint-locked">
-          <i data-tip="Hint Locked" className="fas fa-lock"></i>
-        </div>
-        <div className="hint-locked">
-          <i data-tip="Hint Locked" className="fas fa-lock"></i>
-        </div>
+        {hints.map((hint: string) => {
+          return <div className="hint-unlocked">{hint}</div>;
+        })}
+
+        {[...Array(3 - hints.length)].map((_: undefined) => {
+          return (
+            <div className="hint-locked">
+              <i data-tip="Hint Locked" className="fas fa-lock"></i>
+            </div>
+          );
+        })}
+
         <ReactTooltip effect="solid" type="light" />
       </section>
     </div>

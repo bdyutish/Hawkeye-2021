@@ -1,22 +1,24 @@
-import React, { ReactElement } from "react";
-import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
-import desktopBG from "../../assets/backround/desktop.png";
-import Button from "../../components/Button";
-import Img from "../../components/Img";
-import Input from "../../components/Input";
-import { useAuth } from "../../context/AuthContext";
-import useInputState from "../../hooks/useInputState";
+import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
+import desktopBG from '../../assets/backround/desktop.png';
+import Button from '../../components/Button';
+import Img from '../../components/Img';
+import Input from '../../components/Input';
+import Loading from '../../components/Loading';
+import { useAuth } from '../../context/AuthContext';
+import useInputState from '../../hooks/useInputState';
 
-interface Props {}
+interface Props {
+  match: any;
+}
 
-export default function ResetPassword({}: Props): ReactElement {
+export default function ResetPassword({ match }: Props): ReactElement {
   const [password, setPassword, resetPassword] = useInputState();
   const [confirm, setConfirm, resetConfirm] = useInputState();
 
   const [errors, setErrors] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [banned, setBanned] = React.useState(false);
 
   const { addToast } = useToasts();
 
@@ -26,11 +28,14 @@ export default function ResetPassword({}: Props): ReactElement {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!password) errors.push("Password is required");
-    if (password !== confirm) errors.push("Passwords do not match");
+    if (!password) errors.push('Password is required');
+    else if (password.length < 8)
+      errors.push('Password must be atleast 8 Characters');
+    if (password !== confirm) errors.push('Passwords do not match');
 
     if (errors.length === 0) {
       try {
+        await auth?.resetPassword(password, match.params.token);
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -40,6 +45,14 @@ export default function ResetPassword({}: Props): ReactElement {
       setErrors(errors);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="screen-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="auth-page login forgot">

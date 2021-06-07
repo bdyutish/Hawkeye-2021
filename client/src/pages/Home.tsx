@@ -19,6 +19,10 @@ export default function Home(): ReactElement {
 
   const [selected, setSelected] = React.useState<any>(null);
 
+  const [zeroIndex, setZeroIndex] = React.useState(false);
+
+  const [mapLoading, setMapLoading] = React.useState(true);
+
   const [options, setOptions] = React.useState<any>([
     {
       value: '',
@@ -85,11 +89,6 @@ export default function Home(): ReactElement {
     if (!selected) return;
     if (selected.locked) pinElement1.style.color = selected.color;
     else pinElement1.style.color = selected.color;
-    // map.current.flyTo({
-    //   center: selected.coords,
-    //   essential: true,
-    //   zoom: 6,
-    // });
   }, [selected]);
 
   React.useEffect(() => {
@@ -109,6 +108,8 @@ export default function Home(): ReactElement {
         marker.addTo(map.current);
       });
 
+      setMapLoading(false);
+
       map.current.setMaxZoom(3);
     });
 
@@ -117,8 +118,6 @@ export default function Home(): ReactElement {
         data.map((option: any, index: number) => {
           const lastUnlockedIndex = auth?.user?.lastUnlockedIndex || 0;
           const completed = auth?.user?.regions[index].isCompleted;
-
-          console.log(JSON.parse(option.colorData).coords);
 
           if (
             option._id ===
@@ -154,25 +153,44 @@ export default function Home(): ReactElement {
   }, []);
 
   return (
-    <div className="home">
-      <h1>Hawkeye</h1>
-      <h2>Select Your Region</h2>
-      <HUD />
-      <main>
-        <Dropdown
-          setter={setSelected}
-          defaultIndex={auth?.user?.lastUnlockedIndex || 0}
-          options={options}
+    <>
+      <div className="home">
+        {!mapLoading && (
+          <>
+            {' '}
+            <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>Hawkeye</h1>
+            <h2 style={{ zIndex: zeroIndex ? 0 : 25 }}>Select Your Region</h2>
+            <main style={{ zIndex: zeroIndex ? 0 : 25 }}>
+              <Dropdown
+                setter={(val: any) => {
+                  setSelected(val);
+                  try {
+                    map.current.flyTo({
+                      center: val.coords,
+                      essential: true,
+                      zoom: 6,
+                    });
+                  } catch (err) {}
+                }}
+                defaultIndex={auth?.user?.lastUnlockedIndex || 0}
+                options={options}
+              />
+              <p>{selected?.description}</p>
+              <Button
+                pathname={`/question/${selected?.value}`}
+                state={{ allow: true }}
+                link
+                name="Start"
+              />
+            </main>{' '}
+          </>
+        )}
+        <div id="map"></div>
+        <HUD
+          onOpen={() => setZeroIndex(true)}
+          onClose={() => setZeroIndex(false)}
         />
-        <p>{selected?.description}</p>
-        <Button
-          pathname={`/question/${selected?.value}`}
-          state={{ allow: true }}
-          link
-          name="Start"
-        />
-      </main>
-      <div id="map"></div>
-    </div>
+      </div>
+    </>
   );
 }
