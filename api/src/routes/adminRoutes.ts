@@ -31,7 +31,7 @@ router.post(
 );
 
 router.put(
-  'hints/edit/:hintId',
+  '/hints/edit/:hintId',
   [
     body('hintText', 'text not entered').notEmpty(),
     body('level', 'level not entered').notEmpty(),
