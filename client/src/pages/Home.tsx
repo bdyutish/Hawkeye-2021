@@ -33,7 +33,7 @@ export default function Home(): ReactElement {
     get("/regions").then((data) => {
       setOptions(
         data.map((option: any) => {
-          if (
+         /* if (
             option._id ===
             auth?.user?.regions[auth?.user?.lastUnlockedIndex].regionid
           ) {
@@ -42,7 +42,7 @@ export default function Home(): ReactElement {
               label: option.name,
               description: option.description,
             });
-          }
+          }*/
 
           return {
             value: option._id,
