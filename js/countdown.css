@@ -1,0 +1,66 @@
+
+.canvas-container, .overlay {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+
+}
+.main-div{
+  position: relative;
+}
+
+.overlay{
+  z-index: 100;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column; 
+
+}
+.title {
+  font-size: 5.2rem;
+}
+.subheading {
+  font-size: 1.8rem;
+  text-align: center;
+  margin: 0;
+  margin-bottom: .5rem;
+}
+#demo {
+  font-size: 6rem;
+  font-weight: bold;
+margin: 0;
+}
+
+@media only screen and (max-width: 880px) {
+  #demo {
+    font-size: 4rem;
+  }
+}
+
+@media only screen and (max-width: 685px) {
+  #demo {
+    font-size: 3rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #demo {
+    margin-bottom: 12rem;
+  }
+}
+
+
+
+@media only screen and (max-width: 450px) {
+  #demo {
+    font-size: 2.5rem;
+  }
+}
+/* 
+@media only screen and (max-width: 350px) {
+  #demo {
+    font-size: 3.5rem;
+  }
+} */

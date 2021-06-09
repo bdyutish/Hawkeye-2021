@@ -1,0 +1,155 @@
+.overlay-rulebook {
+    height: 100%;
+    width: 0%;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    right: 0;
+    background-color: rgba(0,0,0 ,0.9); 
+    
+    backdrop-filter: blur(5px);
+    overflow-x: hidden;
+    transition: 0.5s;
+    color: rgb(218, 218, 218);
+  }
+
+  .overlay-content span{
+      color: #38B8D3;
+  }
+
+   .pop2 span {
+     color:  #8458FF;
+     
+   }
+  .pop3 span{
+   color: #5BCD66;
+  }
+  
+
+  .overlay-content img{
+      height: 10rem;
+      width: auto;
+  }
+
+  .overlay-rulebook h1{
+      color: white;
+  }
+  
+  .overlay-content {
+    font-family: 'Bebas Neue', cursive !important;
+    text-transform: capitalize;
+    font-size: 1.5rem;
+    position: relative;
+    top: 15%;
+    /* text-align: left; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    
+}
+
+
+  .overlay-content div{
+    width: 70%;
+  } 
+
+  .overlay-content h3 {
+      color:  #585FFF;
+  }
+
+ .overlay-content ol{
+     /* text-align: center; */
+    list-style-type: inherit;
+    }
+
+ /* ol li::marker {
+    color: #585FFF;
+} */
+
+  .overlay-rulebook a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  
+  .overlay-rulebook a:hover, .overlay-rulebook a:focus {
+    color: #f1f1f1;
+  }
+  
+  .overlay-rulebook .closebtn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 4.5rem;
+  }
+  
+.image-border{
+    position: relative;
+    height: 3rem;
+    width: 3rem;
+    background-image: url("../images/rules.svg");
+    transform: rotate(180deg);
+    background-position: center;
+    background-size: cover;
+}
+.social-media div{
+  position: relative;
+    height: 3rem;
+    width: 3rem;
+}
+
+.image-border .img-rules{
+  transform: rotate(180deg);
+}
+.img-rules{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    margin: auto;
+    cursor: pointer;
+    width: 2rem;
+    height: auto;
+}
+
+
+.rule-icon{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+}
+
+.social-media{
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+}
+
+  @media screen and (max-width: 450px) {
+    .overlay-content img{
+        height: 5rem;
+        width: auto;
+    }
+    .overlay-rulebook a {font-size: 20px}
+    .overlay-rulebook .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+    }
+    .social-media{
+      bottom: 10rem;
+    }
+    .overlay-content div{
+      width: 80%;
+    } 
+  
+  }
+
