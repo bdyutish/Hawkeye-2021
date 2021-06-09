@@ -23,13 +23,14 @@ import AdminQuestions from './pages/admin/AdminQuestions';
 // ADD hawk logo in nest and all
 // CHANGE SITEKEY
 // HANDLE LINKS
-// BOTTOM BAR IS GONNA BREAK IN MOZILLA
 // CHECK HINTS RESPONSIVE
 // COIN FLIP RESONSIVE
 // Hawk thinks you're close responsive
 // Are you sure modal too small in mobile
 // Dont forget to implement everything in nest
 // Update strikes on question fail
+// FIX LOADING
+// TEST API KEYS
 
 export default function App(): ReactElement {
   const auth = useAuth();

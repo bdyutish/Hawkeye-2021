@@ -74,11 +74,10 @@ export default function Questions({
         }
       );
 
-      // console.log(data);
-
-      // auth?.updateUser({
-      //   strikes: data.strikes,
-      // });
+      auth?.updateUser({
+        ...auth.user,
+        strikes: data.strikes,
+      });
 
       if (!data.success) {
         questionFetcher.fetch(false);
@@ -97,7 +96,7 @@ export default function Questions({
 
       if (
         questionFetcher.data.question.level ===
-        process.env.REACT_APP_LEVEL_COUNT
+        parseInt(process.env.REACT_APP_LEVEL_COUNT || '6')
       ) {
         history.push('/');
         addToast('New Region Unlocked!', { appearance: 'success' });
@@ -152,16 +151,16 @@ export default function Questions({
         setCoin((prev) => ({ ...prev, fliping: true, className: 'heads' }));
         setTimeout(() => {
           setCoin((prev) => ({ ...prev, fliping: false }));
-          addToast('Applied Successfully', { appearance: 'success' });
           if (
             questionFetcher.data.question.level ===
-            process.env.REACT_APP_LEVEL_COUNT
+            parseInt(process.env.REACT_APP_LEVEL_COUNT || '6')
           ) {
             history.push('/');
             addToast('New Region Unlocked!', { appearance: 'success' });
             auth?.fetchMe();
             return;
           }
+          addToast('Applied Successfully', { appearance: 'success' });
           questionFetcher.fetch(false);
         }, 5000);
         return;
@@ -176,7 +175,7 @@ export default function Questions({
 
       if (res.success && id !== 4) {
         if (id === 1) {
-          // console.log(res);
+          console.log(res);
         }
 
         if (id === 2) {
@@ -520,7 +519,7 @@ function BottomBar({
   }, `Do you want to use ${powerUps.find((powerUp) => powerUp.id === selected)?.name}`);
 
   const multiplier =
-    auth?.user?.regions.find((region) => region.regionid === regionID)
+    auth?.user?.regions?.find((region) => region.regionid === regionID)
       ?.multiplier || 1;
 
   return (
@@ -534,7 +533,8 @@ function BottomBar({
           )}
           {!!auth?.user?.strikes && (
             <div className="streak">
-              <span style={{ color }}>Strikes Left: </span> 3
+              <span style={{ color }}>Strikes Left: </span>{' '}
+              {auth?.user?.strikes}
             </div>
           )}
         </div>

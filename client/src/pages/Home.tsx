@@ -224,7 +224,9 @@ export default function Home(): ReactElement {
         {!mapLoading && (
           <>
             <img
-              style={{ zIndex: zeroIndex ? 0 : 25 }}
+              style={{
+                zIndex: zeroIndex ? 0 : 25,
+              }}
               className="hawk"
               src={hawk}
               alt=""
@@ -232,12 +234,18 @@ export default function Home(): ReactElement {
             <h1
               style={{
                 zIndex: zeroIndex ? 0 : 25,
-                color: selected?.color || '#585FFF',
               }}
             >
               Hawkeye
             </h1>
-            <h2 style={{ zIndex: zeroIndex ? 0 : 25 }}>Select Your Region</h2>
+            <h2
+              style={{
+                zIndex: zeroIndex ? 0 : 25,
+                color: selected?.color || '#585FFF',
+              }}
+            >
+              Select Your Region
+            </h2>
             <main style={{ zIndex: zeroIndex ? 0 : 25 }}>
               <Dropdown
                 setter={(val: any) => {
