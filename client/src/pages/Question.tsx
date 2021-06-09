@@ -74,6 +74,12 @@ export default function Questions({
         }
       );
 
+      // console.log(data);
+
+      // auth?.updateUser({
+      //   strikes: data.strikes,
+      // });
+
       if (!data.success) {
         questionFetcher.fetch(false);
         if (data.close) {
@@ -138,6 +144,7 @@ export default function Questions({
         ...auth.user,
         inventory: res.inventory,
         powerupsHistory: res.updatedShop,
+        strikes: res.strikes,
       });
 
       if (id === 4 && res.worked) {
@@ -169,7 +176,7 @@ export default function Questions({
 
       if (res.success && id !== 4) {
         if (id === 1) {
-          console.log(res);
+          // console.log(res);
         }
 
         if (id === 2) {

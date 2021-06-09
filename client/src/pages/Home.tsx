@@ -166,7 +166,17 @@ export default function Home(): ReactElement {
   if (isPhone) {
     return (
       <div className="home home--phone">
+        <img src={hawk} alt="" className="hawk" />
         <div className="main">
+          <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>Welcome Player</h1>
+          <h2
+            style={{
+              zIndex: zeroIndex ? 0 : 25,
+              color: selected?.color || '#585FFF',
+            }}
+          >
+            Select your region
+          </h2>
           <aside style={{ zIndex: zeroIndex ? 0 : 25 }}>
             <Dropdown
               setter={(val: any) => {
@@ -200,6 +210,10 @@ export default function Home(): ReactElement {
           </aside>{' '}
         </div>
         <div id="map"></div>
+        <HUD
+          onOpen={() => setZeroIndex(true)}
+          onClose={() => setZeroIndex(false)}
+        />
       </div>
     );
   }
@@ -215,7 +229,14 @@ export default function Home(): ReactElement {
               src={hawk}
               alt=""
             />
-            <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>Hawkeye</h1>
+            <h1
+              style={{
+                zIndex: zeroIndex ? 0 : 25,
+                color: selected?.color || '#585FFF',
+              }}
+            >
+              Hawkeye
+            </h1>
             <h2 style={{ zIndex: zeroIndex ? 0 : 25 }}>Select Your Region</h2>
             <main style={{ zIndex: zeroIndex ? 0 : 25 }}>
               <Dropdown

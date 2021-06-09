@@ -196,6 +196,8 @@ html {
 .hud{
   z-index: 50000;
 
+
+
   .logout{
     position: absolute;
     bottom: 2rem;
@@ -226,6 +228,14 @@ html {
 
   &--1{
       right: 6rem;
+
+
+      @media (max-width:950px){
+        top: 7.75rem;
+  right: 2rem ; 
+
+
+      }
   }
 }
 }

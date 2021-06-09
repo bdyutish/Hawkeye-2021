@@ -276,6 +276,7 @@ export const apply = async (
       message: 'question skipped',
       inventory: user.inventory,
       updatedShop: user.powerupsHistory,
+      strikes: user.strikes,
     });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));

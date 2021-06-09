@@ -14,6 +14,7 @@ export const getQuestionByRegionId = async (
 ) => {
   try {
     const user = req.currentUser;
+    let regionMult = false;
     if (!user) {
       return next(new ErrorResponse('User does not exist', 404));
     }
@@ -29,6 +30,7 @@ export const getQuestionByRegionId = async (
           return next(new ErrorResponse('Region already completed', 400));
         }
         level = user.regions[i].level;
+        if (user.regions[i].multiplier > 1) regionMult = true;
         index = i;
         break;
       }
@@ -136,6 +138,7 @@ export const getQuestionByRegionId = async (
     }
 
     res.status(201).send({
+      regionMultiplier: regionMult,
       question,
       attempts,
       qhints,
@@ -195,6 +198,10 @@ export const submitQuestion = async (
     let multiplier = 1;
 
     if (ratio == 1.0) {
+      if (user.streakMultiplier > 1) {
+        user.strikes = 3;
+        await user.save();
+      }
       for (let i = 0; i <= user?.lastUnlockedIndex; i++) {
         if (user.regions[i].regionid.toString() == question.region.toString()) {
           multiplier = user.regions[i].multiplier;
@@ -217,6 +224,7 @@ export const submitQuestion = async (
         score: user.score,
         regions: user.regions,
         nestUnlocked: user.hawksNest,
+        strike: user.strikes,
         message: 'Answer is correct',
       });
     }
@@ -237,12 +245,15 @@ export const submitQuestion = async (
       return res.status(200).send({
         success: false,
         message: "Hawk thinks you're close",
+        strikes: user.strikes,
         close: true,
       });
     }
-    return res
-      .status(200)
-      .send({ success: false, message: 'Incorrect answer' });
+    return res.status(200).send({
+      success: false,
+      message: 'Incorrect answer',
+      strikes: user.strikes,
+    });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

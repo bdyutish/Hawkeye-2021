@@ -38,6 +38,11 @@
     h4 {
       font-size: 1.2rem;
       margin-left: 0.5rem;
+
+      @media (max-device-width: 800px) {
+      font-size: 1.5rem;
+      margin-left: 0.75rem;   
+      }
     }
 
     &--open{
@@ -75,6 +80,13 @@
     transition: 0.1s all;
     display: flex;
 align-items: center;
+
+@media (max-device-width: 800px) {
+  font-size: 1.5rem;
+  margin-left: 0.5rem;   
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  }
 
 
     i{

@@ -34,30 +34,34 @@ export default function HUD({ onOpen, onClose }: Props): ReactElement {
 
   return (
     <div className="hud">
-      {auth?.user && location.pathname !== '/nest' && (
-        <div
-          onClick={() => {
-            setShopOpen(true);
-          }}
-          data-tip="Shop"
-          className="icon icon--1"
-        >
-          <img src={squareLeft} alt="" />
-          <img src={cart} alt="" className="logo" />
-        </div>
-      )}
+      {auth?.user &&
+        location.pathname !== '/nest' &&
+        location.pathname !== '/' && (
+          <div
+            onClick={() => {
+              setShopOpen(true);
+            }}
+            data-tip="Shop"
+            className="icon icon--1"
+          >
+            <img src={squareLeft} alt="" />
+            <img src={cart} alt="" className="logo" />
+          </div>
+        )}
       <ReactTooltip effect="solid" type="light" />
 
-      <div
-        onClick={() => {
-          setRulebookOpen(true);
-        }}
-        data-tip="Rulebook"
-        className="icon icon--2"
-      >
-        <img src={squareRight} alt="" />
-        <img src={rules} alt="" className="logo" />
-      </div>
+      {location.pathname !== '/' && (
+        <div
+          onClick={() => {
+            setRulebookOpen(true);
+          }}
+          data-tip="Rulebook"
+          className="icon icon--2"
+        >
+          <img src={squareRight} alt="" />
+          <img src={rules} alt="" className="logo" />
+        </div>
+      )}
       <ReactTooltip effect="solid" type="light" />
 
       {((auth?.user && location.pathname === '/') || auth?.user?.hawksNest) && (

@@ -45,8 +45,6 @@ export const editQuestion = async (
       {
         text: req.body.text,
         answer: req.body.answer,
-        level: req.body.level,
-        region: req.body.region,
       },
       { new: true, upsert: true, useFindAndModify: false }
     );
@@ -121,15 +119,11 @@ export const deleteHint = async (
   res: Response,
   next: NextFunction
 ) => {
-  const hint = await Hint.findById(req.params.hintId);
+  const hint = await Hint.findByIdAndDelete(req.params.hintId);
   if (!hint) {
     return next(new ErrorResponse('hint couldnt be deleted', 400));
   }
-  const ques = Question.findOne({ _id: hint.question });
-  if (!ques) return next(new ErrorResponse('question cant be found', 400));
 
-  // BHA KYA HAI YE
-  // for (let i = 0; i < ques.hints.length; i++) {}
   return res.status(200).send({ success: true });
 };
 
