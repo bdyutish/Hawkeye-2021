@@ -10,12 +10,21 @@ import { useAuth } from '../context/AuthContext';
 
 import Dropdown from '../components/Dropdown';
 import Loading from '../components/Loading';
+import { coordinates } from '../utils/data';
+import { useMediaQuery } from 'react-responsive';
+import hawk from '../assets/hawk_transparent.png';
+import { useHistory } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoibmlzaGlrYTI1IiwiYSI6ImNrb2R4ODlvcjA1cWEyd3A1eWFqZThsZGMifQ.hk-3XzdHKUYiV5p1SIi_mQ';
 
 export default function Home(): ReactElement {
   const map = React.useRef<any>(null);
+
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 800px)',
+  });
 
   const [selected, setSelected] = React.useState<any>(null);
 
@@ -51,6 +60,8 @@ export default function Home(): ReactElement {
   ]);
 
   const auth = useAuth();
+  const history = useHistory();
+  const { addToast } = useToasts();
 
   const pinElement1 = React.useRef(document.createElement('i')).current;
   pinElement1.className = 'fas fa-map-marker-alt map-marker';
@@ -86,31 +97,31 @@ export default function Home(): ReactElement {
   ];
 
   React.useEffect(() => {
-    if (!selected) return;
-    if (selected.locked) pinElement1.style.color = selected.color;
-    else pinElement1.style.color = selected.color;
-  }, [selected]);
-
-  React.useEffect(() => {
     map.current = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/nishika25/ckoh3qfgz2iy517mh3z5atu07',
       // zoom: 10,
     });
 
-    const markers = pins.map((pin) => {
-      return new mapboxgl.Marker(pin).setLngLat([0, 0]);
+    const markers = pins.map((pin, index: number) => {
+      return new mapboxgl.Marker(pin).setLngLat(coordinates[index].coords);
+    });
+
+    pins.forEach((pin: any, index: number) => {
+      pin.style.color = coordinates[index].color;
+      // pin.style.color = '#888';
     });
 
     //@ts-ignore
     map.current.on('load', () => {
+      setMapLoading(false);
+
       markers.forEach((marker: any) => {
         marker.addTo(map.current);
       });
 
-      setMapLoading(false);
-
       map.current.setMaxZoom(3);
+      map.current.setMinZoom(2);
     });
 
     get('/regions').then((data) => {
@@ -152,12 +163,58 @@ export default function Home(): ReactElement {
     });
   }, []);
 
+  if (isPhone) {
+    return (
+      <div className="home home--phone">
+        <div className="main">
+          <aside style={{ zIndex: zeroIndex ? 0 : 25 }}>
+            <Dropdown
+              setter={(val: any) => {
+                setSelected(val);
+                try {
+                  map.current.flyTo({
+                    center: val.coords,
+                    essential: true,
+                    zoom: 6,
+                  });
+                } catch (err) {}
+              }}
+              defaultIndex={auth?.user?.lastUnlockedIndex || 0}
+              options={options}
+            />
+            <p>{selected?.description}</p>
+            <Button
+              name="Start"
+              onClick={() => {
+                if (selected.locked) {
+                  addToast('Region Locked', { appearance: 'error' });
+                  return;
+                }
+                if (selected.completed) {
+                  addToast('Region Completed', { appearance: 'info' });
+                  return;
+                }
+                history.push(`/question/${selected?.value}`);
+              }}
+            />
+          </aside>{' '}
+        </div>
+        <div id="map"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="home">
         {!mapLoading && (
           <>
-            {' '}
+            <img
+              style={{ zIndex: zeroIndex ? 0 : 25 }}
+              className="hawk"
+              src={hawk}
+              alt=""
+            />
             <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>Hawkeye</h1>
             <h2 style={{ zIndex: zeroIndex ? 0 : 25 }}>Select Your Region</h2>
             <main style={{ zIndex: zeroIndex ? 0 : 25 }}>
@@ -177,10 +234,21 @@ export default function Home(): ReactElement {
               />
               <p>{selected?.description}</p>
               <Button
-                pathname={`/question/${selected?.value}`}
-                state={{ allow: true }}
-                link
+                // pathname={`/question/${selected?.value}`}
+                // state={{ allow: true }}
+                // link
                 name="Start"
+                onClick={() => {
+                  if (selected.locked) {
+                    addToast('Region Locked', { appearance: 'error' });
+                    return;
+                  }
+                  if (selected.completed) {
+                    addToast('Region Completed', { appearance: 'info' });
+                    return;
+                  }
+                  history.push(`/question/${selected?.value}`);
+                }}
               />
             </main>{' '}
           </>

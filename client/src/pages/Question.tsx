@@ -15,8 +15,12 @@ import HUD from '../components/HUD';
 import { powerUps } from '../utils/data';
 import { useConfirm } from '../hooks/useConfirm';
 import Confirm from '../components/Confirm';
+import { useMediaQuery } from 'react-responsive';
 
 import hawk from '../assets/hawk.png';
+import ReadyToPlay from './ReadyToPlay';
+import useClickOut from '../hooks/useClickOut';
+import ReactCardFlip from 'react-card-flip';
 
 type TParams = { id: string };
 
@@ -25,6 +29,10 @@ export default function Questions({
 }: RouteComponentProps<TParams>): ReactElement {
   const questionFetcher = useFetch(`/questions/${match.params.id}`);
   const [answer, setAnswer, resetAnswer] = useInputState();
+
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
 
   const { addToast } = useToasts();
   const history = useHistory();
@@ -37,9 +45,20 @@ export default function Questions({
     className: 'tails',
   });
 
+  const [flipped, setFlipped] = React.useState(false);
+
   React.useEffect(() => {
     answerRef.current?.focus();
+
+    return () => {
+      auth?.setCurrentRegion('');
+    };
   }, []);
+
+  React.useEffect(() => {
+    if (questionFetcher.isLoading) return;
+    auth?.setCurrentRegion(questionFetcher.data.question.region.name);
+  }, [questionFetcher.isLoading]);
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -70,7 +89,10 @@ export default function Questions({
         return;
       }
 
-      if (questionFetcher.data.question.level === 6) {
+      if (
+        questionFetcher.data.question.level ===
+        process.env.REACT_APP_LEVEL_COUNT
+      ) {
         history.push('/');
         addToast('New Region Unlocked!', { appearance: 'success' });
         await auth?.fetchMe();
@@ -79,11 +101,16 @@ export default function Questions({
 
       addToast('Correct answer', { appearance: 'success' });
       questionFetcher.fetch();
+      auth?.updateScore(data.score);
       resetAnswer();
     } catch (err) {
       auth?.check();
     }
   };
+
+  if (!localStorage.getItem('hawk-ready')) {
+    return <ReadyToPlay id={match.params.id} />;
+  }
 
   if (questionFetcher.isLoading) {
     return (
@@ -113,29 +140,140 @@ export default function Questions({
         powerupsHistory: res.updatedShop,
       });
 
-      if (id === 4 && res.success) {
+      if (id === 4 && res.worked) {
+        //HANDLE REGION END AND QUESTION RE FETCH
         setCoin((prev) => ({ ...prev, fliping: true, className: 'heads' }));
         setTimeout(() => {
           setCoin((prev) => ({ ...prev, fliping: false }));
           addToast('Applied Successfully', { appearance: 'success' });
+          if (
+            questionFetcher.data.question.level ===
+            process.env.REACT_APP_LEVEL_COUNT
+          ) {
+            history.push('/');
+            addToast('New Region Unlocked!', { appearance: 'success' });
+            auth?.fetchMe();
+            return;
+          }
+          questionFetcher.fetch(false);
         }, 5000);
-      } else if (id === 4 && !res.success) {
+        return;
+      } else if (id === 4 && !res.worked) {
         setCoin((prev) => ({ ...prev, fliping: true, className: 'tails' }));
         setTimeout(() => {
           setCoin((prev) => ({ ...prev, fliping: false }));
           addToast('F', { appearance: 'error' });
         }, 5000);
+        return;
       }
 
-      if (res.success) {
-        addToast('Applied Successfully', { appearance: 'success' });
-      } else {
-        addToast('Something went wrong', { appearance: 'error' });
+      if (res.success && id !== 4) {
+        if (id === 1) {
+          console.log(res);
+        }
+
+        if (id === 2) {
+          if (
+            questionFetcher.data.question.level ===
+            process.env.REACT_APP_LEVEL_COUNT
+          ) {
+            history.push('/');
+            addToast('Applied Successfully', { appearance: 'success' });
+            addToast('New Region Unlocked!', { appearance: 'success' });
+            await auth?.fetchMe();
+            return;
+          }
+          questionFetcher.fetch(false);
+          addToast('Applied Successfully', { appearance: 'success' });
+        }
+      } else if (!res.success) {
+        // addToast('Something went wrong', { appearance: 'error' });
       }
     } catch (err) {
       auth?.check();
     }
   };
+
+  if (isPhone) {
+    return (
+      <div className="question question--phone">
+        <HUD />
+        <Img src={desktopBG} className="background" />
+        <h1>Hawkeye</h1>
+        <div className="top-bar">
+          <div className="region">
+            <Link to="/">
+              <i className="fas fa-chevron-left"></i>
+            </Link>
+            <p>{questionFetcher.data.question.region.name}</p>
+            <i className="fas fa-map-marker-alt marker" style={{ color }}></i>
+          </div>
+          <div className="points">
+            <span style={{ color }}>Reputation points : </span>{' '}
+            {auth?.user?.score}
+          </div>
+        </div>
+        <main>
+          <form className="answer" onSubmit={handleSubmit}>
+            <div className="top">
+              <h2 style={{ color }}>
+                Level {questionFetcher.data.question.level}
+              </h2>
+              <p>{questionFetcher.data.question.text}</p>
+            </div>
+            {close && (
+              <div style={{ color }} className="close">
+                Hawk thinks you're close
+              </div>
+            )}
+            {coin.fliping && (
+              <div id="coin" className={coin.className}>
+                <div className="side-a">
+                  <img src={hawk} alt="" />
+                </div>
+                <div className="side-b"></div>
+              </div>
+            )}
+            <div className="bottom">
+              <input
+                ref={answerRef}
+                type="text"
+                value={answer}
+                onChange={setAnswer}
+                style={{ color, borderBottom: `1px solid ${color}` }}
+              />
+              <Button name="Submit" />
+            </div>
+          </form>
+          <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
+            <Hints
+              hints={questionFetcher.data.qhints.map(
+                (hint: any) => hint.hintText
+              )}
+              color={color}
+              handleFlip={() => {
+                setFlipped((prev) => !prev);
+              }}
+            />
+            <Stats
+              stats={questionFetcher.data.stats}
+              attempts={questionFetcher.data.attempts}
+              color={color}
+              handleFlip={() => {
+                setFlipped((prev) => !prev);
+              }}
+            />
+          </ReactCardFlip>
+        </main>
+        <BottomBar
+          regionID={match.params.id}
+          color={color}
+          refresh={() => questionFetcher.fetch(false)}
+          handleUsePowerUp={handleUsePowerUp}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="question">
@@ -148,7 +286,7 @@ export default function Questions({
             <i className="fas fa-chevron-left"></i>
           </Link>
           <p>{questionFetcher.data.question.region.name}</p>
-          <i className="fas fa-map-marker-alt marker"></i>
+          <i className="fas fa-map-marker-alt marker" style={{ color }}></i>
         </div>
         <div className="points">
           <span style={{ color }}>Reputation points : </span>{' '}
@@ -156,7 +294,10 @@ export default function Questions({
         </div>
       </div>
       <main>
-        <Hints hints={questionFetcher.data.qhints} color={color} />
+        <Hints
+          hints={questionFetcher.data.qhints.map((hint: any) => hint.hintText)}
+          color={color}
+        />
         <form className="answer" onSubmit={handleSubmit}>
           <div className="top">
             <h2 style={{ color }}>
@@ -195,6 +336,7 @@ export default function Questions({
         />
       </main>
       <BottomBar
+        regionID={match.params.id}
         color={color}
         refresh={() => questionFetcher.fetch(false)}
         handleUsePowerUp={handleUsePowerUp}
@@ -211,6 +353,7 @@ interface IStatsProps {
     lagging: number;
   };
   color: string;
+  handleFlip?: () => void;
 }
 
 function Stats({ attempts, stats, color }: IStatsProps): ReactElement {
@@ -279,6 +422,26 @@ function Stats({ attempts, stats, color }: IStatsProps): ReactElement {
             </div>
             <ReactTooltip effect="solid" type="light" />
           </div>
+          <div className="bottom">
+            <div className="card">
+              <span style={{ color }}>
+                {stats.lagging} <i className="fas fa-users"></i>
+              </span>
+              <h3>Lagging</h3>
+            </div>
+            <div className="card">
+              <span style={{ color }}>
+                {stats.atPar} <i className="fas fa-users"></i>
+              </span>
+              <h3>At Par</h3>
+            </div>
+            <div className="card">
+              <span style={{ color }}>
+                {stats.leading} <i className="fas fa-users"></i>
+              </span>
+              <h3>Leading</h3>
+            </div>
+          </div>
         </section>
       )}
     </div>
@@ -290,6 +453,7 @@ function Hints({
 }: {
   color: string;
   hints: string[];
+  handleFlip?: () => void;
 }): ReactElement {
   return (
     <div className="hints">
@@ -317,12 +481,14 @@ interface IBottomBarProps {
   handleUsePowerUp: (id: number) => Promise<void>;
   refresh: () => any;
   color: string;
+  regionID: string;
 }
 
 function BottomBar({
   handleUsePowerUp,
   refresh,
   color,
+  regionID,
 }: IBottomBarProps): ReactElement {
   const [selected, setSelected] = React.useState(0);
   const auth = useAuth();
@@ -332,68 +498,103 @@ function BottomBar({
 
   const { confirmed, options } = useConfirm();
 
+  const barRef = React.useRef<HTMLDivElement>(null);
+  useClickOut(
+    barRef,
+    () => {},
+    () => {
+      setSelected(0);
+    }
+  );
+
   const handleClick = confirmed(() => {
     handleUsePowerUp(selected);
     refresh();
   }, `Do you want to use ${powerUps.find((powerUp) => powerUp.id === selected)?.name}`);
 
+  const multiplier =
+    auth?.user?.regions.find((region) => region.regionid === regionID)
+      ?.multiplier || 1;
+
   return (
-    <div className={!hasPoweUps ? 'bottom-bar empty-bar' : 'bottom-bar'}>
-      <Confirm options={options} />
-      {!hasPoweUps && <h1 className="empty">You own no power ups</h1>}
-      {hasPoweUps && (
-        <>
-          <aside>
-            {data.map((powerUp: any, index: number) => {
-              return powerUp.owned ? (
-                <div
-                  data-tip={powerUp.name}
-                  onClick={() => setSelected(powerUp.id)}
-                  key={powerUp._id}
-                  style={{
-                    border: `1px solid ${
-                      selected === powerUp.id ? color : '#fff'
-                    }`,
-                  }}
-                  className={
-                    selected === powerUp.id
-                      ? 'square square--selected'
-                      : 'square'
-                  }
-                >
-                  <img
-                    className={`img-${powerUp.id}`}
-                    src={powerUps[index].image}
-                    alt=""
-                  />
-                </div>
-              ) : null;
-            })}
-          </aside>
-          <div className="right">
-            {!selected && <div className="empty">Select a power up</div>}
-            {!!selected && (
-              <>
-                <div className="details">
-                  <div className="name">
-                    {powerUps.find((powerUp) => powerUp.id === selected)?.name}
-                  </div>
-                  <div className="owned">
-                    {' '}
-                    <span style={{ color }}>Owned:</span>{' '}
-                    {
-                      auth?.user?.powerupsHistory?.find(
-                        (powerUp) => powerUp.id === selected
-                      ).owned
-                    }
-                  </div>
-                </div>
-                <Button onClick={handleClick} name="Use" />
-              </>
-            )}
-          </div>{' '}
-        </>
+    <>
+      {(multiplier > 1 || !!auth?.user?.strikes) && (
+        <div className="bar-details">
+          {multiplier > 1 && (
+            <div className="multi">
+              <span style={{ color }}>Region Multiplier: </span> {multiplier}x
+            </div>
+          )}
+          {!!auth?.user?.strikes && (
+            <div className="streak">
+              <span style={{ color }}>Strikes Left: </span> 3
+            </div>
+          )}
+        </div>
       )}
-    </div>
+      <div
+        ref={barRef}
+        className={!hasPoweUps ? 'bottom-bar empty-bar' : 'bottom-bar'}
+      >
+        <Confirm options={options} />
+        {!hasPoweUps && <h1 className="empty">You own no power ups</h1>}
+        {hasPoweUps && (
+          <>
+            <aside>
+              {data.map((powerUp: any, index: number) => {
+                return powerUp.owned ? (
+                  <div
+                    data-tip={powerUp.name}
+                    onClick={() => setSelected(powerUp.id)}
+                    key={powerUp._id}
+                    style={{
+                      border: `1px solid ${
+                        selected === powerUp.id ? color : '#fff'
+                      }`,
+                    }}
+                    className={
+                      selected === powerUp.id
+                        ? 'square square--selected'
+                        : 'square'
+                    }
+                  >
+                    <img
+                      className={`img-${powerUp.id}`}
+                      src={powerUps[index].image}
+                      alt=""
+                    />
+                  </div>
+                ) : null;
+              })}
+            </aside>
+            <div className="right">
+              {!selected && <div className="empty">Select a power up</div>}
+              {!!selected && (
+                <>
+                  <div className="details">
+                    <div className="name">
+                      {
+                        powerUps.find((powerUp) => powerUp.id === selected)
+                          ?.name
+                      }
+                    </div>
+                    <div className="owned">
+                      {' '}
+                      <span style={{ color }}>Owned:</span>{' '}
+                      {
+                        auth?.user?.powerupsHistory?.find(
+                          (powerUp) => powerUp.id === selected
+                        ).owned
+                      }
+                    </div>
+                  </div>
+                  <Button onClick={handleClick} name="Use" />
+                </>
+              )}
+            </div>{' '}
+          </>
+        )}
+      </div>
+    </>
   );
 }

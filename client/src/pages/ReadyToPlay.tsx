@@ -1,30 +1,24 @@
-import React, { ReactElement } from "react";
-import { Link, RouteComponentProps, useHistory } from "react-router-dom";
-import useInputState from "../hooks/useInputState";
-import Img from "../components/Img";
-import desktopBG from "../assets/backround/desktop.png";
-import Button from "../components/Button";
+import React, { ReactElement } from 'react';
+import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
+import useInputState from '../hooks/useInputState';
+import Img from '../components/Img';
+import desktopBG from '../assets/backround/desktop.png';
+import Button from '../components/Button';
 
 type TProps = { id: string };
 
 export default function ReadyToPlay({ id }: TProps): ReactElement {
   const [answer, setAnswer, resetAnswer] = useInputState();
+  const history = useHistory();
 
   function handleClick(): any {
-    localStorage.setItem("ready", "1");
+    localStorage.setItem('hawk-ready', '1');
   }
 
   return (
-    <div className="question">
+    <div className="question question--ready">
       <Img src={desktopBG} className="background" />
       <h1>Hawkeye</h1>
-      <div className="region">
-        <Link to="/">
-          <i className="fas fa-chevron-left"></i>
-        </Link>
-        <p>Australia</p>
-        <i className="fas fa-map-marker-alt marker"></i>
-      </div>
       <main className="mainr">
         <form className="answer">
           <div className="top">
@@ -37,7 +31,12 @@ export default function ReadyToPlay({ id }: TProps): ReactElement {
               pathname={`/question/${id}`}
               onClick={handleClick}
             />
-            <Button name="No" />
+            <Button
+              onClick={() => {
+                history.push('/');
+              }}
+              name="No"
+            />
           </div>
         </form>
       </main>

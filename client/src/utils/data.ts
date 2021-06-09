@@ -50,3 +50,36 @@ export const powerUps = [
     image: half,
   },
 ];
+
+export const coordinates = [
+  {
+    name: 'Antarctica',
+    coords: [64.133304, -77.64007],
+    color: '#38B8D3',
+  },
+  {
+    name: 'Africa',
+    coords: [21.758663, -4.038333],
+    color: '#8458FF',
+  },
+  {
+    name: 'Americas',
+    coords: [-98.484245, 39.011902],
+    color: '#5BCD66',
+  },
+  {
+    name: 'Asia',
+    coords: [94.433983, 51.719082],
+    color: '#FF5C01',
+  },
+  {
+    name: 'Europe',
+    coords: [28.7806, 55.499908],
+    color: '#A70379',
+  },
+  {
+    name: 'Australia',
+    coords: [133.579941, -21.89621],
+    color: '#DE071D',
+  },
+];

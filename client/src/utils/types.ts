@@ -21,6 +21,7 @@ export type User = {
   hawksNest: boolean;
   powerupsHistory: any[];
   inventory: any[];
+  strikes: number;
 };
 
 //for a particular User

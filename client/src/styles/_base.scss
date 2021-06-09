@@ -233,8 +233,8 @@ html {
 #coin {
   position: relative;
   margin: 0 auto;
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
 
 
 
@@ -245,6 +245,7 @@ html {
   }
 }
 #coin div {
+  margin-top: 1.25rem;
   width: 100%;
   height: 100%;
   -webkit-border-radius: 50%;

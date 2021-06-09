@@ -12,13 +12,19 @@ import ReactTooltip from 'react-tooltip';
 import Button from '../components/Button';
 import HUD from '../components/HUD';
 import Img from '../components/Img';
-import desktopBG from '../assets/backround/desktop.png';
+import nestBG from '../assets/backround/nest.png';
+//@ts-ignore
+import Typewriter from 'typewriter-effect/dist/core';
 
 interface Props {}
 
 export default function Nest({}: Props): ReactElement {
   const questionFetcher = useFetch(`/nest`);
   const [answer, setAnswer, resetAnswer] = useInputState();
+  const [welcome, setWelcome] = React.useState(() => {
+    const bool = localStorage.getItem('welcome-to-nest');
+    return bool !== 'true';
+  });
 
   const { addToast } = useToasts();
   const auth = useAuth();
@@ -52,6 +58,31 @@ export default function Nest({}: Props): ReactElement {
     }
   };
 
+  const headingRef = React.useRef<HTMLHeadingElement>(null);
+  React.useEffect(() => {
+    const typewriter = new Typewriter(headingRef.current, {
+      loop: false,
+    });
+
+    typewriter
+      .typeString("Welcome to the <span class='hawk-name'>Hawk</span>'s nest")
+      .start()
+      .pauseFor(500)
+      .callFunction(() => {
+        setWelcome(false);
+        localStorage.setItem('welcome-to-nest', 'true');
+      });
+  }, []);
+
+  if (welcome) {
+    return (
+      <div className="nest-welcome">
+        <img src={hawk} alt="" />
+        <h1 ref={headingRef}></h1>
+      </div>
+    );
+  }
+
   if (questionFetcher.isLoading) {
     return (
       <div className="screen-center">
@@ -63,10 +94,12 @@ export default function Nest({}: Props): ReactElement {
   return (
     <div className="question question--nest">
       <HUD />
-      <Img src={desktopBG} className="background" />
+      <Img src={nestBG} className="background" />
       <h1>Hawkeye</h1>
       <main>
-        <Hints hints={[]} />
+        <Hints
+          hints={questionFetcher.data.qhints.map((hint: any) => hint.hintText)}
+        />
         <form className="answer" onSubmit={handleSubmit}>
           <div className="top">
             <h2>Level {questionFetcher.data.question.level}</h2>
@@ -126,6 +159,9 @@ function Stats({ attempts, stats }: IStatsProps): ReactElement {
               </div>
             );
           })}
+          {!attempts.length && (
+            <h2 className="zero">You're attempts will show up here</h2>
+          )}
         </section>
       )}
       {!attemptsOpen && (
@@ -155,6 +191,26 @@ function Stats({ attempts, stats }: IStatsProps): ReactElement {
               <i className="fas fa-sort-up"></i>
             </div>
             <ReactTooltip effect="solid" type="light" />
+          </div>
+          <div className="bottom">
+            <div className="card">
+              <span style={{ color: '#5157E7' }}>
+                {stats.lagging} <i className="fas fa-users"></i>
+              </span>
+              <h3>Lagging</h3>
+            </div>
+            <div className="card">
+              <span style={{ color: '#5157E7' }}>
+                {stats.atPar} <i className="fas fa-users"></i>
+              </span>
+              <h3>At Par</h3>
+            </div>
+            <div className="card">
+              <span style={{ color: '#5157E7' }}>
+                {stats.leading} <i className="fas fa-users"></i>
+              </span>
+              <h3>Leading</h3>
+            </div>
           </div>
         </section>
       )}

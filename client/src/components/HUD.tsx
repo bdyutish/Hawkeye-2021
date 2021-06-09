@@ -60,7 +60,7 @@ export default function HUD({ onOpen, onClose }: Props): ReactElement {
       </div>
       <ReactTooltip effect="solid" type="light" />
 
-      {auth?.user && location.pathname === '/' && (
+      {((auth?.user && location.pathname === '/') || auth?.user?.hawksNest) && (
         <div onClick={auth?.logout} data-tip="Logout" className="logout">
           <img src={squareLeft} alt="" />
           <i className="fas fa-power-off"></i>

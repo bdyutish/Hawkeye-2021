@@ -18,15 +18,17 @@ import VerifyMail from './pages/auth/VerifyMail';
 //TODO
 //***Correct the fonts EVERYWHERE
 // background blur chage only for mozilla
+// ADD LOGOS IN ALL AUTH PAGES
 // Indication shop mei when something is selected
-// Are you sure in shop and use
-// Make sure HUD is in every page
-// Add corners to background
-// HUD is breaking in Home
-// Change location string on logout
-// Handle atempts empty case
-// Are you sure modal**********
-// ADD hawk logo
+// ADD hawk logo in nest and all
+// CHANGE SITEKEY
+// HANDLE LINKS
+// BOTTOM BAR IS GONNA BREAK IN MOZILLA
+// CHECK HINTS RESPONSIVE
+// COIN FLIP RESONSIVE
+// Hawk thinks you're close responsive
+// Are you sure modal too small in mobile
+// Dont forget to implement everything in nest
 
 export default function App(): ReactElement {
   const auth = useAuth();

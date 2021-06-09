@@ -60,7 +60,8 @@ services:
       - ../client:/usr/src/client
     ports:
       - 3005:3000
-    # environment:
+    environment:
+      REACT_APP_LEVEL_COUNT: 6
     # CLIENT WONT START UP TILL API HAS STARTED (uncomment for this)
     # depends_on:
     #   - api

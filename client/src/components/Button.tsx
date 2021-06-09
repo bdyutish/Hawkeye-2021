@@ -15,7 +15,7 @@ interface Props {
 
 export default function Button({
   name,
-  onClick,
+  onClick: handleClick,
   className,
   link,
   pathname,
@@ -31,7 +31,8 @@ export default function Button({
   }
 
   return (
-    <button onClick={onClick} className={`primary-btn ${className}`}>
+    //@ts-ignore
+    <button onClick={handleClick} className={`primary-btn ${className}`}>
       <div className="name">{name}</div>
       <img src={buttonImage} alt="" />
     </button>

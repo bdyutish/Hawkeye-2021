@@ -1,12 +1,13 @@
-import React, { ReactElement } from "react";
-import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
-import desktopBG from "../../assets/backround/desktop.png";
-import Button from "../../components/Button";
-import Img from "../../components/Img";
-import Input from "../../components/Input";
-import { useAuth } from "../../context/AuthContext";
-import useInputState from "../../hooks/useInputState";
+import React, { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
+import desktopBG from '../../assets/backround/desktop.png';
+import Button from '../../components/Button';
+import Img from '../../components/Img';
+import Input from '../../components/Input';
+import { useAuth } from '../../context/AuthContext';
+import useInputState from '../../hooks/useInputState';
+import hawk from '../../assets/hawk_transparent.png';
 
 interface Props {}
 
@@ -26,8 +27,8 @@ export default function Login({}: Props): ReactElement {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!email) errors.push("Email is Required");
-    if (!password) errors.push("Password is Required");
+    if (!email) errors.push('Email is Required');
+    if (!password) errors.push('Password is Required');
 
     if (errors.length === 0) {
       try {
@@ -36,11 +37,14 @@ export default function Login({}: Props): ReactElement {
       } catch (err) {
         setLoading(false);
 
-        if (err.response.data.message === "This route is forbidden!")
+        if (err.response.data.message === 'This route is forbidden!') {
           setBanned(true);
+          addToast('User Banned', { appearance: 'error' });
+          return;
+        }
 
-        if (err.response.data.message === "User not verified")
-          addToast("Verification link sent to mail");
+        if (err.response.data.message === 'User not verified')
+          addToast('Verification link sent to mail');
 
         setErrors([err.response.data.message]);
       }
@@ -53,6 +57,7 @@ export default function Login({}: Props): ReactElement {
   return (
     <div className="auth-page login">
       <Img src={desktopBG} className="background" />
+      <img src={hawk} alt="" />
       <h1>HAWKEYE</h1>
       <h2>Log in</h2>
       <h3>Welcome back player</h3>
@@ -80,7 +85,7 @@ export default function Login({}: Props): ReactElement {
         <Button className="auth-button" name="Login" />
       </form>
       <div className="swap">
-        New to hawkeye? <Link to="/register">Create Account</Link>{" "}
+        New to hawkeye? <Link to="/register">Create Account</Link>{' '}
       </div>
     </div>
   );

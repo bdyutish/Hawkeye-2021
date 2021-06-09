@@ -128,7 +128,7 @@ export const getQuestionByRegionId = async (
     });
 
     for (let i = 0; i < hints.length; i++) {
-      const hint = await Hint.find({
+      const hint = await Hint.findOne({
         question: question._id,
         level: hints[i].hintLevel,
       });

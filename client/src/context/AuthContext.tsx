@@ -32,6 +32,8 @@ type Value = {
   updateUser: (userData: any) => void;
   check: () => Promise<void>;
   updateScore: (score: number) => void;
+  setCurrentRegion: (name: string) => void;
+  region: string;
 };
 
 const AuthContext = createContext<Nullable<Value>>(null);
@@ -43,6 +45,7 @@ export const useAuth = () => {
 export default function AuthProvider({ children }: Children): ReactElement {
   const [user, setUser] = useState<Nullable<User> | any>(null);
   const [loading, setLoading] = useState<Boolean>(true);
+  const [region, setRegion] = useState('');
 
   const location = useLocation();
   const history = useHistory();
@@ -53,7 +56,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
     try {
       await get('/me').then(setUser);
     } catch (err) {
-      logout();
+      logout(false);
     }
   };
 
@@ -110,11 +113,12 @@ export default function AuthProvider({ children }: Children): ReactElement {
     }
   };
 
-  const logout = async () => {
+  const logout = async (back = true) => {
     try {
       setUser(null);
       setLoading(false);
       await post('/logout');
+      back && history.push('/login');
     } catch (err) {
       throw err;
     }
@@ -169,6 +173,10 @@ export default function AuthProvider({ children }: Children): ReactElement {
     setUser((prev: User) => ({ ...prev, score }));
   };
 
+  const setCurrentRegion = (name: string) => {
+    setRegion(name);
+  };
+
   const value = {
     user,
     login,
@@ -182,6 +190,8 @@ export default function AuthProvider({ children }: Children): ReactElement {
     updateUser,
     check,
     updateScore,
+    setCurrentRegion,
+    region,
   };
 
   // {children}

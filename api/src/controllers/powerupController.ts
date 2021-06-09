@@ -255,7 +255,7 @@ export const apply = async (
             break;
           }
         }
-        skipQuestion(req, user, question);
+        await skipQuestion(req, user, question);
         user.powerupsHistory[3].owned--;
         await user.save();
       } else {

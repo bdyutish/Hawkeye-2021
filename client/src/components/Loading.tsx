@@ -14,17 +14,10 @@ export default function Loading({
 }: Props): ReactElement {
   return (
     <div className="loading-page">
-      <video
-        width={'100%'}
-        height={'100%'}
-        playsInline
-        autoPlay
-        muted
-        loop
-        onPlay={() => console.log('test')}
-      >
+      <video width={'100%'} height={'100%'} playsInline autoPlay muted loop>
         <source src={loading} type="video/mp4" />
         Loading...
+        {/* RELACE THIS WITH IMAGE */}
       </video>
     </div>
   );
