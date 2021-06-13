@@ -7,6 +7,11 @@ install(){
 design(){
       xdg-open "https://www.figma.com/file/yWcCtKMwOyzlXqPlREdynT/Hawkeye'21?node-id=0%3A1"
 }
+push(){
+    git add .
+    git commit -m $2
+    git push origin $1
+}
 start(){
     sudo docker-compose -f docker/docker-compose.dev.yml up && sudo docker-compose -f docker/docker-compose.dev.yml down
 }
