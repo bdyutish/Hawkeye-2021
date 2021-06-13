@@ -201,7 +201,7 @@ export default function Home(): ReactElement {
                   return;
                 }
                 if (selected.completed) {
-                  addToast('Region Completed', { appearance: 'info' });
+                  addToast('Region Completed', { appearance: 'success' });
                   return;
                 }
                 history.push(`/question/${selected?.value}`);
@@ -236,7 +236,7 @@ export default function Home(): ReactElement {
                 zIndex: zeroIndex ? 0 : 25,
               }}
             >
-              Hawkeye
+              HAWKEYE
             </h1>
             <h2
               style={{
@@ -273,7 +273,7 @@ export default function Home(): ReactElement {
                     return;
                   }
                   if (selected.completed) {
-                    addToast('Region Completed', { appearance: 'info' });
+                    addToast('Region Completed', { appearance: 'success' });
                     return;
                   }
                   history.push(`/question/${selected?.value}`);

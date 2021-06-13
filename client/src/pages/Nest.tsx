@@ -3,11 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import hawk from '../assets/hawk.png';
 import useFetch from '../hooks/useFetch';
 import { useToasts } from 'react-toast-notifications';
-import { useHistory } from 'react-router-dom';
 import useInputState from '../hooks/useInputState';
 import Loading from '../components/Loading';
 import { post } from '../utils/requests';
-import { powerUps } from '../utils/data';
 import ReactTooltip from 'react-tooltip';
 import Button from '../components/Button';
 import HUD from '../components/HUD';
@@ -15,6 +13,7 @@ import Img from '../components/Img';
 import nestBG from '../assets/backround/nest.png';
 //@ts-ignore
 import Typewriter from 'typewriter-effect/dist/core';
+import iecse from '../assets/iecse.png';
 
 interface Props {}
 
@@ -25,6 +24,7 @@ export default function Nest({}: Props): ReactElement {
     const bool = localStorage.getItem('welcome-to-nest');
     return bool !== 'true';
   });
+  const [close, setClose] = React.useState(false);
 
   const { addToast } = useToasts();
   const auth = useAuth();
@@ -44,6 +44,14 @@ export default function Nest({}: Props): ReactElement {
       );
 
       if (!data.success) {
+        if (data.close) {
+          setClose(true);
+          setTimeout(() => {
+            setClose(false);
+          }, 2500);
+          resetAnswer();
+          return;
+        }
         questionFetcher.fetch(false);
         addToast(data.message, { appearance: 'error' });
         resetAnswer();
@@ -95,7 +103,9 @@ export default function Nest({}: Props): ReactElement {
     <div className="question question--nest">
       <HUD />
       <Img src={nestBG} className="background" />
+      <img src={iecse} alt="" className="iecse-logo" />
       <h1>Hawkeye</h1>
+      <h2 className="secondary-heading">Welcome to the hawk’s nest</h2>
       <main>
         <Hints
           hints={questionFetcher.data.qhints.map((hint: any) => hint.hintText)}
@@ -105,6 +115,7 @@ export default function Nest({}: Props): ReactElement {
             <h2>Level {questionFetcher.data.question.level}</h2>
             <p>{questionFetcher.data.question.text}</p>
           </div>
+          {close && <div className="close">Hawk thinks you're close</div>}
           <div className="bottom">
             <input type="text" value={answer} onChange={setAnswer} />
             <Button name="Submit" />

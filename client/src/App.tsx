@@ -14,6 +14,7 @@ import { useAuth } from './context/AuthContext';
 import Nest from './pages/Nest';
 import VerifyMail from './pages/auth/VerifyMail';
 import AdminQuestions from './pages/admin/AdminQuestions';
+import Loading from './components/Loading';
 
 //TODO
 //***Correct the fonts EVERYWHERE
@@ -40,7 +41,7 @@ export default function App(): ReactElement {
       <Switch>
         <PrivateRoute auth path="/login" component={Login} />
         <PrivateRoute auth path="/register" component={Register} />
-        <Route path="/reset-password/:token" component={ResetPassword} />
+        <Route path="/resetpassword/:token" component={ResetPassword} />
         <PrivateRoute auth path="/forgot-password" component={ForgotPassword} />
         <Route path="/verify/:token" component={VerifyMail} />
         <PrivateRoute path="/question/:id" component={Question} />
@@ -58,6 +59,13 @@ export default function App(): ReactElement {
         <Route
           path="**"
           render={() => {
+            if (auth?.loading) {
+              return (
+                <div className="screen-center">
+                  <Loading />
+                </div>
+              );
+            }
             if (auth?.user?.hawksNest) return <Redirect to="/nest" />;
             return <NotFound />;
           }}

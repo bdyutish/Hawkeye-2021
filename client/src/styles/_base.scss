@@ -330,3 +330,22 @@ html {
 h1,h2,h3,h4,h5,h6{
   font-weight: 400;
 }
+
+
+.loading-page{
+  color: #fff;
+z-index: 1;
+
+.fallback{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  img{
+    width: 10rem;
+    max-width: 90%;
+  }
+}
+}

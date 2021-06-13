@@ -588,16 +588,31 @@ justify-content: space-around;
 }
     }
 
-&--nest{
-    main{
-        margin-top: 4rem;
-    }
-}
 
 
 .close{
     font-size: 1.5rem;
     animation: fadeIn 2.5s;
+    color: #5C63FF;
+}
+
+&--nest{
+    position: relative;
+    main{
+        margin-top: 4rem;
+    }
+
+    .secondary-heading{
+        color: #5C63FF;
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+
+    .iecse-logo{
+        position: absolute;
+        top: 3rem;
+        left: 3rem;
+    }
 }
 
 @keyframes fadeIn {

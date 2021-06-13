@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
-import Modal from "react-modal";
-import hawkpng from "../assets/hawk_transparent.png";
+import React, { ReactElement } from 'react';
+import Modal from 'react-modal';
+import hawkpng from '../assets/hawk_transparent.png';
 interface Props {
   closeHandler: () => void;
   open: boolean;
@@ -14,6 +14,9 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
       overlayClassName="overlay"
       isOpen={open}
     >
+      <div onClick={closeHandler} className="close">
+        <i className="fas fa-times"></i>
+      </div>
       <div className="overlay-content">
         <img src={hawkpng} alt="logo" />
         <h1>Rulebook</h1>
@@ -21,7 +24,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
           <h3>GamePlay</h3>
           <ol>
             <li>
-              This is an online scavenger hunt, it starts at 
+              This is an online scavenger hunt, it starts at
               <span> 11/06/21 12:00 AM</span> and ends on
               <span> 13/6/21 11:59 PM</span>
             </li>
@@ -33,8 +36,8 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
             </li>
             <li>
               The next region will be made available after a
-              <span> certain period of time</span>. You can unlock them faster if
-              you solve the questions of your current timeline early.
+              <span> certain period of time</span>. You can unlock them faster
+              if you solve the questions of your current timeline early.
             </li>
             <li>
               If the answer is <span>&#34;22 Cakes&#34;</span> then the answer
@@ -81,10 +84,10 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
             </li>
             <li>
               To make it interesting, Hawk presents you with
-              <span> 4</span> different types of <span> Powerups</span>, that you
-              can buy using your reputation points. However, due to a
-              <span> limited supply</span>, there are only a few Powerups of each
-              kind you can buy.
+              <span> 4</span> different types of <span> Powerups</span>, that
+              you can buy using your reputation points. However, due to a
+              <span> limited supply</span>, there are only a few Powerups of
+              each kind you can buy.
             </li>
             <li>
               Winners will be decided on the basis of who has the most
@@ -104,7 +107,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
               <span>2</span>
               <br />
               Hawk gives you an opportunity to score 1.5x times the points that
-              were previously allotted to the questions. This powerup is valid{" "}
+              were previously allotted to the questions. This powerup is valid{' '}
               <span>ONLY</span>
               for all questions in that particular region. The multiplier starts
               from the question, at which it is applied. You can use two such

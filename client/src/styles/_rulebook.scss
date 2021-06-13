@@ -31,7 +31,16 @@ background-image: linear-gradient(135deg, #000000 0%, #414141 180%);
     overflow: auto;
     //display: flex;
     //flex-direction: column;
-   // position: relative;
+   position: relative;
+
+   .close{
+    position: absolute;
+    top: 2rem;
+    right: 2.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
    
    
 }

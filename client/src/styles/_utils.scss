@@ -2,6 +2,12 @@
     height: 100vh;
     display: grid;
     place-items: center;
+    overflow: hidden;
+    background-color: #010001;
+
+    video{
+        transform: scale(2);
+    }
 }
 
 .input{
