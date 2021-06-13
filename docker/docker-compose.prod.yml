@@ -34,8 +34,8 @@ services:
     container_name: Hawk-db
     volumes:
       - ./data:/data/db
-    ports:
-      - 27018:27018
+        #    ports:
+            #      - 27018:27018
     networks:
       - network
     logging:
