@@ -9,8 +9,8 @@ services:
     restart: unless-stopped
     networks:
       - network
-    volumes:
-      - ../api:/usr/src/api
+        #    volumes:
+        # - ../api:/usr/src/api
     expose:
       - 4000
     ports:
