@@ -9,5 +9,4 @@ sudo docker rm -f Hawk-api
 fi
 
 echo "restarting cluster"
-# sudo docker-compose -f /root/hawkeye-2021/docker/docker-compose.prod.yml up -d
-sudo docker-compose -f ../docker/docker-compose.prod.yml up -d
+sudo docker-compose -f /root/hawkeye-2021/docker/docker-compose.prod.yml up -d
