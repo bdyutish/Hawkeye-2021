@@ -1,7 +1,7 @@
 echo "Pulling latest client image..."
 sudo docker pull registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-client:latest
 
-apiState=$(docker ps -f name=Hawk-client | grep -w Hawk-client)
+apiState=$(docker ps -a -f name=Hawk-client | grep -w Hawk-client)
 if [[ ! -z $apiState ]]
 then
 

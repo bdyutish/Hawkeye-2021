@@ -3,7 +3,8 @@ FROM node:alpine as API_BUILDER
 WORKDIR /usr/src/api
 COPY  package*.json ./
 
-RUN npm install
+# installing only dev dependencies
+RUN npm install -D
 COPY . .
 
 RUN npm run build
