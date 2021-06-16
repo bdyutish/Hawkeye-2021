@@ -13,8 +13,7 @@ build client:
   image: docker:latest
   stage: build
   only:
-    branch:
-      - prod
+    # - prod
     changes:
       - client/**/*
 
@@ -37,8 +36,8 @@ build api:
   image: docker:latest
   stage: build
   only:
-    branch:
-      - prod
+    # branch:
+    #   - prod
     changes:
       - api/**/*
 
