@@ -165,6 +165,14 @@ export const unlockHints = async (
   try {
     const { question, regionIndex, hintLevel } = req.body;
 
+    const hints = await unlockedHint.find({
+      regionIndex,
+      question,
+      hintLevel,
+    });
+    if (hints) {
+      return next(new ErrorResponse('Already unlocked', 400));
+    }
     const newHint = new unlockedHint({
       regionIndex,
       question,
