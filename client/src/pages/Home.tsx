@@ -1,7 +1,11 @@
+/* eslint import/no-webpack-loader-syntax: off */
+
 import React, { ReactElement } from 'react';
 
 //@ts-ignore
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
+// import mapboxgl from '!mapbox-gl/dist/mapbox-gl.js';
+import mapboxgl from '!mapbox-gl';
+
 import Button from '../components/Button';
 import HUD from '../components/HUD';
 

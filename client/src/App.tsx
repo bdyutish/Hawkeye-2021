@@ -34,6 +34,7 @@ import Loading from './components/Loading';
 // TEST API KEYS
 // CHANGE "HAWKEYE" TO CAPS EVERYWHERE
 // Forbid streak second time if its active
+// TEST UNLOCK HINT
 
 export default function App(): ReactElement {
   const auth = useAuth();
