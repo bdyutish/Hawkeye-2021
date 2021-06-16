@@ -170,7 +170,7 @@ export const unlockHints = async (
       question,
       hintLevel,
     });
-    if (hints) {
+    if (hints.length > 0) {
       return next(new ErrorResponse('Already unlocked', 400));
     }
     const newHint = new unlockedHint({

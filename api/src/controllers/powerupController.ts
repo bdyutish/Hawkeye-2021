@@ -214,14 +214,14 @@ export const apply = async (
       user.powerupsHistory[0].owned--;
       await user.save();
       return res.status(200).send({
-      success: true,
-      worked: true,
-      message: 'Region Multipler applied',
-      inventory: user.inventory,
-      updatedShop: user.powerupsHistory,
-      strikes: user.strikes,
-      regionMultiplier: mult
-    });
+        success: true,
+        worked: true,
+        message: 'Region Multipler applied',
+        inventory: user.inventory,
+        updatedShop: user.powerupsHistory,
+        strikes: user.strikes,
+        regionMultiplier: mult,
+      });
     } else if (id == '2') {
       const question = await Question.findById(req.body.questionid);
       if (!question) return next(new ErrorResponse('Question not found', 404));
@@ -239,6 +239,8 @@ export const apply = async (
       user.powerupsHistory[1].owned--;
       await user.save();
     } else if (id == '3') {
+      if (user.streakMultiplier > 1)
+        return next(new ErrorResponse('Powerup already active', 400));
       for (let i = 0; i < user.inventory.length; i++) {
         if (user.inventory[i].id == 3 && user.inventory[i].usedAt == null) {
           user.inventory[i].usedAt = new Date(Date.now());
