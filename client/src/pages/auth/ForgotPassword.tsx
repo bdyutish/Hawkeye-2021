@@ -74,7 +74,7 @@ export default function ForgotPassword({}: Props): ReactElement {
         />
         <div className="catcha">
           <ReCAPTCHA
-            sitekey="6LfvBrsaAAAAAEPwCjRmPaVuK7s8QNP5YLN8h5-W"
+            sitekey="6LeggzUbAAAAAIKw-eFituXhXm8LeANFEHJwxLbs"
             onChange={handleVerify}
             theme="dark"
           />

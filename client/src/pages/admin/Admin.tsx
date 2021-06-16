@@ -1,6 +1,8 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Confirm from '../../components/Confirm';
 import Loading from '../../components/Loading';
+import { useConfirm } from '../../hooks/useConfirm';
 import { get, post } from '../../utils/requests';
 
 export default function AdminPage(): ReactElement {
@@ -41,7 +43,6 @@ export default function AdminPage(): ReactElement {
   return (
     <div className="admin">
       <h1> ADMIN</h1>
-
       <h1>Leaderboard</h1>
       <div className="leaderboard">
         {leaderboard.map((user, ind) => {
@@ -84,6 +85,9 @@ interface Details {
 function Leaderboard({ userid, index }: Details): ReactElement {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userdata, setUserData] = useState<any>();
+
+  const { confirmed, options } = useConfirm();
+
   const fetch = async () => {
     try {
       setIsLoading(true);
@@ -136,6 +140,7 @@ function Leaderboard({ userid, index }: Details): ReactElement {
 
   return (
     <div className="row">
+      <Confirm options={options} />
       <div>{index}</div>
       <div>{userdata.username}</div>
       <div>{userdata.score}</div>
@@ -190,8 +195,12 @@ function UnlockHints(): ReactElement {
   const [reg, setreg] = useState<number>();
   const [que, setque] = useState<number>();
   const [lev, setlev] = useState<number>();
+
+  const { confirmed, options } = useConfirm();
+
   return (
     <div className="regions-container">
+      <Confirm options={options} />
       <div className="region-item">
         <form onSubmit={unlockHint}>
           <label>Region Index [0-5]</label>
