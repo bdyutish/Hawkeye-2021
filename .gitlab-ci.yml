@@ -8,14 +8,14 @@ stages:
   - build
   - deploy
 
-test-build:
-  stage: build
-  image: tmaier/docker-compose:latest
-  services:
-    - docker:dind
-  script:
-    - docker ps
-    - docker-compose -f docker/docker-compose.prod.yml down
+# test-build:
+#   stage: build
+#   image: tmaier/docker-compose:latest
+#   services:
+#     - docker:dind
+#   script:
+#     - docker ps
+#     - docker-compose -f docker/docker-compose.prod.yml down
 
 build client:
   # Use the official docker image
@@ -54,3 +54,25 @@ build api:
   script:
     - cd api && docker build -t $CI_REGISTERY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
     - docker push $CI_REGISTERY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api
+
+deploy-api: 
+  stage: deploy
+  # only:
+    # changes:
+      # - api/**/*
+  tags:
+    - shell
+  script:
+    - sudo docker-compose -f docker/docker-compose.prod.yml down
+
+deploy-client: 
+  stage: deploy
+  only:
+    changes:
+      - client/**/*
+  tags:
+    - shell
+  script:
+    - ./deploy/client-deploy.yml
+
+
