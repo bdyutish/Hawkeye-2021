@@ -202,15 +202,26 @@ export const apply = async (
           break;
         }
       }
-
+      let mult;
       for (let i = 0; i < user.regions.length; i++) {
         if (user.regions[i].regionid.toString() == req.body.regionid) {
           user.regions[i].multiplier *= 1.5;
+          mult = user.regions[i].multiplier;
+          break;
         }
       }
 
       user.powerupsHistory[0].owned--;
       await user.save();
+      return res.status(200).send({
+      success: true,
+      worked: true,
+      message: 'Region Multipler applied',
+      inventory: user.inventory,
+      updatedShop: user.powerupsHistory,
+      strikes: user.strikes,
+      regionMultiplier: mult
+    });
     } else if (id == '2') {
       const question = await Question.findById(req.body.questionid);
       if (!question) return next(new ErrorResponse('Question not found', 404));
