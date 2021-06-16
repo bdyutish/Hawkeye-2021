@@ -22,8 +22,8 @@ build client:
   # before_script:
   #   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
   script:
-    - cd client && docker build -t "$CI_REGISTRY_IMAGE"/hawk-client:latest -f client.prod.Dockerfile .
-    - docker push "$CI_REGISTRY_IMAGE"/hawk-client:latest
+    - cd client && docker build -t registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-client:latest -f client.prod.Dockerfile .
+    # - docker push "$CI_REGISTRY_IMAGE"/hawk-client:latest
 
   # Run this job in a branch where a Dockerfile exists
 #   rules:
@@ -48,5 +48,5 @@ build api:
   script:
     - echo $CI_REGISTRY_USER
     - echo $CI_BUILD_TOKEN
-    - cd api && docker build -t "$CI_REGISTRY_IMAGE"/hawk-api:latest -f api.prod.Dockerfile .
-    - docker push "$CI_REGISTRY_IMAGE"/hawk-api:latest
+    - cd api && docker build -t registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
+    # - docker push "$CI_REGISTRY_IMAGE"/hawk-api:latest
