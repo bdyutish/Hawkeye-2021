@@ -12,7 +12,8 @@ test-build:
   stage: build
   image: tmaier/docker-compose:latest
   script:
-    - docker-compose -f docker/docker-compose.prod.yml
+    - docker ps
+    - docker-compose -f docker/docker-compose.prod.yml down
 
 build client:
   # Use the official docker image.
