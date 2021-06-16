@@ -86,6 +86,7 @@ p{
             position: absolute;
             width: 6rem;
 
+
             @media (max-width:440px) {
             width: 4rem;
             top: 5rem;
@@ -155,6 +156,7 @@ p{
         z-index: 25;
         margin-top: 11rem;
 
+
         @media (max-width:360px) {
             height: 14rem;      
         }
@@ -181,8 +183,10 @@ margin: 1.25rem 0;
 
 
         #map{
-            min-height: 50vh;
-            height: 50%;
+            min-height: 100vh;
+            // height: 50%;
+            position: absolute;
+            inset: 0;
           }
         
     }

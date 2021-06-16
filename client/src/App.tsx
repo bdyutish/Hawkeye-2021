@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { Switch, Route, useLocation, Redirect } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
-// import AdminPage from './pages/Admin';
+import AdminPage from './pages/admin/Admin';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -45,7 +45,7 @@ export default function App(): ReactElement {
         <PrivateRoute auth path="/forgot-password" component={ForgotPassword} />
         <Route path="/verify/:token" component={VerifyMail} />
         <PrivateRoute path="/question/:id" component={Question} />
-        {/* <PrivateRoute admin exact path="/admin" component={AdminPage} /> */}
+        <PrivateRoute admin exact path="/admin" component={AdminPage} />
         <PrivateRoute
           admin
           exact

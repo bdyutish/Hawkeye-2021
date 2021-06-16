@@ -54,8 +54,8 @@ export default function Register({}: Props): ReactElement {
     if (!validateNumber(number) && number)
       errors.push('Phone Number is invalid');
     if (!validateEmail(email) && email) errors.push('Email is invalid');
-    if (name.length > 15 && name) errors.push('Name is too long');
-    if (username.length > 15 && username) errors.push('Username is too long');
+    if (name.length > 30 && name) errors.push('Name is too long');
+    if (username.length > 30 && username) errors.push('Username is too long');
     if (password.length < 8 && password)
       errors.push('Password must be atleast 8 Characters');
     else if (password !== confirm) errors.push('Passwords do not match');

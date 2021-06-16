@@ -76,6 +76,9 @@ span{
 }
 
 .register{
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
     h2{
         margin-bottom: 2rem;
     }
