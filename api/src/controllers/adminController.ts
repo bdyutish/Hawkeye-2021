@@ -6,6 +6,7 @@ import ErrorResponse from '../utils/ErrorResponse';
 import Hint, { HintAttrs } from '../models/Hint';
 import { Types } from 'mongoose';
 import unlockedHint from '../models/unlockedHint';
+import { unlockRegionsByUser } from '../utils/helperFunctions';
 
 export const addQuestion = async (
   req: Request,
@@ -219,6 +220,23 @@ export const getQuestionById = async (
       question,
       hints,
     });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
+export const unlockRegionForAll = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userList = await User.find();
+    for (let i = 0; i < userList.length; i++) {
+      await unlockRegionsByUser(userList[i]);
+      console.log('Done for ' + userList[i]._id);
+    }
+    res.status(200).send({ success: true });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

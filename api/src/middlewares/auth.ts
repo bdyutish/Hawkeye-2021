@@ -82,6 +82,7 @@ export const logIP = async (
         ip: ip,
         time: Date.now(),
       });
+      console.log('Ip logged for ' + user!.name + '--->> ' + ip);
       await log.save();
     }
   } catch (err) {
