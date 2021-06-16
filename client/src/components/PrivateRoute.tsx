@@ -26,7 +26,7 @@ export default function PrivateRoute({
   return (
     <Route
       {...rest}
-      render={(props) => {
+      render={(props: any) => {
         let check = !!authContext?.user;
         if (admin) check = !!authContext?.isAdmin();
         if (auth) check = !authContext?.user;

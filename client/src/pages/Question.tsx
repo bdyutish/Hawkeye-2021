@@ -26,7 +26,8 @@ type TParams = { id: string };
 
 export default function Questions({
   match,
-}: RouteComponentProps<TParams>): ReactElement {
+}: //@ts-ignore
+RouteComponentProps<TParams>): ReactElement {
   const questionFetcher = useFetch(`/questions/${match.params.id}`);
   const [answer, setAnswer, resetAnswer] = useInputState();
 
@@ -175,7 +176,16 @@ export default function Questions({
 
       if (res.success && id !== 4) {
         if (id === 1) {
-          console.log(res);
+          auth?.updateUser({
+            ...auth.user,
+            regions: auth?.user?.regions.map((region: any) =>
+              region.regionid === match.params.id
+                ? { ...region, multiplier: res.regionMultiplier }
+                : region
+            ),
+            inventory: res.inventory,
+            powerupsHistory: res.updatedShop,
+          });
         }
 
         if (id === 2) {

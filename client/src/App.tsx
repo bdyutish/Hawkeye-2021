@@ -32,6 +32,8 @@ import Loading from './components/Loading';
 // Update strikes on question fail
 // FIX LOADING
 // TEST API KEYS
+// CHANGE "HAWKEYE" TO CAPS EVERYWHERE
+// Forbid streak second time if its active
 
 export default function App(): ReactElement {
   const auth = useAuth();

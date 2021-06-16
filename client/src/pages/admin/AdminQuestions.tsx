@@ -1,31 +1,31 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import Loading from "../../components/Loading";
-import { get, post, put } from "../../utils/requests";
+import React, { ReactElement, useEffect, useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import Loading from '../../components/Loading';
+import { get, post, put } from '../../utils/requests';
 
 type TParams = { id: string };
 
 export default function AdminQuestions({
   match,
-}: RouteComponentProps<TParams>): ReactElement {
+}: //@ts-ignore
+RouteComponentProps<TParams>): ReactElement {
   const [questions, setQuestions] = useState([]);
   const [expand, setExpand] = useState<boolean>(false);
-  const [text, setText] = useState<string>("");
-  const [answer, setAnswer] = useState<string>("");
-  const [level, setLevel] = useState<string>("");
-  const [region, setRegion] = useState<string>("");
-
+  const [text, setText] = useState<string>('');
+  const [answer, setAnswer] = useState<string>('');
+  const [level, setLevel] = useState<string>('');
+  const [region, setRegion] = useState<string>('');
 
   const addQuestion = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<any> => {
     event.preventDefault();
     try {
-     const res = await post(`/questions/add`, {
+      const res = await post(`/questions/add`, {
         text,
         answer,
         level,
-        region
+        region,
       });
       fetchQuestions();
     } catch (error) {
@@ -59,37 +59,37 @@ export default function AdminQuestions({
     <div className="admin">
       <div className="questions-container">
         <div className="question-item">
-          <span  onClick={() => setExpand(!expand)}>
-            Add a question  <i className="fas fa-plus-circle"></i>
+          <span onClick={() => setExpand(!expand)}>
+            Add a question <i className="fas fa-plus-circle"></i>
           </span>
           {expand && (
             <div className="editor-container">
               <form onSubmit={addQuestion}>
-              <h2 className="title">Text</h2>
-              <input
-                id="question"
-                 value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-              <h2 className="title">Answer</h2>
-              <input
-                id="answer"
-                 value={answer}
-                 onChange={(e) => setAnswer(e.target.value)}
-              />
-              <h2 className="title">Level</h2>
-              <input
-                id="level"
-                value={level}
-                onChange={(e) => setLevel(e.target.value)}
-              />
-              <h2 className="title">RegionId</h2>
-              <input
-                id="region"
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-              />
-              <button>SaveChanges</button>
+                <h2 className="title">Text</h2>
+                <input
+                  id="question"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                />
+                <h2 className="title">Answer</h2>
+                <input
+                  id="answer"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                />
+                <h2 className="title">Level</h2>
+                <input
+                  id="level"
+                  value={level}
+                  onChange={(e) => setLevel(e.target.value)}
+                />
+                <h2 className="title">RegionId</h2>
+                <input
+                  id="region"
+                  value={region}
+                  onChange={(e) => setRegion(e.target.value)}
+                />
+                <button>SaveChanges</button>
               </form>
             </div>
           )}
@@ -99,11 +99,7 @@ export default function AdminQuestions({
         {questions.map((ques, ind) => {
           return (
             <div className="question-item" key={ind}>
-              <AdminAddQuestion
-                question={ques}
-                regId={match.params.id}
-                
-              />
+              <AdminAddQuestion question={ques} regId={match.params.id} />
             </div>
           );
         })}
@@ -117,16 +113,14 @@ interface Details {
   regId: string;
 }
 
-
-
 function AdminAddQuestion({ question, regId }: Details): ReactElement {
   const [expand, setExpand] = useState<boolean>(false);
-  const [answer, setAnswer] = useState<string>("");
+  const [answer, setAnswer] = useState<string>('');
   const [hints, setHints] = useState<any>([]);
-  const [text, setText] = useState<string>("");
-  const [hint1, setHint1] = useState<string>("");
-  const [hint2, setHint2] = useState<string>("");
-  const [hint3, setHint3] = useState<string>("");
+  const [text, setText] = useState<string>('');
+  const [hint1, setHint1] = useState<string>('');
+  const [hint2, setHint2] = useState<string>('');
+  const [hint3, setHint3] = useState<string>('');
   const [qdata, setData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const fetch = () => {
@@ -136,7 +130,7 @@ function AdminAddQuestion({ question, regId }: Details): ReactElement {
         setData(data);
         setIsLoading(false);
         setHints(data.hints);
-       // console.log(data.hints);
+        // console.log(data.hints);
         setText(data.question.text);
       })
       .catch((err) => {
@@ -161,7 +155,7 @@ function AdminAddQuestion({ question, regId }: Details): ReactElement {
   ): Promise<any> => {
     // change this
     event.preventDefault();
-    console.log("ds");
+    console.log('ds');
     console.log(qdata);
     try {
       await put(`/questions/edit/${qdata.question._id}`, {
@@ -178,54 +172,51 @@ function AdminAddQuestion({ question, regId }: Details): ReactElement {
     hintLevel: number
   ): Promise<any> => {
     event.preventDefault();
-    const hintTextt =
-    hintLevel === 1 ? hint1 : hintLevel === 2 ? hint2 : hint3;
-    
-      if(qdata.hints[hintLevel-1]){
-        try {
-          console.log(qdata.hints[hintLevel-1]._id);
-        
-        const data = await put(`/hints/edit/${qdata.hints[hintLevel-1]._id}`, {
+    const hintTextt = hintLevel === 1 ? hint1 : hintLevel === 2 ? hint2 : hint3;
+
+    if (qdata.hints[hintLevel - 1]) {
+      try {
+        console.log(qdata.hints[hintLevel - 1]._id);
+
+        const data = await put(
+          `/hints/edit/${qdata.hints[hintLevel - 1]._id}`,
+          {
+            hintText: hintTextt,
+            level: hintLevel,
+          }
+        );
+        console.log(data);
+        setHint1('');
+        setHint2('');
+        setHint3('');
+        fetch();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        console.log(qdata.question._id);
+        const data = await post(`/hints/add/${qdata.question._id}`, {
           hintText: hintTextt,
           level: hintLevel,
         });
-        console.log(data);
-        setHint1("");
-        setHint2("");
-        setHint3("");
+        setHint1('');
+        setHint2('');
+        setHint3('');
         fetch();
-        } catch (error) {
-          console.log(error);
-        }
-        }
-    
-      else {
-        try {
-          console.log(qdata.question._id);
-      const data = await post(`/hints/add/${qdata.question._id}`, {
-        hintText: hintTextt,
-        level: hintLevel,
-      });
-      setHint1("");
-      setHint2("");
-      setHint3("");
-      fetch();
-        } catch (error) {
-          console.log(error);
-        }
+      } catch (error) {
+        console.log(error);
       }
-      setExpand(!expand);
-    } 
-    
-    
-  
+    }
+    setExpand(!expand);
+  };
 
   return (
     <div>
       <div className="question-item">
         <h1>Level {qdata.question.level}</h1>
         <h3 className="question-content">{qdata.question.text} </h3>
-        <span  onClick={() => setExpand(!expand)}>
+        <span onClick={() => setExpand(!expand)}>
           Modify <i className="fas fa-plus-circle"></i>
         </span>
       </div>
@@ -285,10 +276,8 @@ function AdminAddQuestion({ question, regId }: Details): ReactElement {
               <button>Save Hint 3</button>
             </div>
           </form>
-           
         </div>
       )}
     </div>
   );
 }
-
