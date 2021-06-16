@@ -43,8 +43,8 @@ build api:
 
   # services:
   #   - docker:dind
-  before_script:
-    - echo $CI_BUILD_TOKEN | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
+  # before_script:
+  #   - echo $CI_BUILD_TOKEN | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
   script:
     - echo $CI_REGISTRY_USER
     - echo $CI_BUILD_TOKEN
