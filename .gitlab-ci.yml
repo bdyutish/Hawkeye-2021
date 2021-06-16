@@ -41,10 +41,12 @@ build api:
     changes:
       - api/**/*
 
-  services:
-    - docker:dind
+  # services:
+  #   - docker:dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
-  script:
-    - cd client && docker build --pull -t "$CI_REGISTRY_IMAGE"/Hawk-api:latest .
-    - docker push "$CI_REGISTRY_IMAGE"/Hawk-api:latest
+    # - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
+    - echo $CI_REGISTRY_USER
+    - echo $CI_REGISTRY_PASSWORD
+  # script:
+  #   - cd client && docker build --pull -t "$CI_REGISTRY_IMAGE"/Hawk-api:latest .
+  #   - docker push "$CI_REGISTRY_IMAGE"/Hawk-api:latest
