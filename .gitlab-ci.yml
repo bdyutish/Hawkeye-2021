@@ -10,6 +10,7 @@ stages:
 
 test-build:
   stage: build
+  image: tmaier/docker-compose:latest
   script:
     - docker-compose -f docker/docker-compose.prod.yml
 
