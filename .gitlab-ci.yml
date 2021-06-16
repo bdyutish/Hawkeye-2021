@@ -33,20 +33,20 @@ build client:
 
 build api:
   # Use the official docker image.
-  image: docker:latest
+  # image: docker:latest
   stage: build
   only:
     # branch:
     #   - prod
-    changes:
-      - api/**/*
+    # changes:
+    #   - api/**/*
 
   # services:
   #   - docker:dind
-  # before_script:
-    # - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
+  before_script:
+    - echo $CI_BUILD_TOKEN | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
   script:
     - echo $CI_REGISTRY_USER
-    - echo $CI_REGISTRY_PASSWORD
-  #   - cd client && docker build --pull -t "$CI_REGISTRY_IMAGE"/Hawk-api:latest .
-  #   - docker push "$CI_REGISTRY_IMAGE"/Hawk-api:latest
+    - echo $CI_BUILD_TOKEN
+    - cd api && docker build --pull -t "$CI_REGISTRY_IMAGE"/Hawk-api:latest .
+    - docker push "$CI_REGISTRY_IMAGE"/Hawk-api:latest
