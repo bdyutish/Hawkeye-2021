@@ -18,7 +18,7 @@ test-build:
     - docker-compose -f docker/docker-compose.prod.yml down
 
 build client:
-  # Use the official docker image.
+  # Use the official docker image
   image: tmaier/docker-compose:latest
   stage: build
   only:
