@@ -22,7 +22,7 @@ build client:
   # before_script:
   #   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" registry.gitlab.com
   script:
-    - cd client && docker build --pull -t "$CI_REGISTRY_IMAGE"/hawk-client:latest -f client.prod.Dockerfile .
+    - cd client && docker build -t "$CI_REGISTRY_IMAGE"/hawk-client:latest -f client.prod.Dockerfile .
     - docker push "$CI_REGISTRY_IMAGE"/hawk-client:latest
 
   # Run this job in a branch where a Dockerfile exists
@@ -48,5 +48,5 @@ build api:
   script:
     - echo $CI_REGISTRY_USER
     - echo $CI_BUILD_TOKEN
-    - cd api && docker build --pull -t "$CI_REGISTRY_IMAGE"/hawk-api:latest -f api.prod.Dockerfile .
+    - cd api && docker build -t "$CI_REGISTRY_IMAGE"/hawk-api:latest -f api.prod.Dockerfile .
     - docker push "$CI_REGISTRY_IMAGE"/hawk-api:latest
