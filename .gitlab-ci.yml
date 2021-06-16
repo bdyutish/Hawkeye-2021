@@ -9,6 +9,8 @@ stages:
   - deploy
 
 test-build:
+  tags: 
+    - docker
   stage: build
   image: tmaier/docker-compose:latest
   services:
@@ -20,6 +22,8 @@ test-build:
 build client:
   # Use the official docker image
   image: tmaier/docker-compose:latest
+  tags: 
+    - docker
   stage: build
   only:
     changes:
@@ -41,6 +45,8 @@ build client:
 build api:
   # Use the official docker image.
   image: tmaier/docker-compose:latest
+  tags: 
+    - docker
   stage: build
   only:
     changes:
