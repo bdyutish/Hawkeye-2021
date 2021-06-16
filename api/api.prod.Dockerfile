@@ -1,19 +1,27 @@
-
 FROM node:alpine as API_BUILDER
 
 WORKDIR /usr/src/api
 COPY  package*.json ./
 
-RUN npm install
-
+# installing only dev dependencies
+RUN npm install -D
 COPY . .
 
-CMD ["npm", "run", "build"]
+RUN npm run build
 
 FROM node:alpine
 
-COPY --from=API_BUILDER /usr/src/api/dist /usr/src/api/
-
 WORKDIR /usr/src/api
+COPY --from=API_BUILDER /usr/src/api/dist /usr/src/api/dist
+COPY --from=API_BUILDER /usr/src/api/package.json /usr/src/api/
+# COPY --from=API_BUILDER /usr/src/api/package-lock.json /usr/src/api/
+# COPY --from=API_BUILDER /usr/src/api/node_modules /usr/src/api/node_modules
+# COPY  package*.json ./
+RUN npm install --only=prod
 
-CMD ["node","index.js"]
+# RUN npm ci
+# RUN cat /usr/src/api/index.js
+RUN ls /usr/src/api/
+# RUN chmod +x .
+
+CMD ["npm","start"]
