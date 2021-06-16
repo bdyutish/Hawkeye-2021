@@ -19,7 +19,7 @@ export const powerUps = [
     description:
       'Description of Region Multiplier powerup in one or two lines , multiplies score of that region and so on and so forth.',
     maximumAllowed: 2,
-    cost: 200,
+    cost: 500,
     image: multiply,
   },
   {
@@ -28,16 +28,16 @@ export const powerUps = [
     description:
       'Description of Question Skip powerup in one or two lines , multiplies score of that region and so on and so forth.',
     maximumAllowed: 1,
-    cost: 300,
+    cost: 400,
     image: skip,
   },
   {
     id: 3,
-    name: 'Streaks',
+    name: 'Streak',
     description:
       'Description of Anagram powerup in one or two lines , multiplies score of that region and so on and so forth.',
     maximumAllowed: 2,
-    cost: 500,
+    cost: 300,
     image: streak,
   },
   {
@@ -46,7 +46,7 @@ export const powerUps = [
     description:
       'Description of Question 50/50 powerup in one or two lines , multiplies score of that region and so on and so forth.',
     maximumAllowed: 2,
-    cost: 600,
+    cost: 200,
     image: half,
   },
 ];
