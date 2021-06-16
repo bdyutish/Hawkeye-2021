@@ -56,6 +56,7 @@ app.use(
   })
 );
 
+app.set('trust proxy', true);
 // link routers here
 app.use('/api/', indexRouter);
 app.use('/api/', authRouter);

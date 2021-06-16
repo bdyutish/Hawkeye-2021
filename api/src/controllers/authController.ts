@@ -163,10 +163,13 @@ export const login = async (
 
       const logs = await IP.findOne({ user: user!._id, ip: req.ip }).lean();
 
+      console.log('Ip logged for ' + user!.name + '--->> ' + req.ip);
+
       if (!logs) {
         const log = new IP({
           user: user!._id,
           ip: req.ip,
+          time: Date.now(),
         });
         await log.save();
       }
