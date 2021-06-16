@@ -69,7 +69,7 @@ deploy-api:
   tags:
     - shell
   script:
-    - sudo docker-compose -f docker/docker-compose.prod.yml down
+    - ./deploy/client-deploy.yml
 
 deploy-client: 
   stage: deploy
