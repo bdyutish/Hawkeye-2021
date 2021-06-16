@@ -12,7 +12,7 @@ dotenv.config();
 app.listen(process.env.PORT || 4000, async () => {
   try {
     console.log(`Listening at port: ${process.env.PORT || 4000}...`);
-    console.log("is gitlab ci op?")
+    console.log("is gitlab ci op? NO")
     await connectDB();
   } catch (err) {
     console.log("Connection to mongo unsuccessful...\n" + err);
