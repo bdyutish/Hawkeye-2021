@@ -33,7 +33,7 @@ build client:
 
 build api:
   # Use the official docker image.
-  image: docker:latest
+  image: 199508/dind-new:v5
   stage: build
   only:
     # branch:
@@ -42,7 +42,8 @@ build api:
     #   - api/**/*
 
   services:
-    - docker:dind
+    - docker:18.09-dind
+
   # before_script:
   #   - echo $CI_BUILD_TOKEN | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
   script:
