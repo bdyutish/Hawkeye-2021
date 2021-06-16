@@ -11,6 +11,8 @@ stages:
 test-build:
   stage: build
   image: tmaier/docker-compose:latest
+  services:
+    - docker:dind
   script:
     - docker ps
     - docker-compose -f docker/docker-compose.prod.yml down
