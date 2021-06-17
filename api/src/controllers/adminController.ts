@@ -62,7 +62,7 @@ export const getLeaderboard = async (
 ) => {
   try {
     const leaderBoard = await User.find()
-      .select('username score lastUnlockedIndex')
+      .select('name score lastUnlockedIndex nestLevel')
       .sort({ score: -1 })
       .lean();
     res.status(200).send(leaderBoard);
