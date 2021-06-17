@@ -56,8 +56,6 @@ build api:
     - docker:dind
 
   before_script:
-    - echo $CI_REG_USERNAME
-    - echo $CI_REG_TOKEN
     - echo "$CI_REG_TOKEN" | docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
   script:
     - cd api && docker build -t registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
@@ -70,8 +68,12 @@ deploy api:
       - api/**/*
   tags:
     - shell
+  before_script:
+    - echo "$CI_REG_TOKEN" | docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
   script:
     - ./deploy/api-deploy.sh
+  after_script:
+    - docker logout $CI_REGISTRY
 
 deploy client:
   stage: deploy
@@ -80,5 +82,9 @@ deploy client:
       - client/**/*
   tags:
     - shell
+  before_script:
+    - echo "$CI_REG_TOKEN" | docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
   script:
     - ./deploy/client-deploy.sh
+  after_script:
+    - docker logout $CI_REGISTRY
