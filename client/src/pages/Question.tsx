@@ -102,6 +102,7 @@ RouteComponentProps<TParams>): ReactElement {
         history.push('/');
         await auth?.fetchMe();
         addToast('New Region Unlocked', { appearance: 'success' });
+        window.location.reload();
         return;
       }
 
@@ -134,6 +135,11 @@ RouteComponentProps<TParams>): ReactElement {
   // console.log(JSON.parse(questionFetcher.data.question.region.colorData).color);
 
   const handleUsePowerUp = async (id: number) => {
+    if (coin.fliping) {
+      addToast('Please wait', { appearance: 'success' });
+      return;
+    }
+
     try {
       const res = await post(`/shop/apply/${id}`, {
         regionid: match.params.id,
@@ -158,6 +164,7 @@ RouteComponentProps<TParams>): ReactElement {
             auth?.fetchMe().then((_: any) => {
               history.push('/');
               addToast('New Region Unlocked', { appearance: 'success' });
+              window.location.reload();
             });
             return;
           }
@@ -197,6 +204,7 @@ RouteComponentProps<TParams>): ReactElement {
             addToast('Applied Successfully', { appearance: 'success' });
             await auth?.fetchMe();
             addToast('New Region Unlocked', { appearance: 'success' });
+            window.location.reload();
             return;
           }
           questionFetcher.fetch(false);
@@ -418,7 +426,7 @@ function Stats({
       </div>
       {attemptsOpen && (
         <section className="attempts">
-          {attempts.reverse().map((attempt: string) => {
+          {attempts.map((attempt: string) => {
             return (
               <div key={attempt} className="attempt">
                 {attempt}
@@ -497,8 +505,6 @@ function Hints({
   });
 
   const auth = useAuth();
-
-  console.log(auth);
 
   return (
     <div className="hints">

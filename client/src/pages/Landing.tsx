@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import Button from '../components/Button';
 import HUD from '../components/HUD';
 import hawk from '../assets/hawk.png';
@@ -11,7 +11,7 @@ export default function Landing(): ReactElement {
   const headingRef = React.useRef<HTMLHeadingElement>(null);
   const histroy = useHistory();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const typewriter = new Typewriter(headingRef.current, {
       loop: false,
     });

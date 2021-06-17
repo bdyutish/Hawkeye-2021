@@ -27,6 +27,9 @@ import Loading from './components/Loading';
 // Wierd flip problem
 // Change logo to svg
 // HANDLE LINKS
+// Welcome ${username}
+// Mobile mei toast not coming
+// Add phone backgroud in phones
 
 // TEST API KEYS
 
