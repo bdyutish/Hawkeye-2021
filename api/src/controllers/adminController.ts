@@ -241,3 +241,16 @@ export const unlockRegionForAll = async (
     return next(new ErrorResponse(err.name, err.code));
   }
 };
+
+export const getBannedUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const bannedusers = await User.find({ isBanned: true });
+    res.status(200).send({ success: true, data: bannedusers });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
