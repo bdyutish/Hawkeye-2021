@@ -6,7 +6,9 @@ import Loading from '../components/Loading';
 import useInputState from '../hooks/useInputState';
 import Img from '../components/Img';
 
-import desktopBG from '../assets/backround/desktop.png';
+import desktopBG from '../assets/backround/desktop.svg';
+import phoneBG from '../assets/backround/mobile.svg';
+
 import ReactTooltip from 'react-tooltip';
 import Button from '../components/Button';
 import { useToasts } from 'react-toast-notifications';
@@ -21,6 +23,7 @@ import hawk from '../assets/hawk.png';
 import ReadyToPlay from './ReadyToPlay';
 import useClickOut from '../hooks/useClickOut';
 import ReactCardFlip from 'react-card-flip';
+import hawkImg from '../assets/hawk.svg';
 
 type TParams = { id: string };
 
@@ -223,7 +226,7 @@ RouteComponentProps<TParams>): ReactElement {
     return (
       <div className="question question--phone">
         <HUD />
-        <Img src={desktopBG} className="background" />
+        <Img src={phoneBG} className="background" />
         <h1>HAWKEYE</h1>
         <div className="top-bar">
           <div className="region">
@@ -304,6 +307,7 @@ RouteComponentProps<TParams>): ReactElement {
     <div className="question">
       <HUD />
       <Img src={desktopBG} className="background" />
+      <img src={hawkImg} alt="" className="hawk" id="hawkk" />
       <h1>HAWKEYE</h1>
       <div className="top-bar">
         <div className="region">
@@ -403,7 +407,13 @@ function Stats({
       {isPhone && (
         <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
           <img
-            // src={require(`../assets/flips/${auth?.region}.svg`).default}
+            src={(() => {
+              try {
+                return require(`../assets/flips/${auth?.region}.svg`).default;
+              } catch (err) {
+                return require(`../assets/flips/nest.png`).default;
+              }
+            })()}
             alt=""
           />
         </div>
@@ -511,7 +521,13 @@ function Hints({
       {isPhone && (
         <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
           <img
-            // src={require(`../assets/flips/${auth?.region}.svg`).default}
+            src={(() => {
+              try {
+                return require(`../assets/flips/${auth?.region}.svg`).default;
+              } catch (err) {
+                return require(`../assets/flips/nest.png`).default;
+              }
+            })()}
             alt=""
           />
         </div>

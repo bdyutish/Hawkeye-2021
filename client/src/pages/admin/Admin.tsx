@@ -1,16 +1,18 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Confirm from '../../components/Confirm';
-import Loading from '../../components/Loading';
-import { useConfirm } from '../../hooks/useConfirm';
-import { get, post } from '../../utils/requests';
-
+import React, { ReactElement, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Button from "../../components/Button";
+import Confirm from "../../components/Confirm";
+import Loading from "../../components/Loading";
+import { useConfirm } from "../../hooks/useConfirm";
+import { get, post } from "../../utils/requests";
+import { useToasts } from "react-toast-notifications";
 export default function AdminPage(): ReactElement {
   const [leaderboard, setLeaderboard] = useState([]);
   const [regions, setRegion] = useState([]);
+
   const fetchLeaderboard = async () => {
     try {
-      await get('/leaderboard').then((data) => {
+      await get("/leaderboard").then((data) => {
         setLeaderboard(data);
       });
     } catch (err) {
@@ -18,6 +20,19 @@ export default function AdminPage(): ReactElement {
     }
   };
 
+  const { addToast } = useToasts();
+
+  const unlockRegion = async () => {
+    try {
+      const res = await post("/regions/unlock");
+      if (res.success === true) {
+        addToast("Region Unlocked", { appearance: "success" });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const { confirmed, options } = useConfirm();
   useEffect(() => {
     (async () => {
       try {
@@ -31,7 +46,7 @@ export default function AdminPage(): ReactElement {
 
   const fetchRegions = async () => {
     try {
-      await get('/regions').then((data) => {
+      await get("/regions").then((data) => {
         setRegion(data);
         // console.log(data);
       });
@@ -49,7 +64,7 @@ export default function AdminPage(): ReactElement {
           // console.log(user);
           return (
             <Leaderboard
-              userid={user['_id']}
+              userid={user["_id"]}
               key={ind}
               index={(ind + 1).toString()}
             />
@@ -63,9 +78,9 @@ export default function AdminPage(): ReactElement {
           //console.log(reg);
           return (
             <div className="region-item" key={ind}>
-              <div className="region-name">{reg['name']} </div>
-              <p className="region-description">{reg['description']}</p>
-              <Link to={`/admin/${reg['_id']}/`}>
+              <div className="region-name">{reg["name"]} </div>
+              <p className="region-description">{reg["description"]}</p>
+              <Link to={`/admin/${reg["_id"]}/`}>
                 <button className="button-admin">Modify</button>
               </Link>
             </div>
@@ -75,6 +90,9 @@ export default function AdminPage(): ReactElement {
 
       <h1> Unlock Hint</h1>
       <UnlockHints />
+      <h1>Unlock Region</h1>
+      <Button onClick={confirmed(unlockRegion, `Region Unlock ?`)} name="Unlock Region" />
+      <Confirm options={options} />
     </div>
   );
 }
@@ -183,9 +201,9 @@ function UnlockHints(): ReactElement {
         hintLevel: lev,
       });
 
-      setlev(parseInt(''));
-      setque(parseInt(''));
-      setreg(parseInt(''));
+      setlev(parseInt(""));
+      setque(parseInt(""));
+      setreg(parseInt(""));
 
       console.log(test);
     } catch (error) {
@@ -209,13 +227,13 @@ function UnlockHints(): ReactElement {
           </div>
           <label>Question [1-6] </label>
           <div>
-            {' '}
-            <input onChange={(e) => setque(parseInt(e.target.value))} />{' '}
+            {" "}
+            <input onChange={(e) => setque(parseInt(e.target.value))} />{" "}
           </div>
           <label>Hint Level [1-3]</label>
           <div>
-            {' '}
-            <input onChange={(e) => setlev(parseInt(e.target.value))} />{' '}
+            {" "}
+            <input onChange={(e) => setlev(parseInt(e.target.value))} />{" "}
           </div>
           <button className="button-admin">Unlock Hint</button>
         </form>

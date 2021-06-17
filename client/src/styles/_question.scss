@@ -16,12 +16,13 @@
 }
 
 .question{
-    min-height: 100vh;
+    height: 100vh;
     color: #fff;
     text-align: center;
     padding: 1.5rem 2rem;
     position: relative;
-    padding-bottom: 8rem;
+    padding-bottom: 10rem;
+    overflow: hidden;
 
 
     .top-bar{
@@ -613,6 +614,8 @@ margin-top: .5rem;
 
 &--nest{
     position: relative;
+    padding-bottom: 0;
+    padding-top: 2rem;
 
     @media (max-width:670px){
         padding-top: 10rem;

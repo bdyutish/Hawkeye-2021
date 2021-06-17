@@ -1,24 +1,32 @@
 {
   "files": {
-    "main.css": "/static/css/main.e5d39d5e.chunk.css",
-    "main.js": "/static/js/main.2058c43f.chunk.js",
-    "main.js.map": "/static/js/main.2058c43f.chunk.js.map",
+    "main.css": "/static/css/main.b1dd7cb0.chunk.css",
+    "main.js": "/static/js/main.8372525a.chunk.js",
+    "main.js.map": "/static/js/main.8372525a.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.11f320ca.js",
     "runtime-main.js.map": "/static/js/runtime-main.11f320ca.js.map",
-    "static/js/2.03c510db.chunk.js": "/static/js/2.03c510db.chunk.js",
-    "static/js/2.03c510db.chunk.js.map": "/static/js/2.03c510db.chunk.js.map",
+    "static/js/2.36b415cf.chunk.js": "/static/js/2.36b415cf.chunk.js",
+    "static/js/2.36b415cf.chunk.js.map": "/static/js/2.36b415cf.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.e5d39d5e.chunk.css.map": "/static/css/main.e5d39d5e.chunk.css.map",
-    "static/js/2.03c510db.chunk.js.LICENSE.txt": "/static/js/2.03c510db.chunk.js.LICENSE.txt",
-    "static/media/desktop.d8fa3c43.png": "/static/media/desktop.d8fa3c43.png",
+    "static/css/main.b1dd7cb0.chunk.css.map": "/static/css/main.b1dd7cb0.chunk.css.map",
+    "static/js/2.36b415cf.chunk.js.LICENSE.txt": "/static/js/2.36b415cf.chunk.js.LICENSE.txt",
+    "static/media/Africa.svg": "/static/media/Africa.f9594205.svg",
+    "static/media/Americas.svg": "/static/media/Americas.4250eef1.svg",
+    "static/media/Antarctica.svg": "/static/media/Antarctica.07c9ffee.svg",
+    "static/media/Asia.svg": "/static/media/Asia.d4f6076c.svg",
+    "static/media/Australia.svg": "/static/media/Australia.c312ff88.svg",
+    "static/media/Europe.svg": "/static/media/Europe.34b86c80.svg",
+    "static/media/desktop.a25d549e.svg": "/static/media/desktop.a25d549e.svg",
     "static/media/hawk.ae89b69a.png": "/static/media/hawk.ae89b69a.png",
+    "static/media/hawk.f910eee3.svg": "/static/media/hawk.f910eee3.svg",
     "static/media/loading.d322f439.mp4": "/static/media/loading.d322f439.mp4",
+    "static/media/mobile.011fc8c7.svg": "/static/media/mobile.011fc8c7.svg",
     "static/media/nest.c6ba4a81.png": "/static/media/nest.c6ba4a81.png"
   },
   "entrypoints": [
     "static/js/runtime-main.11f320ca.js",
-    "static/js/2.03c510db.chunk.js",
-    "static/css/main.e5d39d5e.chunk.css",
-    "static/js/main.2058c43f.chunk.js"
+    "static/js/2.36b415cf.chunk.js",
+    "static/css/main.b1dd7cb0.chunk.css",
+    "static/js/main.8372525a.chunk.js"
   ]
 }
