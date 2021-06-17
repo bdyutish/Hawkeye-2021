@@ -76,7 +76,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
 
     try {
       await post('/login', {
-        email,
+        email: email.trim(),
         password,
       });
 
@@ -100,7 +100,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
       await post('/register', {
         name,
         username,
-        email,
+        email: email.trim(),
         password,
         college: collage,
         phone: number,

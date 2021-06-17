@@ -32,7 +32,7 @@ RouteComponentProps<TParams>): ReactElement {
   const [answer, setAnswer, resetAnswer] = useInputState();
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: '(max-device-width: 800px)',
   });
 
   const { addToast } = useToasts();
@@ -100,8 +100,8 @@ RouteComponentProps<TParams>): ReactElement {
         parseInt(process.env.REACT_APP_LEVEL_COUNT || '6')
       ) {
         history.push('/');
-        addToast('New Region Unlocked!', { appearance: 'success' });
         await auth?.fetchMe();
+        addToast('New Region Unlocked', { appearance: 'success' });
         return;
       }
 
@@ -157,7 +157,7 @@ RouteComponentProps<TParams>): ReactElement {
           ) {
             auth?.fetchMe().then((_: any) => {
               history.push('/');
-              addToast('New Region Unlocked!', { appearance: 'success' });
+              addToast('New Region Unlocked', { appearance: 'success' });
             });
             return;
           }
@@ -195,8 +195,8 @@ RouteComponentProps<TParams>): ReactElement {
           ) {
             history.push('/');
             addToast('Applied Successfully', { appearance: 'success' });
-            addToast('New Region Unlocked!', { appearance: 'success' });
             await auth?.fetchMe();
+            addToast('New Region Unlocked', { appearance: 'success' });
             return;
           }
           questionFetcher.fetch(false);
@@ -216,7 +216,7 @@ RouteComponentProps<TParams>): ReactElement {
       <div className="question question--phone">
         <HUD />
         <Img src={desktopBG} className="background" />
-        <h1>Hawkeye</h1>
+        <h1>HAWKEYE</h1>
         <div className="top-bar">
           <div className="region">
             <Link to="/">
@@ -263,18 +263,18 @@ RouteComponentProps<TParams>): ReactElement {
             </div>
           </form>
           <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
-            <Hints
-              hints={questionFetcher.data.qhints.map(
-                (hint: any) => hint.hintText
-              )}
+            <Stats
+              stats={questionFetcher.data.stats}
+              attempts={questionFetcher.data.attempts}
               color={color}
               handleFlip={() => {
                 setFlipped((prev) => !prev);
               }}
             />
-            <Stats
-              stats={questionFetcher.data.stats}
-              attempts={questionFetcher.data.attempts}
+            <Hints
+              hints={questionFetcher.data.qhints.map(
+                (hint: any) => hint.hintText
+              )}
               color={color}
               handleFlip={() => {
                 setFlipped((prev) => !prev);
@@ -296,7 +296,7 @@ RouteComponentProps<TParams>): ReactElement {
     <div className="question">
       <HUD />
       <Img src={desktopBG} className="background" />
-      <h1>Hawkeye</h1>
+      <h1>HAWKEYE</h1>
       <div className="top-bar">
         <div className="region">
           <Link to="/">
@@ -373,14 +373,33 @@ interface IStatsProps {
   handleFlip?: () => void;
 }
 
-function Stats({ attempts, stats, color }: IStatsProps): ReactElement {
+function Stats({
+  attempts,
+  stats,
+  color,
+  handleFlip,
+}: IStatsProps): ReactElement {
   const [attemptsOpen, setAttemptsOpen] = React.useState(true);
 
   const percentage =
     (100 / (stats.leading + stats.lagging)) * stats.lagging || 0;
 
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
+
+  const auth = useAuth();
+
   return (
     <div className="data">
+      {isPhone && (
+        <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
+          <img
+            // src={require(`../assets/flips/${auth?.region}.svg`).default}
+            alt=""
+          />
+        </div>
+      )}
       <div className="top">
         <h2
           className={attemptsOpen ? 'active' : ''}
@@ -435,7 +454,7 @@ function Stats({ attempts, stats, color }: IStatsProps): ReactElement {
               }}
               className="indicator"
             >
-              <i className="fas fa-sort-up"></i>
+              <i style={{ color }} className="fas fa-sort-up"></i>
             </div>
             <ReactTooltip effect="solid" type="light" />
           </div>
@@ -467,13 +486,30 @@ function Stats({ attempts, stats, color }: IStatsProps): ReactElement {
 function Hints({
   color,
   hints,
+  handleFlip,
 }: {
   color: string;
   hints: string[];
   handleFlip?: () => void;
 }): ReactElement {
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
+
+  const auth = useAuth();
+
+  console.log(auth);
+
   return (
     <div className="hints">
+      {isPhone && (
+        <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
+          <img
+            // src={require(`../assets/flips/${auth?.region}.svg`).default}
+            alt=""
+          />
+        </div>
+      )}
       <h2 style={{ color }}>Hints</h2>
       <section>
         {hints.map((hint: string) => {

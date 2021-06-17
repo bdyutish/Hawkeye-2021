@@ -78,25 +78,41 @@ export default function Shop({ closeHandler, open }: Props): ReactElement {
         </div>
         <main>
           <section className="left">
-            {powerUps.map((item: IPowerUp, index: number) => (
-              <div onClick={() => setSelected(item.id)} className="item">
-                <img
-                  src={powerUps[index].image}
-                  alt=""
-                  className={`power power--${index}`}
-                />
-                <img src={square} alt="" />
-                <h3>{item.name}</h3>
-                <p>
-                  <span style={{ color }}>OWNED :</span>{' '}
-                  {
-                    auth?.user?.powerupsHistory?.find(
-                      (powerUp) => powerUp.id === item.id
-                    ).owned
+            {powerUps.map((item: IPowerUp, index: number) => {
+              return (
+                <div
+                  onClick={() => setSelected(item.id)}
+                  className={
+                    item.id === selected ? 'item item--selected' : 'item'
                   }
-                </p>
-              </div>
-            ))}
+                >
+                  <img
+                    src={powerUps[index].image}
+                    alt=""
+                    className={`power power--${index}`}
+                  />
+                  <img
+                    src={
+                      item.id === selected
+                        ? require(`../assets/selected/${auth?.region}.png`)
+                            .default
+                        : square
+                    }
+                    alt=""
+                    className="square"
+                  />
+                  <h3>{item.name}</h3>
+                  <p>
+                    <span style={{ color }}>OWNED :</span>{' '}
+                    {
+                      auth?.user?.powerupsHistory?.find(
+                        (powerUp) => powerUp.id === item.id
+                      ).owned
+                    }
+                  </p>
+                </div>
+              );
+            })}
           </section>
           <section className="right">
             {!!selected && (

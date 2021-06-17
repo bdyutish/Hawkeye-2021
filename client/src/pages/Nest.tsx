@@ -33,7 +33,7 @@ export default function Nest({}: Props): ReactElement {
   const auth = useAuth();
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: '(max-device-width: 800px)',
   });
   const [flipped, setFlipped] = React.useState(false);
 
@@ -112,7 +112,7 @@ export default function Nest({}: Props): ReactElement {
       <div className="question question--phone">
         <HUD />
         <Img src={nestBG} className="background" />
-        <h1>Hawkeye</h1>
+        <h1>HAWKEYE</h1>
         <div className="top-bar">
           <div className="points">
             <span>Reputation points : </span> {auth?.user?.score}
@@ -132,17 +132,17 @@ export default function Nest({}: Props): ReactElement {
             </div>
           </form>
           <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
-            <Hints
-              hints={questionFetcher.data.qhints.map(
-                (hint: any) => hint.hintText
-              )}
+            <Stats
+              stats={questionFetcher.data.stats}
+              attempts={questionFetcher.data.nestAttempts}
               handleFlip={() => {
                 setFlipped((prev) => !prev);
               }}
             />
-            <Stats
-              stats={questionFetcher.data.stats}
-              attempts={questionFetcher.data.nestAttempts}
+            <Hints
+              hints={questionFetcher.data.qhints.map(
+                (hint: any) => hint.hintText
+              )}
               handleFlip={() => {
                 setFlipped((prev) => !prev);
               }}
@@ -158,7 +158,7 @@ export default function Nest({}: Props): ReactElement {
       <HUD />
       <Img src={nestBG} className="background" />
       <img src={iecse} alt="" className="iecse-logo" />
-      <h1>Hawkeye</h1>
+      <h1>HAWKEYE</h1>
       <h2 className="secondary-heading">Welcome to the hawk’s nest</h2>
       <main>
         <Hints

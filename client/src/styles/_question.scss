@@ -30,7 +30,7 @@
         align-items: center;
 
 
-    @media (max-width:680px) {
+    @media (max-width:800px) {
         flex-direction: column;
         align-items: flex-start;
         margin-top:4rem;
@@ -42,7 +42,7 @@
         margin-right: 2.5rem;
         font-size: 1.5rem;
         margin-top: -1rem;
-        @media (max-width:680px) {
+        @media (max-width:800px) {
             margin-top: 1rem;
         margin-right: 0;
 
@@ -85,6 +85,7 @@
     
 
     .bottom-bar{
+        font-family: $font-family2, sans-serif, serif;
 
         .empty{
             font-size: 1.5rem;
@@ -203,7 +204,8 @@ aside{
         align-items: center;
         justify-content: space-between;
 
-        @media (max-width:680px) {
+
+        @media (max-width:800px) {
             flex-direction: column; 
             margin-top: 2rem;
 
@@ -216,6 +218,7 @@ aside{
 background-color: #000000;
 background-image: linear-gradient(135deg, #000000 0%, #414141 180%);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
+
 
     padding: 2rem;
 
@@ -243,6 +246,7 @@ section{
     .attempt{
         margin: .5rem 0;
         font-size: 1.25rem;
+        font-family: $font-family2, sans-serif, serif;
     }
 }
 
@@ -320,6 +324,8 @@ section{
     .top{
 display: flex;
 align-items: center;
+font-family: $font-family2, sans-serif, serif;
+
 
 
 .active{
@@ -388,7 +394,7 @@ h2{
     }
 
 
-    @media (max-width:680px) {
+    @media (max-width:800px) {
         width: 50%;
     height: 22rem; 
         min-width: 28rem;
@@ -403,6 +409,8 @@ h2{
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        font-family: $font-family2, sans-serif, serif;
+
 
 
         .bottom{
@@ -453,14 +461,14 @@ h2{
             height: 27rem; 
         }
 
-        @media (max-width:680px) {
+        @media (max-width:800px) {
             width: 90%;
             margin: 2rem 0;
     height: 22rem; 
         }
 
 
-    @media (max-width:680px) {
+    @media (max-width:800px) {
         
         width: 28rem;
         margin: 2rem 0;
@@ -484,7 +492,7 @@ h2{
         padding-bottom: .25rem;
 
 
-    @media (max-width:680px) {
+    @media (max-width:800px) {
         margin: 0 ;
         
     }
@@ -511,7 +519,7 @@ bottom: 0;
         margin-bottom: .5rem;
 
 
-        @media (max-width:680px) {
+        @media (max-width:800px) {
             font-size: 3.5rem;
         }
     
@@ -550,7 +558,7 @@ flex-direction: column;
 }
 
 
-@media (max-width:680px) {
+@media (max-width:800px) {
     width: 50%;
     height: 22rem; 
     min-width: 28rem;
@@ -569,7 +577,9 @@ box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12);
 }
 
 .hint-unlocked{
-    height: 3.25rem;
+    font-family: $font-family2, sans-serif, serif;
+    margin: .5rem 0;
+    text-align: left;
 }
 
 
@@ -587,6 +597,9 @@ padding: .5rem;
 display: flex;
 flex-direction: column;
 justify-content: space-around;
+overflow: auto;
+margin-top: .5rem;
+
 }
     }
 
@@ -675,7 +688,7 @@ justify-content: space-around;
         height: 32rem;
 
 
-        @media (max-device-width: 680px){
+        @media (max-device-width: 800px){
             margin-bottom: 4rem;
         }
 
