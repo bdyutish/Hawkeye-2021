@@ -407,7 +407,7 @@ function Stats({
       {isPhone && (
         <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
           <img
-            // src={require(`../assets/flips/${auth?.region}.svg`).default}
+            src={require(`../assets/flips/${auth?.region}.svg`).default}
             alt=""
           />
         </div>
@@ -515,7 +515,7 @@ function Hints({
       {isPhone && (
         <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
           <img
-            // src={require(`../assets/flips/${auth?.region}.svg`).default}
+            src={require(`../assets/flips/${auth?.region}.svg`).default}
             alt=""
           />
         </div>

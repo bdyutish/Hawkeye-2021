@@ -20,12 +20,8 @@ import Loading from './components/Loading';
 // Are you sure modal too small in mobile
 // locks right side
 // change power up bar
-// Auth pages overflowing
-// Wierd flip problem
 // HANDLE LINKS
-// Welcome ${username}
 // Mobile mei toast not coming
-// Add phone backgroud in phones
 
 // TEST API KEYS
 
