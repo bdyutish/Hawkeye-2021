@@ -8,16 +8,16 @@ stages:
   - build
   - deploy
 
-test-build:
-  tags: 
-    - docker
-  stage: build
-  image: tmaier/docker-compose:latest
-  services:
-    - docker:dind
-  script:
-    - docker ps
-    - docker-compose -f docker/docker-compose.prod.yml down
+# test-build:
+#   tags: 
+#     - docker
+#   stage: build
+#   image: tmaier/docker-compose:latest
+#   services:
+#     - docker:dind
+#   script:
+#     - docker ps
+#     - docker-compose -f docker/docker-compose.prod.yml down
 
 build client:
   # Use the official docker image
@@ -63,13 +63,13 @@ build api:
 
 deploy-api: 
   stage: deploy
-  # only:
-    # changes:
-      # - api/**/*
+  only:
+    changes:
+      - api/**/*
   tags:
     - shell
   script:
-    - ./deploy/client-deploy.yml
+    - ./deploy/api-deploy.yml
 
 deploy-client: 
   stage: deploy
