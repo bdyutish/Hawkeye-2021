@@ -17,7 +17,7 @@ export const powerUps = [
     id: 1,
     name: 'Region Multiplier',
     description:
-      'Hawk Gives You An Opportunity To Score 1.5x Times The Points That Were Previously Allotted To The Questions. This Powerup Is Valid ONLY for All Questions In That Particular Region. The Multiplier Starts From The Question, At Which It Is Applied. You Can Use Two Such Powerups Together On The Same Region To Increase The Multiplier To 1.5*1.5 = 2.25x Times.',
+      'Hawk Gives You An Opportunity To Score 1.5x Times The Points That Were Previously Allotted To The Questions. This Powerup Is Valid ONLY for All Questions In That Particular Region. The Multiplier Starts From The Question, At Which It Is Applied. ',
     maximumAllowed: 2,
     cost: 500,
     image: multiply,

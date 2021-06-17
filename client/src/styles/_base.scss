@@ -186,6 +186,10 @@ html {
     right: 2rem ; 
     cursor: pointer;
 
+    @media (max-width:800px) {
+      margin-bottom: 12rem;
+    }
+
     i{
         position: absolute;
         top: 50%;
@@ -206,6 +210,20 @@ html {
       top: 50%;
       left: 50%;
       transform: translate(-50%,-50%);
+  }
+
+  &--home{
+      transform: scale(.7) translateY(1.2rem);
+
+      @media (max-width:450px) {
+      transform: scale(.7) translateY(1.7rem);
+
+      }
+
+      @media (max-width:400px) {
+        transform: scale(.7) translateY(3rem);
+  
+        }
   }
 
   &--1{
