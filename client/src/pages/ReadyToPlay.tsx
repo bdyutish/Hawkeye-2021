@@ -2,8 +2,10 @@ import React, { ReactElement } from 'react';
 import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
 import useInputState from '../hooks/useInputState';
 import Img from '../components/Img';
-import desktopBG from '../assets/backround/desktop.png';
+import desktopBG from '../assets/backround/desktop.svg';
+import phoneBG from '../assets/backround/mobile.svg';
 import Button from '../components/Button';
+import { useMediaQuery } from 'react-responsive';
 
 type TProps = { id: string };
 
@@ -15,9 +17,13 @@ export default function ReadyToPlay({ id }: TProps): ReactElement {
     localStorage.setItem('hawk-ready', '1');
   }
 
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
+
   return (
     <div className="question question--ready">
-      <Img src={desktopBG} className="background" />
+      <Img src={isPhone ? phoneBG : desktopBG} className="background" />
       <h1>Hawkeye</h1>
       <main className="mainr">
         <form className="answer">

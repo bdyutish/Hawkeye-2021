@@ -1,14 +1,17 @@
 import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
-import desktopBG from '../../assets/backround/desktop.png';
+import desktopBG from '../../assets/backround/desktop.svg';
+import phoneBG from '../../assets/backround/mobile.svg';
+
 import Button from '../../components/Button';
 import Img from '../../components/Img';
 import Input from '../../components/Input';
 import Loading from '../../components/Loading';
 import { useAuth } from '../../context/AuthContext';
 import useInputState from '../../hooks/useInputState';
-import hawk from '../../assets/hawk_transparent.png';
+import hawk from '../../assets/hawk.svg';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   match: any;
@@ -47,6 +50,10 @@ export default function ResetPassword({ match }: Props): ReactElement {
     }
   };
 
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
+
   if (loading) {
     return (
       <div className="screen-center">
@@ -57,8 +64,8 @@ export default function ResetPassword({ match }: Props): ReactElement {
 
   return (
     <div className="auth-page login forgot">
-      <Img src={desktopBG} className="background" />
-      <img src={hawk} alt="" />
+      <Img src={isPhone ? phoneBG : desktopBG} className="background" />
+      <img src={hawk} alt="" id="hawkk" />
       <h1>HAWKEYE</h1>
       <h2>Reset Password</h2>
       {errors.map((err: string) => {

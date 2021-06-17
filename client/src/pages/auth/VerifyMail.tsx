@@ -1,12 +1,14 @@
 import React, { ReactElement } from 'react';
 import Loading from '../../components/Loading';
 import { put } from '../../utils/requests';
-import desktopBG from '../../assets/backround/desktop.png';
+import desktopBG from '../../assets/backround/desktop.svg';
+import phoneBG from '../../assets/backround/mobile.svg';
 
 import animationData from '../../assets/animations/verified.json';
 import Lottie from 'react-lottie';
 import Img from '../../components/Img';
 import Button from '../../components/Button';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   match: any;
@@ -33,6 +35,10 @@ export default function VerifyMail({ match }: Props): ReactElement {
     })();
   }, []);
 
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
+
   if (loading) {
     return (
       <div className="screen-center">
@@ -43,7 +49,7 @@ export default function VerifyMail({ match }: Props): ReactElement {
 
   return (
     <div className="verify-mail">
-      <Img src={desktopBG} className="background" />
+      <Img src={isPhone ? phoneBG : desktopBG} className="background" />
       <Lottie options={defaultOptions} height={250} width={250} />
       <h1>Email Verified!</h1>
       <Button

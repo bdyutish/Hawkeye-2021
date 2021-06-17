@@ -17,15 +17,11 @@ import AdminQuestions from './pages/admin/AdminQuestions';
 import Loading from './components/Loading';
 
 //TODO
-// ADD hawk logo in nest and all
 // Are you sure modal too small in mobile
 // locks right side
 // change power up bar
-// increase mobile headings size
 // Auth pages overflowing
-// New region not getting unlocked properly
 // Wierd flip problem
-// Change logo to svg
 // HANDLE LINKS
 // Welcome ${username}
 // Mobile mei toast not coming

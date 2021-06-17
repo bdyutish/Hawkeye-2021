@@ -613,6 +613,8 @@ margin-top: .5rem;
 
 &--nest{
     position: relative;
+    padding-bottom: 0;
+    padding-top: 2rem;
 
     @media (max-width:670px){
         padding-top: 10rem;

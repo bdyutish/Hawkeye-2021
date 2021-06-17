@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import Modal from 'react-modal';
-import hawkpng from '../assets/hawk_transparent.png';
+import hawkpng from '../assets/hawk.svg';
 interface Props {
   closeHandler: () => void;
   open: boolean;
@@ -18,15 +18,15 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
         <i className="fas fa-times"></i>
       </div>
       <div className="overlay-content">
-        <img src={hawkpng} alt="logo" />
+        <img src={hawkpng} alt="logo" id="hawkk" />
         <h1>Rulebook</h1>
         <div>
           <h3>GamePlay</h3>
           <ol>
             <li>
               This is an online scavenger hunt, it starts at
-              <span> 11/06/21 12:00 AM</span> and ends on
-              <span> 13/6/21 11:59 PM</span>
+              <span> 19/06/21 12:00</span> and ends on
+              <span> 21/6/21 23:59</span>
             </li>
             <li>
               You will spawn in a <span>random region</span> out the 6 regions.

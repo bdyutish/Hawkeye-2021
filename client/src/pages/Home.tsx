@@ -16,7 +16,7 @@ import Dropdown from '../components/Dropdown';
 import Loading from '../components/Loading';
 import { coordinates } from '../utils/data';
 import { useMediaQuery } from 'react-responsive';
-import hawk from '../assets/hawk_transparent.png';
+import hawk from '../assets/hawk.svg';
 import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
@@ -170,7 +170,7 @@ export default function Home(): ReactElement {
   if (isPhone) {
     return (
       <div className="home home--phone">
-        <img src={hawk} alt="" className="hawk" />
+        <img src={hawk} alt="" className="hawk" id="hawkk" />
         <div className="main">
           <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>Welcome Player</h1>
           <h2
@@ -233,6 +233,7 @@ export default function Home(): ReactElement {
               }}
               className="hawk"
               src={hawk}
+              id="hawkk"
               alt=""
             />
             <h1

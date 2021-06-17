@@ -17,6 +17,7 @@ import iecse from '../assets/iecse.png';
 import ReactCardFlip from 'react-card-flip';
 import { useMediaQuery } from 'react-responsive';
 import flipIcon from '../assets/flips/nest.png';
+import hawkImg from '../assets/hawk.svg';
 
 interface Props {}
 
@@ -158,6 +159,7 @@ export default function Nest({}: Props): ReactElement {
       <HUD />
       <Img src={nestBG} className="background" />
       <img src={iecse} alt="" className="iecse-logo" />
+      <img src={hawkImg} alt="" className="hawk" id="hawkk" />
       <h1>HAWKEYE</h1>
       <h2 className="secondary-heading">Welcome to the hawk’s nest</h2>
       <main>
