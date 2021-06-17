@@ -56,6 +56,7 @@ build api:
     - docker:dind
 
   before_script:
+    - echo $CI_REG_USERNAME
     - echo "$CI_REG_TOKEN" | docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
   script:
     - cd api && docker build -t $CI_REGISTERY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
