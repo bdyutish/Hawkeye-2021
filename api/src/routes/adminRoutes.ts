@@ -11,6 +11,7 @@ import {
   deleteHint,
   unlockRegionForAll,
   getBannedUsers,
+  unlockHintByQuestion,
 } from '../controllers/adminController';
 import { addQuestion, editQuestion } from '../controllers/adminController';
 import { body } from 'express-validator';
@@ -58,6 +59,8 @@ router.post(
   isAdmin,
   unlockHints
 );
+
+router.post('/unlock/:hintid', protect, isAdmin, unlockHintByQuestion);
 
 router.post(
   '/questions/add',

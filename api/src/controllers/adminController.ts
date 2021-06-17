@@ -254,3 +254,15 @@ export const getBannedUsers = async (
     return next(new ErrorResponse(err.name, err.code));
   }
 };
+
+export const unlockHintByQuestion = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await Hint.findByIdAndUpdate(req.params.hintid, { isUnlocked: true });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};

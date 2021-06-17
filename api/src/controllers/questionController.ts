@@ -5,7 +5,7 @@ import ErrorResponse from '../utils/ErrorResponse';
 import { compareAnswers, unlockRegion } from '../utils/helperFunctions';
 import Region from '../models/Region';
 import UnlockedHint from '../models/unlockedHint';
-import Hint from '../models/Hint';
+import Hint, { HintDoc } from '../models/Hint';
 
 export const getQuestionByRegionId = async (
   req: Request,
@@ -115,7 +115,7 @@ export const getQuestionByRegionId = async (
       lagging: lag,
     };
 
-    let qhints = [];
+    let qhints: HintDoc[] = [];
 
     let hints = await UnlockedHint.find({
       regionIndex: index,
@@ -127,8 +127,22 @@ export const getQuestionByRegionId = async (
         question: question._id,
         level: hints[i].hintLevel,
       });
-      qhints.push(hint);
+      if (hint) qhints.push(hint);
     }
+
+    let unlockedByQuestion = await Hint.find({
+      question: question._id,
+      isUnlocked: true,
+    });
+
+    for (let i = 0; i < unlockedByQuestion.length; i++) {
+      qhints.push(unlockedByQuestion[i]);
+    }
+
+    //@ts-ignore
+    qhints = [...new Set(qhints.map(JSON.stringify))].map(JSON.parse);
+
+    qhints.sort((a, b) => (a.level > b.level ? 1 : b.level > a.level ? -1 : 0));
 
     res.status(201).send({
       regionMultiplier: regionMult,
