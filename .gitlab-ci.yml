@@ -36,8 +36,8 @@ build client:
     - echo "$CI_REG_TOKEN" | docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
 
   script:
-    - cd client && docker build -t $CI_REGISTRY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-client:latest -f client.prod.Dockerfile .
-    - docker push $CI_REGISTRY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-client:latest
+    - cd client && docker build -t registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-client:latest -f client.prod.Dockerfile .
+    - docker push registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-client:latest
 
   after_script:
     - docker logout $CI_REGISTRY
@@ -60,8 +60,8 @@ build api:
     - echo $CI_REG_TOKEN
     - echo "$CI_REG_TOKEN" | docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
   script:
-    - cd api && docker build -t $CI_REGISTERY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
-    - docker push $CI_REGISTERY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api
+    - cd api && docker build -t registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
+    - docker push registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest
 
 deploy api:
   stage: deploy
