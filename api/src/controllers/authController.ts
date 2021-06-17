@@ -43,7 +43,7 @@ export const register = async (
     });
     console.log('register');
 
-    const regions = await Region.find();
+    const regions = await Region.find().sort({ name: 1 });
 
     let regionArray: {
       regionid: mongoose.Schema.Types.ObjectId;
