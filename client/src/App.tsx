@@ -22,6 +22,7 @@ import Loading from './components/Loading';
 // change power up bar
 // HANDLE LINKS
 // Mobile mei toast not coming
+// Change from png to svg
 
 // TEST API KEYS
 

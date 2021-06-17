@@ -407,7 +407,13 @@ function Stats({
       {isPhone && (
         <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
           <img
-            src={require(`../assets/flips/${auth?.region}.svg`).default}
+            src={(() => {
+              try {
+                return require(`../assets/flips/${auth?.region}.svg`).default;
+              } catch (err) {
+                return require(`../assets/flips/nest.png`).default;
+              }
+            })()}
             alt=""
           />
         </div>
@@ -515,7 +521,13 @@ function Hints({
       {isPhone && (
         <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
           <img
-            src={require(`../assets/flips/${auth?.region}.svg`).default}
+            src={(() => {
+              try {
+                return require(`../assets/flips/${auth?.region}.svg`).default;
+              } catch (err) {
+                return require(`../assets/flips/nest.png`).default;
+              }
+            })()}
             alt=""
           />
         </div>
