@@ -1,6 +1,6 @@
-import { app } from "./app";
-import dotenv from "dotenv";
-import { connectDB } from "./config/db";
+import { app } from './app';
+import dotenv from 'dotenv';
+import { connectDB } from './config/db';
 
 //Load Config
 dotenv.config();
@@ -12,10 +12,10 @@ dotenv.config();
 app.listen(process.env.PORT || 4000, async () => {
   try {
     console.log(`Listening at port: ${process.env.PORT || 4000}...`);
-    console.log("is gitlab ci op? NO")
+    console.log('is gitlab ci op? YES');
     await connectDB();
   } catch (err) {
-    console.log("Connection to mongo unsuccessful...\n" + err);
+    console.log('Connection to mongo unsuccessful...\n' + err);
     process.exit();
   }
 });
