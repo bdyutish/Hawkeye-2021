@@ -81,6 +81,9 @@
     transition: 0.2s all ease-in-out;
     text-decoration: none;
   }
+  button.primary-btn{
+    background: none;
+  }
   
   button:hover {
     background: #3e42a8;
