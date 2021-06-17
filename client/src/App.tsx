@@ -17,27 +17,18 @@ import AdminQuestions from './pages/admin/AdminQuestions';
 import Loading from './components/Loading';
 
 //TODO
-// Landed Responsive FIX
-//***Correct the fonts EVERYWHERE
-// Indication shop mei when something is selected
 // ADD hawk logo in nest and all
-// HANDLE LINKS
-// CHECK HINTS RESPONSIVE
-// COIN FLIP RESONSIVE
-// Hawk thinks you're close responsive
 // Are you sure modal too small in mobile
-// Dont forget to implement everything in nest
-// Update strikes on question fail
-// FIX LOADING
-// TEST API KEYS
-// CHANGE "HAWKEYE" TO CAPS EVERYWHERE
 // locks right side
-// stats arrow pink
-// shop animate from top
 // change power up bar
-// change normal text font
-// ***increase dropdown width in phone
 // increase mobile headings size
+// Auth pages overflowing
+// New region not getting unlocked properly
+// Wierd flip problem
+// Change logo to svg
+// HANDLE LINKS
+
+// TEST API KEYS
 
 export default function App(): ReactElement {
   const auth = useAuth();
