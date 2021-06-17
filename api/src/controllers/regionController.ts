@@ -11,6 +11,7 @@ export const addRegion = async (
     const region = new Region({
       name: req.body.name,
       description: req.body.description,
+      colorData: req.body.colorData,
     });
 
     await region.save();
