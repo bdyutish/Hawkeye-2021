@@ -62,7 +62,7 @@ export const getLeaderboard = async (
 ) => {
   try {
     const leaderBoard = await User.find()
-      .select('username score lastUnlockedIndex')
+      .select('name score lastUnlockedIndex nestLevel')
       .sort({ score: -1 })
       .lean();
     res.status(200).send(leaderBoard);
@@ -237,6 +237,19 @@ export const unlockRegionForAll = async (
       console.log('Done for ' + userList[i]._id);
     }
     res.status(200).send({ success: true });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
+export const getBannedUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const bannedusers = await User.find({ isBanned: true });
+    res.status(200).send({ success: true, data: bannedusers });
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

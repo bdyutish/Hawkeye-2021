@@ -53,6 +53,8 @@ export const getQuestionByRegionId = async (
       }
     }
 
+    attempts = attempts.reverse();
+
     let atPar = await User.aggregate([
       {
         $match: {
@@ -224,7 +226,7 @@ export const submitQuestion = async (
         score: user.score,
         regions: user.regions,
         nestUnlocked: user.hawksNest,
-        strike: user.strikes,
+        strikes: user.strikes,
         message: 'Answer is correct',
       });
     }

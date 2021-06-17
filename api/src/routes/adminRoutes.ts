@@ -10,6 +10,7 @@ import {
   editHint,
   deleteHint,
   unlockRegionForAll,
+  getBannedUsers,
 } from '../controllers/adminController';
 import { addQuestion, editQuestion } from '../controllers/adminController';
 import { body } from 'express-validator';
@@ -91,4 +92,6 @@ router.post('/user/ban/:userId', protect, isAdmin, banUser);
 router.post('/user/unban/:userId', protect, isAdmin, UnbanUser);
 
 router.post('/regions/unlock', protect, isAdmin, unlockRegionForAll);
+
+router.get('/users/banned', protect, isAdmin, getBannedUsers);
 export { router as adminRouter };
