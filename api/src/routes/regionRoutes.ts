@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { addRegion, getAllRegions } from '../controllers/regionController';
-import { protect, isBanned } from '../middlewares/auth';
+import { protect, isBanned, isAdmin } from '../middlewares/auth';
 import { validateRequest } from '../middlewares/requestValidator';
 import { body } from 'express-validator';
 
@@ -10,8 +10,11 @@ router.post(
   [
     body('name', 'name not entered').notEmpty(),
     body('description', 'description not enetered').notEmpty(),
+    body('colorData', 'colorData cant be empty').notEmpty(),
   ],
   validateRequest,
+  protect,
+  isAdmin,
   addRegion
 );
 
