@@ -56,12 +56,12 @@ build api:
     - docker:dind
 
   before_script:
-    - docker login -u "$CI_REG_USERNAME" -p "$CI_REG_TOKEN" $CI_REGISTRY
+    - echo "$CI_REG_TOKEN" | docker login -u "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
   script:
     - cd api && docker build -t $CI_REGISTERY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
     - docker push $CI_REGISTERY/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api
 
-deploy-api:
+deploy api:
   stage: deploy
   only:
     changes:
@@ -71,7 +71,7 @@ deploy-api:
   script:
     - ./deploy/api-deploy.yml
 
-deploy-client:
+deploy client:
   stage: deploy
   only:
     changes:
