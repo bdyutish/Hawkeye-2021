@@ -71,7 +71,7 @@ deploy api:
   tags:
     - shell
   script:
-    - ./deploy/api-deploy.yml
+    - ./deploy/api-deploy.sh
 
 deploy client:
   stage: deploy
@@ -81,4 +81,4 @@ deploy client:
   tags:
     - shell
   script:
-    - ./deploy/client-deploy.yml
+    - ./deploy/client-deploy.sh
