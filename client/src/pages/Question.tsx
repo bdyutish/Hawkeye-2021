@@ -148,7 +148,6 @@ RouteComponentProps<TParams>): ReactElement {
       });
 
       if (id === 4 && res.worked) {
-        //HANDLE REGION END AND QUESTION RE FETCH
         setCoin((prev) => ({ ...prev, fliping: true, className: 'heads' }));
         setTimeout(() => {
           setCoin((prev) => ({ ...prev, fliping: false }));
@@ -156,9 +155,10 @@ RouteComponentProps<TParams>): ReactElement {
             questionFetcher.data.question.level ===
             parseInt(process.env.REACT_APP_LEVEL_COUNT || '6')
           ) {
-            history.push('/');
-            addToast('New Region Unlocked!', { appearance: 'success' });
-            auth?.fetchMe();
+            auth?.fetchMe().then((_: any) => {
+              history.push('/');
+              addToast('New Region Unlocked!', { appearance: 'success' });
+            });
             return;
           }
           addToast('Applied Successfully', { appearance: 'success' });
@@ -169,7 +169,7 @@ RouteComponentProps<TParams>): ReactElement {
         setCoin((prev) => ({ ...prev, fliping: true, className: 'tails' }));
         setTimeout(() => {
           setCoin((prev) => ({ ...prev, fliping: false }));
-          addToast('F', { appearance: 'error' });
+          addToast('Better luck next time!', { appearance: 'error' });
         }, 5000);
         return;
       }
@@ -205,8 +205,9 @@ RouteComponentProps<TParams>): ReactElement {
       } else if (!res.success) {
         // addToast('Something went wrong', { appearance: 'error' });
       }
-    } catch (err) {
-      auth?.check();
+    } catch (err: any) {
+      addToast(err.response.data.message, { appearance: 'error' });
+      // auth?.check();
     }
   };
 

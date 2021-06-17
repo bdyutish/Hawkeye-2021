@@ -9,6 +9,7 @@ import ReactTooltip from 'react-tooltip';
 import Shop from './Shop';
 import Rulebook from './Rulebook';
 import { useLocation } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 interface Props {
   onOpen?: () => any;
@@ -23,6 +24,10 @@ export default function HUD({ onOpen, onClose }: Props): ReactElement {
   const [rulebookOpen, setRulebookOpen] = React.useState(false);
 
   const location = useLocation();
+
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
 
   React.useEffect(() => {
     if (!shopOpen && !rulebookOpen) return;
@@ -48,7 +53,7 @@ export default function HUD({ onOpen, onClose }: Props): ReactElement {
             <img src={cart} alt="" className="logo" />
           </div>
         )}
-      <ReactTooltip effect="solid" type="light" />
+      {!isPhone && <ReactTooltip effect="solid" type="light" />}
 
       {location.pathname !== '/' && (
         <div
@@ -62,7 +67,7 @@ export default function HUD({ onOpen, onClose }: Props): ReactElement {
           <img src={rules} alt="" className="logo" />
         </div>
       )}
-      <ReactTooltip effect="solid" type="light" />
+      {!isPhone && <ReactTooltip effect="solid" type="light" />}
 
       {((auth?.user && location.pathname === '/') || auth?.user?.hawksNest) && (
         <div onClick={auth?.logout} data-tip="Logout" className="logout">
@@ -70,7 +75,7 @@ export default function HUD({ onOpen, onClose }: Props): ReactElement {
           <i className="fas fa-power-off"></i>
         </div>
       )}
-      <ReactTooltip effect="solid" type="light" />
+      {!isPhone && <ReactTooltip effect="solid" type="light" />}
 
       <Shop
         open={shopOpen}

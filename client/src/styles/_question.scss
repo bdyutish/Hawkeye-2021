@@ -21,6 +21,7 @@
     text-align: center;
     padding: 1.5rem 2rem;
     position: relative;
+    padding-bottom: 8rem;
 
 
     .top-bar{
@@ -403,6 +404,7 @@ h2{
         flex-direction: column;
         justify-content: space-between;
 
+
         .bottom{
             display: flex;
             flex-direction: column;
@@ -441,14 +443,14 @@ h2{
         }
 
         @media (max-width:1250px) {
-            width: 25rem;
-            height: 25rem; 
+            width: 28rem;
+            height: 28rem; 
         }
 
 
         @media (max-width:990px) {
-            width: 23rem;
-            height: 23rem; 
+            width: 27rem;
+            height: 27rem; 
         }
 
         @media (max-width:680px) {
@@ -598,6 +600,11 @@ justify-content: space-around;
 
 &--nest{
     position: relative;
+
+    @media (max-width:670px){
+        padding-top: 10rem;
+    }
+
     main{
         margin-top: 4rem;
     }
@@ -606,6 +613,10 @@ justify-content: space-around;
         color: #5C63FF;
         font-size: 2rem;
         letter-spacing: 2px;
+
+        @media (max-width:360px){
+        font-size: 1.7rem;
+        }
     }
 
     .iecse-logo{
@@ -659,14 +670,40 @@ justify-content: space-around;
     height: auto;
 
     .answer{
-        
+    
         width: 32rem;
         height: 32rem;
+
+
+        @media (max-device-width: 680px){
+            margin-bottom: 4rem;
+        }
+
+        @media (max-device-width: 355px){
+            width: 29rem;
+            height: 29rem;
+        }
     }
 
-    .hints,.stats{
+
+
+    .hints,.data{
         width: 32rem;
-        height: 26rem;
+        height: 29rem;
+        position: relative;
+
+
+        @media (max-device-width: 355px){
+            width: 29rem;
+        height: 26.5rem;
+        }
+
+
+        .flip{
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
     }
 }
 

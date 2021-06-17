@@ -246,6 +246,11 @@ html {
   width: 90px;
   height: 90px;
 
+  @media (max-width:990px) {
+    width: 70px;
+    height: 70px;
+}
+
 
 
   img{

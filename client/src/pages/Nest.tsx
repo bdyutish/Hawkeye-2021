@@ -14,6 +14,9 @@ import nestBG from '../assets/backround/nest.png';
 //@ts-ignore
 import Typewriter from 'typewriter-effect/dist/core';
 import iecse from '../assets/iecse.png';
+import ReactCardFlip from 'react-card-flip';
+import { useMediaQuery } from 'react-responsive';
+import flipIcon from '../assets/flips/nest.png';
 
 interface Props {}
 
@@ -28,6 +31,11 @@ export default function Nest({}: Props): ReactElement {
 
   const { addToast } = useToasts();
   const auth = useAuth();
+
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
+  const [flipped, setFlipped] = React.useState(false);
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>
@@ -99,6 +107,52 @@ export default function Nest({}: Props): ReactElement {
     );
   }
 
+  if (isPhone) {
+    return (
+      <div className="question question--phone">
+        <HUD />
+        <Img src={nestBG} className="background" />
+        <h1>Hawkeye</h1>
+        <div className="top-bar">
+          <div className="points">
+            <span>Reputation points : </span> {auth?.user?.score}
+          </div>
+        </div>
+        <main>
+          <form className="answer" onSubmit={handleSubmit}>
+            <div className="top">
+              <h2>Level {questionFetcher.data.question.level}</h2>
+              <p>{questionFetcher.data.question.text}</p>
+            </div>
+            {close && <div className="close">Hawk thinks you're close</div>}
+
+            <div className="bottom">
+              <input type="text" value={answer} onChange={setAnswer} />
+              <Button name="Submit" />
+            </div>
+          </form>
+          <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
+            <Hints
+              hints={questionFetcher.data.qhints.map(
+                (hint: any) => hint.hintText
+              )}
+              handleFlip={() => {
+                setFlipped((prev) => !prev);
+              }}
+            />
+            <Stats
+              stats={questionFetcher.data.stats}
+              attempts={questionFetcher.data.nestAttempts}
+              handleFlip={() => {
+                setFlipped((prev) => !prev);
+              }}
+            />
+          </ReactCardFlip>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div className="question question--nest">
       <HUD />
@@ -137,16 +191,26 @@ interface IStatsProps {
     leading: number;
     lagging: number;
   };
+  handleFlip?: () => void;
 }
 
-function Stats({ attempts, stats }: IStatsProps): ReactElement {
+function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
   const [attemptsOpen, setAttemptsOpen] = React.useState(true);
 
   const percentage =
     (100 / (stats.leading + stats.lagging)) * stats.lagging || 0;
 
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
+
   return (
     <div className="data">
+      {isPhone && (
+        <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
+          <img src={flipIcon} alt="" />
+        </div>
+      )}
       <div className="top">
         <h2
           className={attemptsOpen ? 'active' : ''}
@@ -229,9 +293,24 @@ function Stats({ attempts, stats }: IStatsProps): ReactElement {
   );
 }
 
-function Hints({ hints }: { hints: string[] }): ReactElement {
+function Hints({
+  hints,
+  handleFlip,
+}: {
+  hints: string[];
+  handleFlip?: () => void;
+}): ReactElement {
+  const isPhone = useMediaQuery({
+    query: '(max-device-width: 680px)',
+  });
+
   return (
     <div className="hints">
+      {isPhone && (
+        <div onClick={handleFlip ? handleFlip : () => {}} className="flip">
+          <img src={flipIcon} alt="" />
+        </div>
+      )}
       <h2>Hints</h2>
       <section>
         {hints.map((hint: string) => {

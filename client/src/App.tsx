@@ -17,12 +17,10 @@ import AdminQuestions from './pages/admin/AdminQuestions';
 import Loading from './components/Loading';
 
 //TODO
+// Landed Responsive FIX
 //***Correct the fonts EVERYWHERE
-// background blur chage only for mozilla
-// ADD LOGOS IN ALL AUTH PAGES
 // Indication shop mei when something is selected
 // ADD hawk logo in nest and all
-// CHANGE SITEKEY
 // HANDLE LINKS
 // CHECK HINTS RESPONSIVE
 // COIN FLIP RESONSIVE
@@ -33,8 +31,13 @@ import Loading from './components/Loading';
 // FIX LOADING
 // TEST API KEYS
 // CHANGE "HAWKEYE" TO CAPS EVERYWHERE
-// Forbid streak second time if its active
-// TEST UNLOCK HINT
+// locks right side
+// stats arrow pink
+// shop animate from top
+// change power up bar
+// change normal text font
+// ***increase dropdown width in phone
+// increase mobile headings size
 
 export default function App(): ReactElement {
   const auth = useAuth();

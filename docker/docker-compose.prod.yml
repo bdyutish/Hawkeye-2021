@@ -2,9 +2,9 @@ version: '3.3'
 
 services:
   api:
-    # build:
-    #   context: ../api
-    #   dockerfile: ./api.prod.Dockerfile
+          #     build:
+          #context: ../api
+          #dockerfile: ./api.prod.Dockerfile
     image: registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest
     container_name: Hawk-api
     restart: unless-stopped
@@ -51,9 +51,9 @@ services:
 
   client:
     stdin_open: true
-    # build:
-    #   context: ../client
-    #   dockerfile: ./client.prod.Dockerfile
+    #build:
+             #context: ../client
+             #dockerfile: ./client.prod.Dockerfile
     image: registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-client:latest
     container_name: Hawk-client
     restart: unless-stopped

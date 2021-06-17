@@ -5,6 +5,7 @@ import hawk from '../assets/hawk.png';
 //@ts-ignore
 import Typewriter from 'typewriter-effect/dist/core';
 import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 export default function Landing(): ReactElement {
   const headingRef = React.useRef<HTMLHeadingElement>(null);
@@ -24,7 +25,19 @@ export default function Landing(): ReactElement {
           localStorage.getItem('hawk-ready') ? '/login' : '/register'
         );
       });
+
+    return () => {
+      localStorage.setItem('hawk-landing', 'true');
+    };
   }, []);
+
+  if (localStorage.getItem('hawk-landing')) {
+    return (
+      <Redirect
+        to={localStorage.getItem('hawk-ready') ? '/login' : '/register'}
+      />
+    );
+  }
 
   return (
     <div className="landing">

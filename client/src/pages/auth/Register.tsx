@@ -7,6 +7,7 @@ import Img from '../../components/Img';
 import Input from '../../components/Input';
 import { useAuth } from '../../context/AuthContext';
 import useInputState from '../../hooks/useInputState';
+import hawk from '../../assets/hawk_transparent.png';
 
 import ReCAPTCHA from 'react-google-recaptcha';
 
@@ -79,6 +80,7 @@ export default function Register({}: Props): ReactElement {
   return (
     <div className="auth-page register">
       <Img src={desktopBG} className="background" />
+      <img src={hawk} alt="" />
       <h1>HAWKEYE</h1>
       <h2>Sign Up</h2>
       {errors.map((err: string) => {

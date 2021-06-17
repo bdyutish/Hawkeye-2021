@@ -9,6 +9,7 @@ import Input from '../../components/Input';
 import Loading from '../../components/Loading';
 import { useAuth } from '../../context/AuthContext';
 import useInputState from '../../hooks/useInputState';
+import hawk from '../../assets/hawk_transparent.png';
 
 interface Props {}
 
@@ -59,6 +60,7 @@ export default function ForgotPassword({}: Props): ReactElement {
   return (
     <div className="auth-page login forgot">
       <Img src={desktopBG} className="background" />
+      <img src={hawk} alt="" />
       <h1>HAWKEYE</h1>
       <h2>Forgot Password</h2>
       {errors.map((err: string) => {
