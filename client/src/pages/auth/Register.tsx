@@ -41,7 +41,7 @@ export default function Register({}: Props): ReactElement {
 
   const { addToast } = useToasts();
 
-  const [captcha, setCaptcha] = React.useState(false);
+  const [captcha, setCaptcha] = React.useState(true);
   const handleVerify = () => {
     setCaptcha(true);
   };

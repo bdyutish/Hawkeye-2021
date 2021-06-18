@@ -84,7 +84,9 @@ RouteComponentProps<TParams>): ReactElement {
       });
 
       if (!data.success) {
+        if (data.mesaage === 'Region Already Completed') return;
         questionFetcher.fetch(false);
+
         if (data.close) {
           setClose(true);
           setTimeout(() => {
@@ -100,7 +102,7 @@ RouteComponentProps<TParams>): ReactElement {
 
       if (
         questionFetcher.data.question.level ===
-        parseInt(process.env.REACT_APP_LEVEL_COUNT || '6')
+        parseInt(process.env.REACT_APP_LEVEL_COUNT || '5')
       ) {
         history.push('/');
         await auth?.fetchMe();
