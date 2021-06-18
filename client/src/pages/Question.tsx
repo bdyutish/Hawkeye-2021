@@ -23,7 +23,7 @@ import hawk from '../assets/hawk.png';
 import ReadyToPlay from './ReadyToPlay';
 import useClickOut from '../hooks/useClickOut';
 import ReactCardFlip from 'react-card-flip';
-import hawkImg from '../assets/hawk.svg';
+// import hawkImg from '../assets/hawk.svg';
 
 type TParams = { id: string };
 
@@ -307,7 +307,7 @@ RouteComponentProps<TParams>): ReactElement {
     <div className="question">
       <HUD />
       <Img src={desktopBG} className="background" />
-      <img src={hawkImg} alt="" className="hawk" id="hawkk" />
+      {/* <img src={hawkImg} alt="" className="hawk" id="hawkk" /> */}
       <h1>HAWKEYE</h1>
       <div className="top-bar">
         <div className="region">
@@ -593,83 +593,85 @@ function BottomBar({
 
   return (
     <>
-      {(multiplier > 1 || !!auth?.user?.strikes) && (
-        <div className="bar-details">
-          {multiplier > 1 && (
-            <div className="multi">
-              <span style={{ color }}>Region Multiplier: </span> {multiplier}x
-            </div>
-          )}
-          {!!auth?.user?.strikes && (
-            <div className="streak">
-              <span style={{ color }}>Strikes Left: </span>{' '}
-              {auth?.user?.strikes}
-            </div>
-          )}
-        </div>
-      )}
       <div
         ref={barRef}
         className={!hasPoweUps ? 'bottom-bar empty-bar' : 'bottom-bar'}
       >
-        <Confirm options={options} />
-        {!hasPoweUps && <h1 className="empty">You own no power ups</h1>}
-        {hasPoweUps && (
-          <>
-            <aside>
-              {data.map((powerUp: any, index: number) => {
-                return powerUp.owned ? (
-                  <div
-                    data-tip={powerUp.name}
-                    onClick={() => setSelected(powerUp.id)}
-                    key={powerUp._id}
-                    style={{
-                      border: `1px solid ${
-                        selected === powerUp.id ? color : '#fff'
-                      }`,
-                    }}
-                    className={
-                      selected === powerUp.id
-                        ? 'square square--selected'
-                        : 'square'
-                    }
-                  >
-                    <img
-                      className={`img-${powerUp.id}`}
-                      src={powerUps[index].image}
-                      alt=""
-                    />
-                  </div>
-                ) : null;
-              })}
-            </aside>
-            <div className="right">
-              {!selected && <div className="empty">Select a power up</div>}
-              {!!selected && (
-                <>
-                  <div className="details">
-                    <div className="name">
-                      {
-                        powerUps.find((powerUp) => powerUp.id === selected)
-                          ?.name
-                      }
-                    </div>
-                    <div className="owned">
-                      {' '}
-                      <span style={{ color }}>Owned:</span>{' '}
-                      {
-                        auth?.user?.powerupsHistory?.find(
-                          (powerUp) => powerUp.id === selected
-                        ).owned
-                      }
-                    </div>
-                  </div>
-                  <Button onClick={handleClick} name="Use" />
-                </>
-              )}
-            </div>{' '}
-          </>
+        {(multiplier > 1 || !!auth?.user?.strikes) && (
+          <div className="bar-details">
+            {multiplier > 1 && (
+              <div className="multi">
+                <span style={{ color }}>Region Multiplier: </span> {multiplier}x
+              </div>
+            )}
+            {!!auth?.user?.strikes && (
+              <div className="streak">
+                <span style={{ color }}>Strikes Left: </span>{' '}
+                {auth?.user?.strikes}
+              </div>
+            )}
+          </div>
         )}
+        <main className="bottom">
+          <Confirm options={options} />
+          {!hasPoweUps && <h1 className="empty">You own no power ups</h1>}
+          {hasPoweUps && (
+            <>
+              <aside>
+                {data.map((powerUp: any, index: number) => {
+                  return powerUp.owned ? (
+                    <div
+                      data-tip={powerUp.name}
+                      onClick={() => setSelected(powerUp.id)}
+                      key={powerUp._id}
+                      style={{
+                        border: `1px solid ${
+                          selected === powerUp.id ? color : '#fff'
+                        }`,
+                      }}
+                      className={
+                        selected === powerUp.id
+                          ? 'square square--selected'
+                          : 'square'
+                      }
+                    >
+                      <img
+                        className={`img-${powerUp.id}`}
+                        src={powerUps[index].image}
+                        alt=""
+                      />
+                    </div>
+                  ) : null;
+                })}
+              </aside>
+              <div className="right">
+                {!selected && <div className="empty">Select one</div>}
+                {!!selected && (
+                  <>
+                    <div className="details">
+                      <div className="name">
+                        {
+                          powerUps.find((powerUp) => powerUp.id === selected)
+                            ?.name
+                        }
+                      </div>
+                      <div className="owned">
+                        {' '}
+                        <span style={{ color }}>Owned:</span>{' '}
+                        {
+                          auth?.user?.powerupsHistory?.find(
+                            (powerUp) => powerUp.id === selected
+                          ).owned
+                        }
+                      </div>
+                    </div>
+                    <Button onClick={handleClick} name="Use" />
+                  </>
+                )}
+              </div>{' '}
+            </>
+          )}
+        </main>
       </div>
     </>
   );

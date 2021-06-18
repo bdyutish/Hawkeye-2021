@@ -17,14 +17,17 @@ import AdminQuestions from './pages/admin/AdminQuestions';
 import Loading from './components/Loading';
 
 //TODO
-// Are you sure modal too small in mobile
-// locks right side
-// change power up bar
-// HANDLE LINKS
-// Mobile mei toast not coming
-// Change from png to svg
+// ****Are you sure modal too small in mobile
+// ****EVERY TEXT IS TOO SMALL IN MOBILE FFS
+// shop text too small in phone
+// rulebook alignment sligtly off in mobile
 
+// HANDLE LINKS
 // TEST API KEYS
+// **Change mozilla ka glass effect
+// button hover gradient
+// different zoom in mobile
+// ZOOM BUTTONS
 
 export default function App(): ReactElement {
   const auth = useAuth();

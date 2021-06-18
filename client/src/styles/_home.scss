@@ -177,13 +177,16 @@ margin: 1.25rem 0;
             }
         }
 
-
+        
         #map{
             min-height: 100vh;
             // height: 50%;
             position: absolute;
-            inset: 0;
+            
             top: 14rem;
+            left: 0;
+            right: 0;
+            bottom: 0;
 
             @media (max-width:440px) {
             top: 12rem;
@@ -199,3 +202,15 @@ margin: 1.25rem 0;
 //     -webkit-background-clip: text;
 //     -webkit-text-fill-color: transparent;
 // }
+
+.home-detail{
+    margin-top: auto;
+}
+
+.home-locked{
+    color: #ff4500;
+}
+
+.home-completed{
+    color: #a7d129;
+}

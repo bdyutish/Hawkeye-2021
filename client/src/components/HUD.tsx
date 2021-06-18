@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react';
 import squareLeft from '../assets/square-one.png';
 import squareRight from '../assets/square-two.png';
 
-import cart from '../assets/cart.png';
-import rules from '../assets/rules.png';
+import cart from '../assets/cart.svg';
+import rules from '../assets/rules.svg';
 import { useAuth } from '../context/AuthContext';
 import ReactTooltip from 'react-tooltip';
 import Shop from './Shop';

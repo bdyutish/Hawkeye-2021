@@ -3,7 +3,7 @@
     display: grid;
     place-items: center;
     overflow: hidden;
-    background-color: #010001;
+    background: #141414;
 
     video{
         transform: scale(2);
@@ -69,8 +69,10 @@ transition: all .1s;
     font-weight: bold;
 
 
+
     img{
         width: 12rem;
+
     }
 
     .name{
