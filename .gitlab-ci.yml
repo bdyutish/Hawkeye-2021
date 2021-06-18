@@ -97,22 +97,22 @@ deploy client:
   after_script:
     - docker logout $CI_REGISTRY
 
-deploy docker:
-  stage: deploy
-  only:
-    changes:
-      - docker/docker-compose.prod.yml
-    refs:
-      - prod
-  tags:
-    - shell
-  before_script:
-    - echo "$CI_REG_TOKEN" | sudo docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
-  script:
-    - sudo docker-compose -f docker/docker-compose.prod.yml up -d
-  after_script:
-    - docker logout $CI_REGISTRY
-  when: manual
+# deploy docker:
+#   stage: deploy
+#   only:
+#     changes:
+#       - docker/docker-compose.prod.yml
+#     refs:
+#       - prod
+#   tags:
+#     - shell
+#   before_script:
+#     - echo "$CI_REG_TOKEN" | sudo docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
+#   script:
+#     - sudo docker-compose -f docker/docker-compose.prod.yml up -d
+#   after_script:
+#     - docker logout $CI_REGISTRY
+#   when: manual
 
 # deploy shell changes:
 #   stage: deploy
