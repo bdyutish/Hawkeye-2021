@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import buttonImage from '../assets/button.png';
+import { useAuth } from '../context/AuthContext';
 
 interface Props {
   name: string;
@@ -21,9 +22,23 @@ export default function Button({
   pathname,
   state,
 }: Props): ReactElement {
+  const [hover, setHover] = React.useState(false);
+  const auth = useAuth();
+
+  // buttonImage;
+
   if (link) {
     return (
-      <Link to={{ pathname, state }} className={`primary-btn ${className}`}>
+      <Link
+        onMouseOver={() => setHover(true)}
+        onMouseOut={() => setHover(false)}
+        to={{ pathname, state }}
+        className={
+          hover
+            ? `primary-btn primary-btn--hovered ${className}`
+            : `primary-btn ${className}`
+        }
+      >
         <div className="name">{name}</div>
         <img src={buttonImage} alt="" />
       </Link>
@@ -32,9 +47,33 @@ export default function Button({
 
   return (
     //@ts-ignore
-    <button onClick={handleClick} className={`primary-btn ${className}`}>
+    <button
+      //@ts-ignore
+      onClick={handleClick}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
+      className={
+        hover
+          ? `primary-btn primary-btn--hovered ${className}`
+          : `primary-btn ${className}`
+      }
+    >
       <div className="name">{name}</div>
-      <img src={buttonImage} alt="" />
+      <img
+        src={
+          hover
+            ? (() => {
+                try {
+                  return require(`../assets/buttons/${auth?.region}.svg`)
+                    .default;
+                } catch (err) {
+                  return buttonImage;
+                }
+              })()
+            : buttonImage
+        }
+        alt=""
+      />
     </button>
   );
 }

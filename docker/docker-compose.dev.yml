@@ -23,7 +23,7 @@ services:
       MONGO_URI: mongodb://db:27017/hawk
       REDIS_HOST: redis
       PORT: 4000
-      MAX_LEVEL: 6
+      MAX_LEVEL: 5
     depends_on:
       - db
       - redis
@@ -61,7 +61,7 @@ services:
     ports:
       - 3005:3000
     environment:
-      REACT_APP_LEVEL_COUNT: 6
+      REACT_APP_LEVEL_COUNT: 5
     # CLIENT WONT START UP TILL API HAS STARTED (uncomment for this)
     # depends_on:
     #   - api

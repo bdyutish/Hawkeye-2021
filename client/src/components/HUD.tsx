@@ -55,22 +55,26 @@ export default function HUD({ onOpen, onClose }: Props): ReactElement {
         )}
       {!isPhone && <ReactTooltip effect="solid" type="light" />}
 
-      <div
-        onClick={() => {
-          setRulebookOpen(true);
-        }}
-        data-tip="Rulebook"
-        className={
-          location.pathname === '/' ? 'icon icon--2 icon--home' : 'icon icon--2'
-        }
-      >
-        <img src={squareRight} alt="" />
-        <img src={rules} alt="" className="logo" />
-      </div>
+      {location.pathname !== '/' && (
+        <div
+          onClick={() => {
+            setRulebookOpen(true);
+          }}
+          data-tip="Rulebook"
+          className={
+            location.pathname === '/'
+              ? 'icon icon--2 icon--home'
+              : 'icon icon--2'
+          }
+        >
+          <img src={squareRight} alt="" />
+          <img src={rules} alt="" className="logo" />
+        </div>
+      )}
 
       {!isPhone && <ReactTooltip effect="solid" type="light" />}
 
-      {((auth?.user && location.pathname === '/') || auth?.user?.hawksNest) && (
+      {auth?.user && location.pathname === '/' && (
         <div onClick={auth?.logout} data-tip="Logout" className="logout">
           <img src={squareLeft} alt="" />
           <i className="fas fa-power-off"></i>
