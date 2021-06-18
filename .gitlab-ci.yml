@@ -80,7 +80,8 @@ deploy api:
     - ./deploy/api-deploy.sh
   after_script:
     - docker logout $CI_REGISTRY
-    - sudo cp -r -u * /root/hawkeye-2021
+    - sudo cd /root/hawkeye-2021
+    - git pull origin prod
 
 deploy client:
   stage: deploy
