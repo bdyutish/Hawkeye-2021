@@ -231,13 +231,11 @@ export const submitHawksNestQuestion = async (
       user.nestLevel += 1;
       user.score += 100;
       await user.save();
-      return res
-        .status(200)
-        .send({
-          success: true,
-          score: user.score,
-          message: 'Answer is correct',
-        });
+      return res.status(200).send({
+        success: true,
+        score: user.score,
+        message: 'Answer is correct',
+      });
     }
     if (ratio >= 0.6) {
       return res.status(200).send({
@@ -273,6 +271,32 @@ export const unlockNestHints = async (
       success: true,
       message: 'Hints unlocked succesfully',
     });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
+export const addNestHint = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // "+hints" is used to access hints where select: false in schema
+    const question = await HawksNestQuestion.findById(req.params.questionid);
+
+    if (!question)
+      return next(new ErrorResponse('Question does not exist', 400));
+
+    // creates new hint
+    const hint = new HawksNestHint({
+      hintText: req.body.hintText,
+      level: req.body.level,
+      question: question._id,
+    });
+    await hint.save();
+
+    return res.status(201).send(hint);
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

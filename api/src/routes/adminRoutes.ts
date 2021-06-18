@@ -18,6 +18,7 @@ import { addQuestion, editQuestion } from '../controllers/adminController';
 import { body } from 'express-validator';
 import { protect, isAdmin } from '../middlewares/auth';
 import { validateRequest } from './../middlewares/requestValidator';
+import { addNestHint } from '../controllers/hawksNestController';
 
 const router = express.Router();
 router.get('/leaderboard', protect, isAdmin, getLeaderboard);
@@ -100,5 +101,17 @@ router.post('/regions/unlock', protect, isAdmin, unlockRegionForAll);
 router.get('/users/banned', protect, isAdmin, getBannedUsers);
 
 router.get('/nest/questions/all', protect, isAdmin, getHawksNestQuestions);
+
+router.post(
+  '/nest/hints/add/:questionid',
+  [
+    body('hintText', 'text not entered').notEmpty(),
+    body('level', 'level not entered').notEmpty(),
+  ],
+  validateRequest,
+  protect,
+  isAdmin,
+  addNestHint
+);
 
 export { router as adminRouter };
