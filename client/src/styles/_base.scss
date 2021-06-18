@@ -121,10 +121,12 @@ html {
     -moz-box-shadow: 2px 4px 65px -50px rgba(0,0,0,1);
 
     h1{
-      @media(max-width:1000px){
-        font-size: 1.5rem;
+      font-size: 24px;
+
+      // @media(max-width:1000px){
+      //   font-size: 1.5rem;
     
-        }
+      //   }
     }
 
 
@@ -142,8 +144,8 @@ html {
 
     button{
         margin-top: 1rem;
-        width: 4rem;
-        height: 2rem;
+        width: 60px;
+        height: 32px;
         background-color:#7bc74dcc;
         color:#212121 ;
         border-radius: 5px;
@@ -176,8 +178,7 @@ html {
 }
 
 .hud{
-  z-index: 50000;
-
+  z-index: 500000000000;
 
 
   .logout{
@@ -348,7 +349,6 @@ h1,h2,h3,h4,h5,h6{
 .loading-page{
   color: #fff;
 z-index: 1;
-background: #141414;
 
 .loading-circle{
   margin-top: 1rem;

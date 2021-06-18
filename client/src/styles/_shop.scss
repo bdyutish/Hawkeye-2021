@@ -205,6 +205,15 @@ margin-bottom: 1rem;
 
         h3{
             cursor: pointer;
+            @media (max-width:970px){
+               font-size: 20px;
+            }
+        }
+
+        p{
+            @media (max-width:970px){
+                font-size: 17px;
+             }
         }
 
         

@@ -182,7 +182,9 @@ export default function Home(): ReactElement {
           id="hawkk"
         />
         <div className="main">
-          <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>Welcome Player</h1>
+          <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>
+            Welcome {auth?.user?.username}
+          </h1>
           <h2
             style={{
               zIndex: zeroIndex ? 0 : 25,
@@ -194,6 +196,7 @@ export default function Home(): ReactElement {
           <aside style={{ zIndex: zeroIndex ? 0 : 25 }}>
             <Dropdown
               setter={(val: any) => {
+                auth?.setCurrentRegion(val.label);
                 setSelected(val);
                 try {
                   map.current.flyTo({
@@ -272,6 +275,7 @@ export default function Home(): ReactElement {
             <main style={{ zIndex: zeroIndex ? 0 : 25 }}>
               <Dropdown
                 setter={(val: any) => {
+                  auth?.setCurrentRegion(val.label);
                   setSelected(val);
                   try {
                     map.current.flyTo({

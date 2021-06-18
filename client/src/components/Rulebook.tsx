@@ -52,7 +52,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
             <li>
               All names, places, organizations, things should be as appears on
               <span> Wikipedia</span> with a few exceptions. They will mostly be
-              the <span>full name</span>
+              the <span>full name </span>
               of the person, place, or thing.
             </li>
             <li>
@@ -104,11 +104,11 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
             <li>
               Region Multiplier - <span>500</span> Points <br />
               Available:
-              <span>2</span>
+              <span> 2</span>
               <br />
               Hawk gives you an opportunity to score 1.5x times the points that
               were previously allotted to the questions. This powerup is valid{' '}
-              <span>ONLY</span>
+              <span>ONLY </span>
               for all questions in that particular region. The multiplier starts
               from the question, at which it is applied. You can use two such
               powerups together on the same region to increase the multiplier to
@@ -117,7 +117,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
             <li>
               Question Skip - <span>400</span> Points <br />
               Available:
-              <span>1</span> <br />
+              <span> 1</span> <br />
               Hawk gives you the opportunity to skip a question! Remember that
               this will not count as an answered question, and points will not
               be added for it.
@@ -125,7 +125,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
             <li>
               50/50 Question Skip <span>200</span> Points <br />
               Available:
-              <span>2</span> <br />
+              <span> 2</span> <br />
               Hawk flips a <span>biased coin</span> to decide if you skip that
               question. If it lands on “hawk” you skip that question. Remember
               that this will not count as an answered question, and points will
@@ -133,7 +133,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
             </li>
             <li>
               Streak <span>300</span> Points <br />
-              Available: <span>2</span>
+              Available: <span> 2</span>
               <br />
               Once you purchase this hawk gives you a score multiplier of
               <span> 2x with 3 strikes</span>. Every incorrect attempt is a

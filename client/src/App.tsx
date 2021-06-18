@@ -19,15 +19,14 @@ import Loading from './components/Loading';
 //TODO
 // ****Are you sure modal too small in mobile
 // ****EVERY TEXT IS TOO SMALL IN MOBILE FFS
-// shop text too small in phone
-// rulebook alignment sligtly off in mobile
 
 // HANDLE LINKS
 // TEST API KEYS
 // **Change mozilla ka glass effect
-// button hover gradient
+// button jiggle on hover
 // different zoom in mobile
 // ZOOM BUTTONS
+// power up ajeeb
 
 export default function App(): ReactElement {
   const auth = useAuth();

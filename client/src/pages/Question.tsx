@@ -104,8 +104,11 @@ RouteComponentProps<TParams>): ReactElement {
       ) {
         history.push('/');
         await auth?.fetchMe();
+        setTimeout(() => {
+          window.location.reload();
+        }, 800);
+
         addToast('New Region Unlocked', { appearance: 'success' });
-        window.location.reload();
         return;
       }
 
@@ -114,7 +117,7 @@ RouteComponentProps<TParams>): ReactElement {
       auth?.updateScore(data.score);
       resetAnswer();
     } catch (err) {
-      auth?.check();
+      // auth?.check();
     }
   };
 
@@ -591,14 +594,41 @@ function BottomBar({
     auth?.user?.regions?.find((region) => region.regionid === regionID)
       ?.multiplier || 1;
 
+  const isPowerUpActive = multiplier > 1 || !!auth?.user?.strikes;
+
+  const singlePowerUpActive =
+    (multiplier > 1 && !auth?.user?.strikes) ||
+    (!(multiplier > 1) && !!auth?.user?.strikes);
+
+  const lessThanThree =
+    data.filter((powerUp: any) => {
+      return powerUp.owned;
+    }).length < 3;
+
+  const getBarClasses = () => {
+    const barClass: string[] = ['bottom-bar'];
+    if (!isPowerUpActive) barClass.push('bottom-bar--not-active');
+    if (!hasPoweUps) barClass.push('empty-bar');
+    if (lessThanThree) barClass.push('bottom-bar bottom-bar--two');
+
+    return barClass.join(' ');
+  };
+
   return (
     <>
       <div
         ref={barRef}
-        className={!hasPoweUps ? 'bottom-bar empty-bar' : 'bottom-bar'}
+        // --two
+        className={getBarClasses()}
       >
-        {(multiplier > 1 || !!auth?.user?.strikes) && (
-          <div className="bar-details">
+        {isPowerUpActive && (
+          <div
+            className={
+              singlePowerUpActive
+                ? 'bar-details bar-details--single'
+                : 'bar-details'
+            }
+          >
             {multiplier > 1 && (
               <div className="multi">
                 <span style={{ color }}>Region Multiplier: </span> {multiplier}x
