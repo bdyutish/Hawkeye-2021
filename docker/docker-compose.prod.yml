@@ -12,7 +12,7 @@ services:
       - network
         #    volumes:
         # - ../api:/usr/src/api
-      # test
+      # testing
     expose:
       - 4000
     ports:
