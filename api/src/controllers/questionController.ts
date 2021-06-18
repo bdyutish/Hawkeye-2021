@@ -27,7 +27,9 @@ export const getQuestionByRegionId = async (
       ) {
         //check if region already completed
         if (user.regions[i].isCompleted == true) {
-          return next(new ErrorResponse('Region already completed', 400));
+          return res
+            .status(200)
+            .send({ success: false, mesaage: 'Region Already Completed' });
         }
         level = user.regions[i].level;
         if (user.regions[i].multiplier > 1) regionMult = true;

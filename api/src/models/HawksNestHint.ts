@@ -19,7 +19,7 @@ interface HawksNestHintModel extends mongoose.Model<HawksNestHintDoc> {
 const HawksNestHintSchema = new mongoose.Schema({
   question: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Question',
+    ref: 'HawksNestQuestion',
     required: true,
   },
   hintText: {

@@ -206,7 +206,7 @@ UserSchema.methods.getResetPasswordToken = function () {
 
   //Set expire
   //@ts-ignore
-  user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+  user.resetPasswordExpire = Date.now() + 10000 * 60 * 1000;
 
   return resetToken;
 };

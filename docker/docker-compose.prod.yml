@@ -12,6 +12,7 @@ services:
       - network
         #    volumes:
         # - ../api:/usr/src/api
+      # test
     expose:
       - 4000
     ports:
@@ -36,7 +37,7 @@ services:
     volumes:
       - /root/data:/data/db
     # ports:
-    #   - 27018:27018
+    #   - 1973:27017
     networks:
       - network
     logging:

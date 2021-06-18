@@ -81,6 +81,7 @@ export const getHawksNestQuestion = async (
         break;
       }
     }
+    nestAttempts = nestAttempts.reverse();
 
     let atPar = await User.aggregate([
       {
@@ -95,9 +96,6 @@ export const getHawksNestQuestion = async (
             $sum: 1,
           },
         },
-      },
-      {
-        $count: 'atPar',
       },
     ]);
 
@@ -115,9 +113,6 @@ export const getHawksNestQuestion = async (
           },
         },
       },
-      {
-        $count: 'leading',
-      },
     ]);
 
     let lagging = await User.aggregate([
@@ -134,16 +129,13 @@ export const getHawksNestQuestion = async (
           },
         },
       },
-      {
-        $count: 'lagging',
-      },
     ]);
 
     // console.log(atPar[0].atPar);
 
-    let eq = atPar[0] != undefined ? atPar[0].atPar : 0;
-    let lead = leading[0] != undefined ? leading[0].leading : 0;
-    let lag = lagging[0] != undefined ? lagging[0].lagging : 0;
+    let eq = atPar[0] != undefined ? atPar[0].count : 0;
+    let lead = leading[0] != undefined ? leading[0].count : 0;
+    let lag = lagging[0] != undefined ? lagging[0].count : 0;
 
     let stats = {
       atPar: eq,
@@ -231,13 +223,11 @@ export const submitHawksNestQuestion = async (
       user.nestLevel += 1;
       user.score += 100;
       await user.save();
-      return res
-        .status(200)
-        .send({
-          success: true,
-          score: user.score,
-          message: 'Answer is correct',
-        });
+      return res.status(200).send({
+        success: true,
+        score: user.score,
+        message: 'Answer is correct',
+      });
     }
     if (ratio >= 0.6) {
       return res.status(200).send({
@@ -273,6 +263,32 @@ export const unlockNestHints = async (
       success: true,
       message: 'Hints unlocked succesfully',
     });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
+export const addNestHint = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // "+hints" is used to access hints where select: false in schema
+    const question = await HawksNestQuestion.findById(req.params.questionid);
+
+    if (!question)
+      return next(new ErrorResponse('Question does not exist', 400));
+
+    // creates new hint
+    const hint = new HawksNestHint({
+      hintText: req.body.hintText,
+      level: req.body.level,
+      question: question._id,
+    });
+    await hint.save();
+
+    return res.status(201).send(hint);
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }
