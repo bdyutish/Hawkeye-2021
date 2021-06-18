@@ -7,6 +7,7 @@ import Hint, { HintAttrs } from '../models/Hint';
 import { Types } from 'mongoose';
 import unlockedHint from '../models/unlockedHint';
 import { unlockRegionsByUser } from '../utils/helperFunctions';
+import HawksNestQuestion from '../models/HawksNestQuestion';
 
 export const addQuestion = async (
   req: Request,
@@ -262,6 +263,19 @@ export const unlockHintByQuestion = async (
 ) => {
   try {
     await Hint.findByIdAndUpdate(req.params.hintid, { isUnlocked: true });
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
+export const getHawksNestQuestions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const questions = await HawksNestQuestion.find().sort({ level: 1 });
+    res.status(200).send(questions);
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
   }

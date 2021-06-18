@@ -162,6 +162,7 @@ export const submitQuestion = async (
   next: NextFunction
 ) => {
   try {
+    console.log('MAXXX___', process.env.MAX_LEVEL);
     const question = await Question.findById(req.params.questionid).select(
       '+answer'
     );

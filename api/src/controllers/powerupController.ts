@@ -273,6 +273,15 @@ export const apply = async (
         await user.save();
       } else {
         user.powerupsHistory[3].owned--;
+        for (let i = 0; i < user.inventory.length; i++) {
+          if (user.inventory[i].id == 4 && user.inventory[i].usedAt == null) {
+            user.inventory[i].usedAt = new Date(Date.now());
+            user.inventory[i].region = req.body.regionid;
+            user.inventory[i].question = req.body.questionid;
+            user.inventory[i].active = false;
+            break;
+          }
+        }
         await user.save();
         return res.status(200).send({
           success: true,

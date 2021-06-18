@@ -10,3 +10,5 @@ fi
 
 echo "restarting cluster"
 sudo docker-compose -f /root/hawkeye-2021/docker/docker-compose.prod.yml up -d
+
+# ci test
