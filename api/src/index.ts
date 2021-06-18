@@ -11,7 +11,7 @@ dotenv.config();
 // Connect to db
 app.listen(process.env.PORT || 4000, async () => {
   try {
-    console.log(`Listening at port: ${process.env.PORT || 4000}.....`);
+    console.log(`Listening at port: ${process.env.PORT || 4000}...`);
     await connectDB();
   } catch (err) {
     console.log('Connection to mongo unsuccessful...\n' + err);
