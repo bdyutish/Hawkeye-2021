@@ -26,6 +26,7 @@ services:
       PORT: 4000
       MAX_LEVEL: 5
       HOST: hawkeyetestlol.iecsemanipal.com
+      F: F
     depends_on:
       - db
       - redis
@@ -69,7 +70,6 @@ services:
     # CLIENT WONT START UP TILL API HAS STARTED (uncomment for this)
     depends_on:
       - api
-# ci test
 networks:
   network:
     driver: bridge
