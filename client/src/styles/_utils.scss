@@ -24,6 +24,11 @@ display: block;
 border-bottom: 1px solid transparent;
 transition: all .1s;
 
+@-moz-document url-prefix() {
+    background-color: #000000;
+    background: linear-gradient(135deg, #000000 0%, #414141 180%);
+  }  
+
 &:focus{
     border-bottom: 1px solid #585FFF;
     border-bottom-left-radius: 0;

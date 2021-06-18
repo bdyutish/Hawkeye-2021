@@ -23,6 +23,7 @@ import hawk from '../assets/hawk.png';
 import ReadyToPlay from './ReadyToPlay';
 import useClickOut from '../hooks/useClickOut';
 import ReactCardFlip from 'react-card-flip';
+import { Redirect } from 'react-router-dom';
 // import hawkImg from '../assets/hawk.svg';
 
 type TParams = { id: string };
@@ -104,10 +105,9 @@ RouteComponentProps<TParams>): ReactElement {
         questionFetcher.data.question.level ===
         parseInt(process.env.REACT_APP_LEVEL_COUNT || '5')
       ) {
-        history.push('/');
         await auth?.fetchMe();
         setTimeout(() => {
-          window.location.reload();
+          history.push('/');
         }, 800);
 
         addToast('New Region Unlocked', { appearance: 'success' });
@@ -125,6 +125,10 @@ RouteComponentProps<TParams>): ReactElement {
 
   if (!localStorage.getItem('hawk-ready')) {
     return <ReadyToPlay id={match.params.id} />;
+  }
+
+  if (auth?.user?.hawksNest) {
+    return <Redirect to="/" />;
   }
 
   if (questionFetcher.isLoading) {
@@ -170,9 +174,7 @@ RouteComponentProps<TParams>): ReactElement {
             parseInt(process.env.REACT_APP_LEVEL_COUNT || '6')
           ) {
             auth?.fetchMe().then((_: any) => {
-              history.push('/');
               addToast('New Region Unlocked', { appearance: 'success' });
-              window.location.reload();
             });
             return;
           }
@@ -208,11 +210,13 @@ RouteComponentProps<TParams>): ReactElement {
             questionFetcher.data.question.level ===
             process.env.REACT_APP_LEVEL_COUNT
           ) {
-            history.push('/');
             addToast('Applied Successfully', { appearance: 'success' });
             await auth?.fetchMe();
             addToast('New Region Unlocked', { appearance: 'success' });
-            window.location.reload();
+            setTimeout(() => {
+              history.push('/');
+            }, 800);
+
             return;
           }
           questionFetcher.fetch(false);
@@ -479,7 +483,7 @@ function Stats({
             >
               <i style={{ color }} className="fas fa-sort-up"></i>
             </div>
-            <ReactTooltip effect="solid" type="light" />
+            {/* <ReactTooltip effect="solid" type="light" /> */}
           </div>
           <div className="bottom">
             <div className="card">

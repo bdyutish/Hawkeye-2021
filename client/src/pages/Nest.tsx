@@ -237,7 +237,7 @@ function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
             );
           })}
           {!attempts.length && (
-            <h2 className="zero">You're attempts will show up here</h2>
+            <h2 className="zero">Your attempts will show up here</h2>
           )}
         </section>
       )}
@@ -267,7 +267,7 @@ function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
             >
               <i className="fas fa-sort-up"></i>
             </div>
-            <ReactTooltip effect="solid" type="light" />
+            {/* <ReactTooltip effect="solid" type="light" /> */}
           </div>
           <div className="bottom">
             <div className="card">

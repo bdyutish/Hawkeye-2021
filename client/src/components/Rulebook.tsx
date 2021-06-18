@@ -71,6 +71,9 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
               <span> ineligible</span> for any prizes. Any suspicious behavior
               will be reported to us by the game.
             </li>
+            <li>
+              Powerups must be applied after buying for them to be effective
+            </li>
           </ol>
         </div>
         <div className="pop2">

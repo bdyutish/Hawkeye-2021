@@ -153,8 +153,9 @@ export default function AuthProvider({ children }: Children): ReactElement {
     try {
       const res = await get('/me');
       if (!res) {
-        logout();
-        addToast('Session Timed Out', { appearance: 'error' });
+        // logout();
+        history.push('/');
+        addToast('Something Went wrong', { appearance: 'error' });
         return;
       }
       // else if (res.isBanned){
@@ -164,8 +165,8 @@ export default function AuthProvider({ children }: Children): ReactElement {
       history.push('/');
       addToast('Something Went Wrong', { appearance: 'error' });
     } catch (err) {
-      logout();
-      addToast('Session Timed Out', { appearance: 'error' });
+      history.push('/');
+      addToast('Something Went wrong', { appearance: 'error' });
     }
   };
 
