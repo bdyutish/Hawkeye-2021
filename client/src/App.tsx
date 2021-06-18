@@ -20,8 +20,7 @@ import Loading from './components/Loading';
 // TEST API KEYS
 // **Change mozilla ka glass effect
 // power up ajeeb
-// Something went wrong
-// CHECK MOBILE QUESTION PAGE
+// Admin mei leaderboard fix
 
 export default function App(): ReactElement {
   const auth = useAuth();

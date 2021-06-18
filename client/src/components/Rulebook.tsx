@@ -126,10 +126,10 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
               50/50 Question Skip <span>200</span> Points <br />
               Available:
               <span> 2</span> <br />
-              Hawk flips a <span>biased coin</span> to decide if you skip that
-              question. If it lands on “hawk” you skip that question. Remember
-              that this will not count as an answered question, and points will
-              not be added for it if you skip it.
+              Hawk flips a biased coin to decide if you skip that question. If
+              it lands on “hawk” you skip that question. Remember that this will
+              not count as an answered question, and points will not be added
+              for it if you skip it.
             </li>
             <li>
               Streak <span>300</span> Points <br />

@@ -8,6 +8,7 @@ import { get, post } from '../../utils/requests';
 import { useToasts } from 'react-toast-notifications';
 import useInputState from '../../hooks/useInputState';
 import Input from '../../components/Input';
+import useFetch from '../../hooks/useFetch';
 export default function AdminPage(): ReactElement {
   const [leaderboard, setLeaderboard] = useState([]);
   const [regions, setRegion] = useState([]);
@@ -15,12 +16,17 @@ export default function AdminPage(): ReactElement {
   const [question, setQuestion] = useInputState();
   const [answer, setAnswer] = useInputState();
   const [level, setLevel] = useInputState();
-  const [hintOne, setHintOne] = useInputState();
-  const [hintTwo, setHintTwo] = useInputState();
-  const [hintThree, setHintThree] = useInputState();
+
+  const [hintOneN, setHintOneN, resetHintOneN] = useInputState();
+  const [hintTwoN, setHintTwoN, resetHintTwoN] = useInputState();
+  const [hintThreeN, setHintThreeN, resetHintThreeN] = useInputState();
 
   const [questionLevel, setQuestionLevel] = useInputState();
   const [hintLevel, setHintLevel] = useInputState();
+
+  const { data, error, isLoading } = useFetch('/nest/questions/all');
+
+  const [selected, setSelected] = useState<string>('');
 
   const fetchLeaderboard = async () => {
     try {
@@ -73,16 +79,10 @@ export default function AdminPage(): ReactElement {
       return;
     }
 
-    const hintsArray: string[] = [];
-    if (hintOne) hintsArray.push(hintOne);
-    if (hintTwo) hintsArray.push(hintTwo);
-    if (hintThree) hintsArray.push(hintThree);
-
     try {
       await post('/nest/add', {
         text: question,
         answer: answer,
-        hints: hintsArray,
         level: parseInt(level),
       });
       addToast('Added successfully', { appearance: 'success' });
@@ -109,6 +109,46 @@ export default function AdminPage(): ReactElement {
       addToast('Something went wrong', { appearance: 'error' });
     }
   };
+
+  const addNestHint = async (level: number) => {
+    if (!selected) return;
+    let hintText;
+
+    if (level === 1) {
+      hintText = hintOneN;
+    } else if (level === 2) {
+      hintText = hintTwoN;
+    } else {
+      hintText = hintThreeN;
+    }
+
+    if (!hintText) {
+      addToast('Hint text is required', { appearance: 'error' });
+      return;
+    }
+
+    try {
+      await post(`/nest/hints/add/${selected}`, {
+        hintText,
+        level,
+      });
+      addToast('Added successfully', { appearance: 'success' });
+      resetHintOneN();
+      resetHintTwoN();
+      resetHintThreeN();
+    } catch (err: any) {
+      console.log(err.response);
+      addToast('Something went wrong', { appearance: 'error' });
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="screen-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="admin">
@@ -172,28 +212,12 @@ export default function AdminPage(): ReactElement {
         type="text"
         placeholder="Level"
       />
-      <Input
-        value={hintOne}
-        onChange={setHintOne}
-        type="text"
-        placeholder="Hint 1"
-      />
-      <Input
-        value={hintTwo}
-        onChange={setHintTwo}
-        type="text"
-        placeholder="Hint 2"
-      />
-      <Input
-        value={hintThree}
-        onChange={setHintThree}
-        type="text"
-        placeholder="Hint 3"
-      />
+
       <Button
         onClick={confirmed(addNestQuestion, `Add Question ?`)}
         name="Add"
       />
+
       <h1>Unlock Hint</h1>
       <Input
         value={questionLevel}
@@ -208,6 +232,44 @@ export default function AdminPage(): ReactElement {
         placeholder="Hint Level"
       />
       <Button onClick={confirmed(unlockNestHint)} name="Unlock" />
+      <h1>Hint Add</h1>
+      <Input
+        value={hintOneN}
+        onChange={setHintOneN}
+        type="text"
+        placeholder="Hint 1"
+      />
+      <Button onClick={confirmed(() => addNestHint(1))} name="Add" />
+      <Input
+        value={hintTwoN}
+        onChange={setHintTwoN}
+        type="text"
+        placeholder="Hint 2"
+      />
+      <Button onClick={confirmed(() => addNestHint(2))} name="Add" />
+
+      <Input
+        value={hintThreeN}
+        onChange={setHintThreeN}
+        type="text"
+        placeholder="Hint 3"
+      />
+      <Button onClick={confirmed(() => addNestHint(3))} name="Add" />
+
+      {data.map((question: any) => {
+        return (
+          <div
+            className={
+              question._id === selected
+                ? 'nest-question nest-question--selected'
+                : 'nest-question'
+            }
+            onClick={() => setSelected(question._id)}
+          >
+            {question.text}
+          </div>
+        );
+      })}
     </div>
   );
 }

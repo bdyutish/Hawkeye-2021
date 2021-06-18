@@ -5,6 +5,21 @@
   text-align: center;
   padding: 1.5rem 2rem;
 
+  .nest-question{
+    background-color: #111;
+    font-size: 1.4rem;
+    width: 50%;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &--selected{
+      background-color: orangered;
+    }
+
+  }
+
   .nestt{
     font-size: 5rem;
   }

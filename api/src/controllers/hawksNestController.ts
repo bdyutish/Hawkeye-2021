@@ -150,7 +150,7 @@ export const getHawksNestQuestion = async (
     });
 
     for (let i = 0; i < hints.length; i++) {
-      const hint = await HawksNestHint.find({
+      const hint = await HawksNestHint.findOne({
         question: question._id,
         level: hints[i].hintLevel,
       });
