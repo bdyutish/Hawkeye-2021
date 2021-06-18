@@ -44,26 +44,26 @@ build client:
   after_script:
     - docker logout $CI_REGISTRY
 
-build api:
-  # Use the official docker image.
-  image: tmaier/docker-compose:latest
-  tags:
-    - docker
-  stage: build
-  only:
-    changes:
-      - api/**/*
-    refs:
-      - prod
+# build api:
+#   # Use the official docker image.
+#   image: tmaier/docker-compose:latest
+#   tags:
+#     - docker
+#   stage: build
+#   only:
+#     changes:
+#       - api/**/*
+#     refs:
+#       - prod
 
-  services:
-    - docker:dind
+#   services:
+#     - docker:dind
 
-  before_script:
-    - echo "$CI_REG_TOKEN" | docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
-  script:
-    - cd api && docker build -t registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
-    - docker push registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest
+#   before_script:
+#     - echo "$CI_REG_TOKEN" | docker login --username "$CI_REG_USERNAME" --password-stdin $CI_REGISTRY
+#   script:
+#     - cd api && docker build -t registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest -f api.prod.Dockerfile .
+#     - docker push registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest
 
 deploy api:
   stage: deploy
@@ -80,8 +80,7 @@ deploy api:
     - ./deploy/api-deploy.sh
   after_script:
     - docker logout $CI_REGISTRY
-    - sudo cd /root/hawkeye-2021
-    - git pull origin prod
+    - cd /root/hawkeye-2021 && sudo git pull origin prod
 
 deploy client:
   stage: deploy
