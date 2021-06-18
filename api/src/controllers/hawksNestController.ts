@@ -81,6 +81,7 @@ export const getHawksNestQuestion = async (
         break;
       }
     }
+    nestAttempts = nestAttempts.reverse();
 
     let atPar = await User.aggregate([
       {
@@ -95,9 +96,6 @@ export const getHawksNestQuestion = async (
             $sum: 1,
           },
         },
-      },
-      {
-        $count: 'atPar',
       },
     ]);
 
@@ -115,9 +113,6 @@ export const getHawksNestQuestion = async (
           },
         },
       },
-      {
-        $count: 'leading',
-      },
     ]);
 
     let lagging = await User.aggregate([
@@ -134,16 +129,13 @@ export const getHawksNestQuestion = async (
           },
         },
       },
-      {
-        $count: 'lagging',
-      },
     ]);
 
     // console.log(atPar[0].atPar);
 
-    let eq = atPar[0] != undefined ? atPar[0].atPar : 0;
-    let lead = leading[0] != undefined ? leading[0].leading : 0;
-    let lag = lagging[0] != undefined ? lagging[0].lagging : 0;
+    let eq = atPar[0] != undefined ? atPar[0].count : 0;
+    let lead = leading[0] != undefined ? leading[0].count : 0;
+    let lag = lagging[0] != undefined ? lagging[0].count : 0;
 
     let stats = {
       atPar: eq,
