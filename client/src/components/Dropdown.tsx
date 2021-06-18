@@ -71,13 +71,12 @@ export default function Dropdown({
                 key={option.value}
                 className={classNames.join(' ')}
               >
+                <h4> {option.label} </h4>
                 {!option.locked && !option.completed && (
                   <i className="fas fa-unlock"></i>
                 )}
-                {(option.locked || option.completed) && (
-                  <i className="fas fa-lock"></i>
-                )}
-                <h4> {option.label} </h4>
+                {option.completed && <i className="fas fa-check"></i>}
+                {option.locked && <i className="fas fa-lock"></i>}
               </div>
             );
           })}

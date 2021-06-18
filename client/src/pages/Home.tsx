@@ -120,6 +120,8 @@ export default function Home(): ReactElement {
     map.current.on('load', () => {
       setMapLoading(false);
 
+      console.log(map.current);
+
       markers.forEach((marker: any) => {
         marker.addTo(map.current);
       });
@@ -170,7 +172,15 @@ export default function Home(): ReactElement {
   if (isPhone) {
     return (
       <div className="home home--phone">
-        <img src={hawk} alt="" className="hawk" id="hawkk" />
+        <img
+          style={{
+            zIndex: zeroIndex ? 0 : 25,
+          }}
+          src={hawk}
+          alt=""
+          className="hawk"
+          id="hawkk"
+        />
         <div className="main">
           <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>Welcome Player</h1>
           <h2
@@ -197,20 +207,28 @@ export default function Home(): ReactElement {
               options={options}
             />
             <p>{selected?.description}</p>
-            <Button
-              name="Start"
-              onClick={() => {
-                if (selected.locked) {
-                  addToast('Region Locked', { appearance: 'error' });
-                  return;
-                }
-                if (selected.completed) {
-                  addToast('Region Completed', { appearance: 'success' });
-                  return;
-                }
-                history.push(`/question/${selected?.value}`);
-              }}
-            />
+            {!selected?.completed && !selected?.locked && (
+              <Button
+                name="Start"
+                onClick={() => {
+                  if (selected.locked) {
+                    addToast('Region Locked', { appearance: 'error' });
+                    return;
+                  }
+                  if (selected.completed) {
+                    addToast('Region Completed', { appearance: 'success' });
+                    return;
+                  }
+                  history.push(`/question/${selected?.value}`);
+                }}
+              />
+            )}
+            {selected?.completed && (
+              <h3 className="home-completed home-detail">Region Completed</h3>
+            )}
+            {selected?.locked && (
+              <h3 className="home-locked home-detail">Region Locked</h3>
+            )}
           </aside>{' '}
         </div>
         <div id="map"></div>
@@ -267,23 +285,31 @@ export default function Home(): ReactElement {
                 options={options}
               />
               <p>{selected?.description}</p>
-              <Button
-                // pathname={`/question/${selected?.value}`}
-                // state={{ allow: true }}
-                // link
-                name="Start"
-                onClick={() => {
-                  if (selected.locked) {
-                    addToast('Region Locked', { appearance: 'error' });
-                    return;
-                  }
-                  if (selected.completed) {
-                    addToast('Region Completed', { appearance: 'success' });
-                    return;
-                  }
-                  history.push(`/question/${selected?.value}`);
-                }}
-              />
+              {!selected?.completed && !selected?.locked && (
+                <Button
+                  // pathname={`/question/${selected?.value}`}
+                  // state={{ allow: true }}
+                  // link
+                  name="Start"
+                  onClick={() => {
+                    if (selected.locked) {
+                      addToast('Region Locked', { appearance: 'error' });
+                      return;
+                    }
+                    if (selected.completed) {
+                      addToast('Region Completed', { appearance: 'success' });
+                      return;
+                    }
+                    history.push(`/question/${selected?.value}`);
+                  }}
+                />
+              )}
+              {selected?.completed && (
+                <h3 className="home-completed home-detail">Region Completed</h3>
+              )}
+              {selected?.locked && (
+                <h3 className="home-locked home-detail">Region Locked</h3>
+              )}
             </main>{' '}
           </>
         )}

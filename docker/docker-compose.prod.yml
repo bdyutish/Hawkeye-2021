@@ -34,9 +34,9 @@ services:
     image: mongo:latest
     container_name: Hawk-db
     volumes:
-      - ./data:/data/db
-        #    ports:
-        #      - 27018:27018
+      - /root/data:/data/db
+    # ports:
+    #   - 27018:27018
     networks:
       - network
     logging:
@@ -69,7 +69,6 @@ services:
     # CLIENT WONT START UP TILL API HAS STARTED (uncomment for this)
     depends_on:
       - api
-
 networks:
   network:
     driver: bridge

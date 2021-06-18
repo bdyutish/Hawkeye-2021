@@ -226,6 +226,7 @@ html {
         }
   }
 
+
   &--1{
       right: 6rem;
 
@@ -347,6 +348,11 @@ h1,h2,h3,h4,h5,h6{
 .loading-page{
   color: #fff;
 z-index: 1;
+background: #141414;
+
+.loading-circle{
+  margin-top: 1rem;
+}
 
 .fallback{
   display: flex;

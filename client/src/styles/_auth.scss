@@ -9,6 +9,9 @@
         margin:  auto;
         transform: scale(.8);
         width: 54rem;
+        display: flex;
+        max-width: 90%;
+        justify-content: center;
     }
 
     .swap{

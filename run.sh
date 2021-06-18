@@ -8,7 +8,7 @@ design(){
       xdg-open "https://www.figma.com/file/yWcCtKMwOyzlXqPlREdynT/Hawkeye'21?node-id=0%3A1"
 }
 push(){
-    cd client && npm run build
+    cd client && npm run build && cd ..
     git add .
     git commit -m $2
     git push origin $1
