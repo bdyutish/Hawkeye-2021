@@ -184,7 +184,7 @@ export const login = async (
         await log.save();
       }
 
-      res.status(200).send('Logged in successfullyq');
+      res.status(200).send('Logged in successfully');
     }
   } catch (err) {
     return next(new ErrorResponse(err.name, err.code));
