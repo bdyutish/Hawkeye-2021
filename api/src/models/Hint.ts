@@ -31,6 +31,10 @@ const hintSchema = new mongoose.Schema({
     enum: [1, 2, 3],
     required: true,
   },
+  isUnlocked: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 hintSchema.statics.build = (attrs: HintAttrs) => {

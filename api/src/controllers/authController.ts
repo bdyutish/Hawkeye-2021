@@ -43,7 +43,7 @@ export const register = async (
     });
     console.log('register');
 
-    const regions = await Region.find();
+    const regions = await Region.find().sort({ name: 1 });
 
     let regionArray: {
       regionid: mongoose.Schema.Types.ObjectId;
@@ -61,9 +61,19 @@ export const register = async (
       });
     }
 
-    for (let i = regionArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [regionArray[i], regionArray[j]] = [regionArray[j], regionArray[i]];
+    // for (let i = regionArray.length - 1; i > 0; i--) {
+    //   const j = Math.floor(Math.random() * (i + 1));
+    //   [regionArray[i], regionArray[j]] = [regionArray[j], regionArray[i]];
+    // }
+
+    for (let i = 0; i < regionArray.length; i += 2) {
+      const j = Math.random();
+      if (j <= 0.5) {
+        // console.log(j);
+        const t = regionArray[i];
+        regionArray[i] = regionArray[i + 1];
+        regionArray[i + 1] = t;
+      }
     }
 
     // console.log(regionArray);
