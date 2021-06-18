@@ -42,7 +42,7 @@ export const powerUps = [
   },
   {
     id: 4,
-    name: 'Question 50/50',
+    name: 'Flip a coin*',
     description:
       'Hawk Flips A Biased Coin To Decide If You Skip That Question. If It Lands On “Hawk” You Skip That Question. Remember That This Will Not Count As An Answered Question, And Points Will Not Be Added For It If You Skip It.',
     maximumAllowed: 2,

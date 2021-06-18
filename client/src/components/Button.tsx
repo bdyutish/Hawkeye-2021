@@ -12,6 +12,7 @@ interface Props {
   link?: boolean;
   pathname?: string;
   state?: any;
+  type?: 'button';
 }
 
 export default function Button({
@@ -21,6 +22,7 @@ export default function Button({
   link,
   pathname,
   state,
+  type,
 }: Props): ReactElement {
   const [hover, setHover] = React.useState(false);
   const auth = useAuth();
@@ -48,6 +50,8 @@ export default function Button({
   return (
     //@ts-ignore
     <button
+      //@ts-ignore
+      type={type ? type : 'submit'}
       //@ts-ignore
       onClick={handleClick}
       onMouseOver={() => setHover(true)}

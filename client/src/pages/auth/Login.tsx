@@ -11,6 +11,8 @@ import { useAuth } from '../../context/AuthContext';
 import useInputState from '../../hooks/useInputState';
 import hawk from '../../assets/hawk.svg';
 import { useMediaQuery } from 'react-responsive';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { post } from '../../utils/requests';
 
 interface Props {}
 
@@ -20,7 +22,9 @@ export default function Login({}: Props): ReactElement {
 
   const [errors, setErrors] = React.useState<string[]>([]);
   const [loading, setLoading] = React.useState(false);
-  const [banned, setBanned] = React.useState(false);
+  const [resend, setResend] = React.useState(false);
+
+  const [sending, setSending] = React.useState(false);
 
   const { addToast } = useToasts();
 
@@ -29,6 +33,35 @@ export default function Login({}: Props): ReactElement {
   const isPhone = useMediaQuery({
     query: '(max-device-width: 680px)',
   });
+
+  const [captcha, setCaptcha] = React.useState(true);
+  const handleVerify = () => {
+    setCaptcha(true);
+  };
+
+  const handleResend = async () => {
+    if (sending) return;
+    setSending(true);
+    try {
+      if (!email) {
+        setErrors(['Email is required']);
+        return;
+      }
+
+      if (!captcha) {
+        setErrors(['Captcha is compulsary']);
+        return;
+      }
+
+      await post('/verification', { email });
+      addToast('Verification mail sent', { appearance: 'success' });
+      setResend(false);
+      setSending(false);
+    } catch (err) {
+      setSending(false);
+      addToast('Something went wrong', { appearance: 'error' });
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,17 +74,18 @@ export default function Login({}: Props): ReactElement {
       try {
         await auth?.login(email, password);
         setLoading(false);
-      } catch (err) {
+      } catch (err: any) {
         setLoading(false);
 
         if (err.response.data.message === 'This route is forbidden!') {
-          setBanned(true);
           addToast('User Banned', { appearance: 'error' });
           return;
         }
 
-        if (err.response.data.message === 'User not verified')
+        if (err.response.data.message === 'User not verified') {
           addToast('Verification link sent to mail');
+          setResend(true);
+        }
 
         setErrors([err.response.data.message]);
       }
@@ -67,7 +101,7 @@ export default function Login({}: Props): ReactElement {
       <img src={hawk} alt="" id="hawkk" />
       <h1>HAWKEYE</h1>
       <h2>Log in</h2>
-      <h3>Welcome back player</h3>
+      <h3 style={{ color: '#5157E7' }}>Welcome back player</h3>
       {errors.map((err: string) => {
         return <div className="error">{err}</div>;
       })}
@@ -86,11 +120,30 @@ export default function Login({}: Props): ReactElement {
           placeholder="Password"
           className="input"
         />
+
         <div className="forgot">
           <Link to="/forgot-password">Forgot Password?</Link>
         </div>
+        {resend && (
+          <div className="catcha">
+            <ReCAPTCHA
+              sitekey="6LeggzUbAAAAAIKw-eFituXhXm8LeANFEHJwxLbs"
+              onChange={handleVerify}
+              theme="dark"
+            />
+          </div>
+        )}
         <Button className="auth-button" name="Login" />
+        {resend && (
+          <Button
+            type="button"
+            onClick={handleResend}
+            className="auth-button auth-button--resend"
+            name="Resend Mail"
+          />
+        )}
       </form>
+
       <div className="swap">
         New to hawkeye? <Link to="/register">Create Account</Link>{' '}
       </div>

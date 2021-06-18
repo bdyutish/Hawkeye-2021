@@ -4,7 +4,7 @@ import { ValidationError } from 'express-validator';
 export class RequestValidationError extends CustomErrors {
   statusCode: number = 400;
   constructor(public errors: ValidationError[]) {
-    super('validation error');
+    super('Validation error');
     this.errors = errors;
 
     Object.setPrototypeOf(this, RequestValidationError.prototype);

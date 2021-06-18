@@ -400,7 +400,7 @@ function Stats({
     (100 / (stats.leading + stats.lagging)) * stats.lagging || 0;
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: '(max-device-width: 800px)',
   });
 
   const auth = useAuth();
@@ -447,7 +447,7 @@ function Stats({
             );
           })}
           {!attempts.length && (
-            <h2 className="zero">You're attempts will show up here</h2>
+            <h2 className="zero">Your attempts will show up here</h2>
           )}
         </section>
       )}
@@ -514,7 +514,7 @@ function Hints({
   handleFlip?: () => void;
 }): ReactElement {
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: '(max-device-width: 800px)',
   });
 
   const auth = useAuth();

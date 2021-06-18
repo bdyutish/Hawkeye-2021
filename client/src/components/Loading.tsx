@@ -28,7 +28,7 @@ export default function Loading({
       <div className="fallback">
         <img src={hawk} alt="" />
         <div className="loading-circle">
-          <Circle color="#5157E7" />
+          <Circle color=" #5157E7" />
         </div>
       </div>
     </div>

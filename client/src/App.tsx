@@ -17,16 +17,11 @@ import AdminQuestions from './pages/admin/AdminQuestions';
 import Loading from './components/Loading';
 
 //TODO
-// ****Are you sure modal too small in mobile
-// ****EVERY TEXT IS TOO SMALL IN MOBILE FFS
-
-// HANDLE LINKS
 // TEST API KEYS
 // **Change mozilla ka glass effect
-// button jiggle on hover
-// different zoom in mobile
-// ZOOM BUTTONS
 // power up ajeeb
+// Something went wrong
+// CHECK MOBILE QUESTION PAGE
 
 export default function App(): ReactElement {
   const auth = useAuth();

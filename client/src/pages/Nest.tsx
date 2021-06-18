@@ -108,6 +108,8 @@ export default function Nest({}: Props): ReactElement {
     );
   }
 
+  console.log(questionFetcher.data);
+
   if (isPhone) {
     return (
       <div className="question question--phone">
@@ -203,7 +205,7 @@ function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
     (100 / (stats.leading + stats.lagging)) * stats.lagging || 0;
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: '(max-device-width: 800px)',
   });
 
   return (
@@ -229,7 +231,7 @@ function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
       </div>
       {attemptsOpen && (
         <section className="attempts">
-          {attempts.reverse().map((attempt: string) => {
+          {attempts.map((attempt: string) => {
             return (
               <div key={attempt} className="attempt">
                 {attempt}
@@ -303,7 +305,7 @@ function Hints({
   handleFlip?: () => void;
 }): ReactElement {
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: '(max-device-width: 800px)',
   });
 
   return (

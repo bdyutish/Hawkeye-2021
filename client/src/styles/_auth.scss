@@ -27,6 +27,10 @@
 
     .auth-button{
         margin-top: 1.8rem;
+
+        &--resend{
+            margin-left: 1rem;
+        }
     }
 
     .error{
