@@ -134,6 +134,7 @@ export default function Home(): ReactElement {
       setOptions(
         data.map((option: any, index: number) => {
           const lastUnlockedIndex = auth?.user?.lastUnlockedIndex || 0;
+
           const completed = auth?.user?.regions[index].isCompleted;
 
           if (

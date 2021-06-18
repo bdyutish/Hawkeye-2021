@@ -31,6 +31,7 @@ app.use(
 );
 
 app.use(express.json());
+
 declare global {
   namespace Express {
     interface Request {
