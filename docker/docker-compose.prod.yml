@@ -69,7 +69,7 @@ services:
     # CLIENT WONT START UP TILL API HAS STARTED (uncomment for this)
     depends_on:
       - api
-
+# ci test
 networks:
   network:
     driver: bridge
