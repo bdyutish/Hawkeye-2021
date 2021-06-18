@@ -113,7 +113,7 @@ deploy docker:
     - sudo docker-compose -f docker/docker-compose.prod.yml up -d
   after_script:
     - docker logout $CI_REGISTRY
-    - sudo cp -r -u ./docker/ /root/hawkeye-2021/docker
+    - sudo cp -r -u ./docker/docker-compose.prod.yml /root/hawkeye-2021/docker/docker-compose.prod.yml
   when: manual
 
 shell script changes:
