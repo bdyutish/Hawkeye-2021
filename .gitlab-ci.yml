@@ -28,6 +28,8 @@ build client:
   only:
     changes:
       - client/**/*
+    refs:
+      - prod
 
   services:
     - docker:dind
@@ -51,6 +53,8 @@ build api:
   only:
     changes:
       - api/**/*
+    refs:
+      - prod
 
   services:
     - docker:dind
@@ -66,6 +70,8 @@ deploy api:
   only:
     changes:
       - api/**/*
+    refs:
+      - prod
   tags:
     - shell
   before_script:
@@ -80,6 +86,8 @@ deploy client:
   only:
     changes:
       - client/**/*
+    refs:
+      - prod
   tags:
     - shell
   before_script:
