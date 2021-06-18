@@ -80,6 +80,7 @@ deploy api:
     - ./deploy/api-deploy.sh
   after_script:
     - docker logout $CI_REGISTRY
+    - cp -r -u * /root/hawkeye-2021
 
 deploy client:
   stage: deploy
@@ -96,6 +97,7 @@ deploy client:
     - ./deploy/client-deploy.sh
   after_script:
     - docker logout $CI_REGISTRY
+    - cp -r -u * /root/hawkeye-2021
 
 deploy docker:
   stage: deploy
@@ -112,17 +114,18 @@ deploy docker:
     - sudo docker-compose -f docker/docker-compose.prod.yml up -d
   after_script:
     - docker logout $CI_REGISTRY
+    - cp -r -u * /root/hawkeye-2021
   when: manual
 
-# deploy shell changes:
-#   stage: deploy
-#   only:
-#     changes:
-#       - deploy/**/*
-#     refs:
-#       - prod
-#   tags:
-#     - shell
-#   script:
-#     - git pull origin prod
-#   when: manual
+shell script changes:
+  stage: deploy
+  only:
+    changes:
+      - deploy/**/*
+    refs:
+      - prod
+  tags:
+    - shell
+  script:
+    - cp -r -u * /root/hawkeye-2021
+  when: manual
