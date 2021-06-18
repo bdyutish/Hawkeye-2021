@@ -108,8 +108,6 @@ export default function Nest({}: Props): ReactElement {
     );
   }
 
-  console.log(questionFetcher.data);
-
   if (isPhone) {
     return (
       <div className="question question--phone">
@@ -329,7 +327,7 @@ function Hints({
           );
         })}
 
-        <ReactTooltip effect="solid" type="light" />
+        {/* <ReactTooltip effect="solid" type="light" /> */}
       </section>
     </div>
   );

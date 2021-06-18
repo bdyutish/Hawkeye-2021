@@ -115,7 +115,7 @@ RouteComponentProps<TParams>): ReactElement {
       }
 
       addToast('Correct answer', { appearance: 'success' });
-      questionFetcher.fetch();
+      questionFetcher.fetch(false);
       auth?.updateScore(data.score);
       resetAnswer();
     } catch (err) {
@@ -547,11 +547,10 @@ function Hints({
           return (
             <div className="hint-locked">
               <i data-tip="Hint Locked" className="fas fa-lock"></i>
+              {/* <ReactTooltip effect="solid" type="light" /> */}
             </div>
           );
         })}
-
-        <ReactTooltip effect="solid" type="light" />
       </section>
     </div>
   );

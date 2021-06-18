@@ -21,6 +21,11 @@ import Loading from './components/Loading';
 // **Change mozilla ka glass effect
 // power up ajeeb
 // Admin mei leaderboard fix
+// Check reload bug
+// Resend mail safari broken and shop safari broken
+// apply after buying
+// Remove logout on fail
+// window.location.reload();
 
 export default function App(): ReactElement {
   const auth = useAuth();

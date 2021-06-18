@@ -180,11 +180,16 @@ flex-direction: column;
         bottom: 0rem;
         transform: translateX(-50%);
         left: 50%;
-
-        background-color: #000000;
-        background-image: linear-gradient(135deg, #000000 0%, #414141 180%);
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
         
+        background: linear-gradient(112.11deg, rgba(255, 255, 255, 0.09) 12.41%, rgba(255, 255, 255, 0.05) 84.54%);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(26px);
+        
+        @-moz-document url-prefix() {
+            background-color: #000000;
+            background: linear-gradient(135deg, #000000 0%, #414141 180%);
+          }  
+
             .bottom{
 
                 display: flex;
@@ -343,9 +348,18 @@ aside{
     .data{
         width: 24.4rem;
         height: 24.4rem;
-background-color: #000000;
-background-image: linear-gradient(135deg, #000000 0%, #414141 180%);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
+
+        background: linear-gradient(112.11deg, rgba(255, 255, 255, 0.09) 12.41%, rgba(255, 255, 255, 0.05) 84.54%);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(26px);
+        
+        @-moz-document url-prefix() {
+            background-color: #000000;
+            background: linear-gradient(135deg, #000000 0%, #414141 180%);
+          }  
+
+
+
 
 
     padding: 2rem;
@@ -603,9 +617,15 @@ h2{
 
 
         flex-direction: column;
-        background-color: #000000;
-        background-image: linear-gradient(135deg, #000000 0%, #414141 180%);
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
+        background: linear-gradient(112.11deg, rgba(255, 255, 255, 0.09) 12.41%, rgba(255, 255, 255, 0.05) 84.54%);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(26px);
+        
+        @-moz-document url-prefix() {
+            background-color: #000000;
+            background: linear-gradient(135deg, #000000 0%, #414141 180%);
+          }  
+
     }
 
    
@@ -657,10 +677,15 @@ bottom: 0;
     .hints{
 
 
-background-color: #000000;
-background-image: linear-gradient(135deg, #000000 0%, #414141 180%);
+        background: linear-gradient(112.11deg, rgba(255, 255, 255, 0.09) 12.41%, rgba(255, 255, 255, 0.05) 84.54%);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(26px);
+        
+        @-moz-document url-prefix() {
+            background-color: #000000;
+            background: linear-gradient(135deg, #000000 0%, #414141 180%);
+          }  
 
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.22);
 
 
 
