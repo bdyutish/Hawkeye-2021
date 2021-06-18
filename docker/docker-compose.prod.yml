@@ -63,7 +63,7 @@ services:
       - ./nginx.template:/etc/nginx/conf.d/nginx.template
     ports:
       #      - 3005:3000
-      - 8000:80
+      - 80:80
     environment:
       REACT_APP_LEVEL_COUNT: 5
     # CLIENT WONT START UP TILL API HAS STARTED (uncomment for this)
