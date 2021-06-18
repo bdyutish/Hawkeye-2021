@@ -2,9 +2,9 @@ version: '3.3'
 
 services:
   api:
-          #     build:
-          #context: ../api
-          #dockerfile: ./api.prod.Dockerfile
+    #     build:
+    #context: ../api
+    #dockerfile: ./api.prod.Dockerfile
     image: registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-api:latest
     container_name: Hawk-api
     restart: unless-stopped
@@ -24,7 +24,7 @@ services:
       MONGO_URI: mongodb://db:27017/hawk
       REDIS_HOST: redis
       PORT: 4000
-      MAX_LEVEL: 6
+      MAX_LEVEL: 5
       HOST: hawkeyetestlol.iecsemanipal.com
     depends_on:
       - db
@@ -52,8 +52,8 @@ services:
   client:
     stdin_open: true
     #build:
-             #context: ../client
-             #dockerfile: ./client.prod.Dockerfile
+    #context: ../client
+    #dockerfile: ./client.prod.Dockerfile
     image: registry.gitlab.com/iecse-manipal/board-20/prometheus-21/hawkeye-2021/hawk-client:latest
     container_name: Hawk-client
     restart: unless-stopped
@@ -65,7 +65,7 @@ services:
       #      - 3005:3000
       - 80:80
     environment:
-      REACT_APP_LEVEL_COUNT: 6
+      REACT_APP_LEVEL_COUNT: 5
     # CLIENT WONT START UP TILL API HAS STARTED (uncomment for this)
     depends_on:
       - api

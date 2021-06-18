@@ -12,6 +12,7 @@ import {
   unlockRegionForAll,
   getBannedUsers,
   unlockHintByQuestion,
+  getHawksNestQuestions,
 } from '../controllers/adminController';
 import { addQuestion, editQuestion } from '../controllers/adminController';
 import { body } from 'express-validator';
@@ -97,4 +98,7 @@ router.post('/user/unban/:userId', protect, isAdmin, UnbanUser);
 router.post('/regions/unlock', protect, isAdmin, unlockRegionForAll);
 
 router.get('/users/banned', protect, isAdmin, getBannedUsers);
+
+router.get('/nest/questions/all', protect, isAdmin, getHawksNestQuestions);
+
 export { router as adminRouter };
