@@ -26,7 +26,7 @@ services:
       REDIS_HOST: redis
       PORT: 4000
       MAX_LEVEL: 5
-      HOST: hawkeyetestlol.iecsemanipal.com
+      HOST: hawkeye.iecsemanipal.com
     depends_on:
       - db
       - redis
