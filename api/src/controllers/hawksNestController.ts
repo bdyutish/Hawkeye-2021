@@ -5,6 +5,7 @@ import ErrorResponse from '../utils/ErrorResponse';
 import { compareAnswers, unlockRegion } from '../utils/helperFunctions';
 import UnlockedHawksNestHint from '../models/HawksNestHintUnlocked';
 import HawksNestHint from '../models/HawksNestHint';
+import AttemptTime from '../models/AttemptTime';
 
 export const addHawksNestQuestion = async (
   req: Request,
@@ -201,6 +202,12 @@ export const submitHawksNestQuestion = async (
         break;
       }
     }
+
+    let timest = await AttemptTime.findOneAndUpdate(
+      { user: user._id, question: question._id },
+      { attempt: req.body.attempt, time: new Date(Date.now()) },
+      { new: true, upsert: true }
+    );
 
     if (index == -1) {
       user.nestAttempts.push({
