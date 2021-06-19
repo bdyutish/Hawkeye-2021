@@ -20,6 +20,7 @@ import Loading from './components/Loading';
 // TEST API KEYS
 // Admin mei leaderboard fix
 // Resend mail safari broken and shop safari broken
+// Admin stuff
 
 export default function App(): ReactElement {
   const auth = useAuth();

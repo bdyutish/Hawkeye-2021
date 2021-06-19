@@ -151,6 +151,7 @@ export const login = async (
     console.log(now + ' ' + start);
     // if (now < start)
     //   return next(new ErrorResponse('Hawkeye has not started yet', 404));
+
     const { email, password } = req.body;
     if (!email || !password) {
       console.log('email or password not provided'); //Replace later with middleware
