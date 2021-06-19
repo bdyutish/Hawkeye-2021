@@ -2,12 +2,16 @@
     background-color: #141414;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
+
     background-color: #000;
 
     video{
         position: absolute;
         height: 100vh;
+        // transform: scale(2);
     }
+
 
     .hawk{
         width: 22rem;

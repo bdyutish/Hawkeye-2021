@@ -34,7 +34,7 @@ export default function Login({}: Props): ReactElement {
     query: '(max-device-width: 680px)',
   });
 
-  const [captcha, setCaptcha] = React.useState(true);
+  const [captcha, setCaptcha] = React.useState(false);
   const handleVerify = () => {
     setCaptcha(true);
   };
