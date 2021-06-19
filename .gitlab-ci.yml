@@ -80,6 +80,7 @@ deploy api:
     - ./deploy/api-deploy.sh
   after_script:
     - docker logout $CI_REGISTRY
+  when: manual
 
 deploy client:
   stage: deploy
@@ -96,6 +97,7 @@ deploy client:
     - ./deploy/client-deploy.sh
   after_script:
     - docker logout $CI_REGISTRY
+  when: manual
 
 deploy docker:
   stage: deploy
