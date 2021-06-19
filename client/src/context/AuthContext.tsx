@@ -76,7 +76,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
 
     try {
       await post('/login', {
-        email: email.trim().toLowerCase(),
+        email: email.trim(),
         password,
       });
 
