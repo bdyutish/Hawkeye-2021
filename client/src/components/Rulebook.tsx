@@ -126,7 +126,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
               be added for it.
             </li>
             <li>
-              50/50 Question Skip <span>200</span> Points <br />
+              Flip a coin <span>200</span> Points <br />
               Available:
               <span> 2</span> <br />
               Hawk flips a biased coin to decide if you skip that question. If
