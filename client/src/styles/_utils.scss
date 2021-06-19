@@ -73,6 +73,8 @@ transition: all .1s;
     background-color: transparent;
     font-weight: bold;
 
+
+
     &--hovered {
         
     }
@@ -90,5 +92,38 @@ top: 50%;
 left: 50%;
 transform: translate(-50%,-64%);
 font-size: 1rem;
+
+
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) {
+
+    font-size: .8rem;
+
+}}
+
+
+
+
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) and (stroke-color:transparent) {
+
+    font-size: .8rem
+   
+}}
+
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) and (not (stroke-color:transparent)) {
+
+    font-size: .8rem
+
+}}
+
+@supports (-webkit-hyphens:none)
+{
+    font-size: .8rem
+
+
+}
+
     }
 }

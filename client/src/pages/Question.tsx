@@ -96,6 +96,7 @@ RouteComponentProps<TParams>): ReactElement {
           resetAnswer();
           return;
         }
+
         addToast(data.message, { appearance: 'error' });
         resetAnswer();
         return;
@@ -114,7 +115,7 @@ RouteComponentProps<TParams>): ReactElement {
         return;
       }
 
-      addToast('Correct answer', { appearance: 'success' });
+      addToast('Hawk approves', { appearance: 'success' });
       questionFetcher.fetch(false);
       auth?.updateScore(data.score);
       resetAnswer();

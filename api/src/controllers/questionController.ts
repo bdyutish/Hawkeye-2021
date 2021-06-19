@@ -261,7 +261,7 @@ export const submitQuestion = async (
     }
     return res.status(200).send({
       success: false,
-      message: 'Incorrect answer',
+      message: 'Hawk disapproves',
       strikes: user.strikes,
     });
   } catch (err) {
