@@ -14,14 +14,14 @@ import { useAuth } from '../context/AuthContext';
 
 import Dropdown from '../components/Dropdown';
 import Loading from '../components/Loading';
-import { coordinates } from '../utils/data';
+import { coordinates, mapdData } from '../utils/data';
 import { useMediaQuery } from 'react-responsive';
 import hawk from '../assets/hawk.svg';
 import { useHistory } from 'react-router-dom';
 import { useToasts } from 'react-toast-notifications';
 
-mapboxgl.accessToken =
-  'pk.eyJ1IjoibmlzaGlrYTI1IiwiYSI6ImNrb2R4ODlvcjA1cWEyd3A1eWFqZThsZGMifQ.hk-3XzdHKUYiV5p1SIi_mQ';
+mapboxgl.accessToken = mapdData.token;
+// 'pk.eyJ1IjoibmlzaGlrYTI1IiwiYSI6ImNrb2R4ODlvcjA1cWEyd3A1eWFqZThsZGMifQ.hk-3XzdHKUYiV5p1SIi_mQ';
 
 export default function Home(): ReactElement {
   const map = React.useRef<any>(null);
@@ -103,7 +103,8 @@ export default function Home(): ReactElement {
   React.useEffect(() => {
     map.current = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/nishika25/ckoh3qfgz2iy517mh3z5atu07',
+      style: mapdData.styleUrl,
+      // style: 'mapbox://styles/nishika25/ckoh3qfgz2iy517mh3z5atu07',
       // zoom: 10,
     });
 
@@ -119,8 +120,6 @@ export default function Home(): ReactElement {
     //@ts-ignore
     map.current.on('load', () => {
       setMapLoading(false);
-
-      console.log(map.current);
 
       markers.forEach((marker: any) => {
         marker.addTo(map.current);

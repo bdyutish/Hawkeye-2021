@@ -18,6 +18,8 @@ import ReactCardFlip from 'react-card-flip';
 import { useMediaQuery } from 'react-responsive';
 import flipIcon from '../assets/flips/nest.png';
 import hawkImg from '../assets/hawk.svg';
+//@ts-ignore
+import loading from '../assets/animations/loading.mp4';
 
 interface Props {}
 
@@ -94,7 +96,10 @@ export default function Nest({}: Props): ReactElement {
   if (welcome) {
     return (
       <div className="nest-welcome">
-        <img src={hawk} alt="" />
+        <video width={'100%'} height={'100%'} playsInline autoPlay muted loop>
+          <source src={loading} type="video/mp4" />
+          <img className="hawk" src={hawk} alt="" />
+        </video>
         <h1 ref={headingRef}></h1>
       </div>
     );

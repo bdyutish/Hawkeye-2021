@@ -6,6 +6,8 @@ import hawk from '../assets/hawk.png';
 import Typewriter from 'typewriter-effect/dist/core';
 import { useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
+//@ts-ignore
+import loading from '../assets/animations/loading.mp4';
 
 export default function Landing(): ReactElement {
   const headingRef = React.useRef<HTMLHeadingElement>(null);
@@ -41,8 +43,10 @@ export default function Landing(): ReactElement {
 
   return (
     <div className="landing">
-      {/* <HUD /> */}
-      <img className="hawk" src={hawk} alt="" />
+      <video width={'100%'} height={'100%'} playsInline autoPlay muted loop>
+        <source src={loading} type="video/mp4" />
+        <img className="hawk" src={hawk} alt="" />
+      </video>
       <h1 ref={headingRef}></h1>
     </div>
   );

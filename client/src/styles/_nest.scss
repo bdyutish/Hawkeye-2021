@@ -19,7 +19,7 @@
 }
 
 .nest-welcome{
-    background-color: #141414;
+    background-color: #000;
     height: 100vh;
     img{
         width: 22rem;
@@ -30,6 +30,11 @@
     align-items: center;
     justify-content: center;
 
+    video{
+        position: absolute;
+        height: 100vh;
+    }
+
 
     .hawk-name{
         color: #5157E7;
@@ -38,6 +43,9 @@
     h1{
         color: #ddd;
         font-size: 3rem;
+        z-index: 50;
+        transform: translateY(12rem);
+
         @media (max-width:460px) {
             font-size: 2.7rem;
                 

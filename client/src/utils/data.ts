@@ -83,3 +83,29 @@ export const coordinates = [
     color: '#DE071D',
   },
 ];
+
+const mapDataOne = {
+  styleUrl: 'mapbox://styles/akhil24/ckpo3ztu00di318o8tey6xmuf',
+  token:
+    'pk.eyJ1IjoiYWtoaWwyNCIsImEiOiJja3BvM2xhMnEwaHZmMnBwNHFrdzJ3d3ZsIn0.aLrmeB1BkQJEeXq_QOLqgA',
+};
+
+const mapDataTwo = {
+  styleUrl: 'mapbox://styles/bdyutish/ckpo48k3p13it17oe1g3neejd',
+  token:
+    'pk.eyJ1IjoiYmR5dXRpc2giLCJhIjoiY2tvc2NyMGQ1MDA5djJybzZoOG8wcTY0MCJ9.vOgajc7wa0DKt_s0llJZiQ',
+};
+
+const mapDataThree = {
+  styleUrl: 'mapbox://styles/akhil25/ckpo4iuml0ovq18oz1xxe3zv6',
+  token:
+    'pk.eyJ1IjoiYWtoaWwyNSIsImEiOiJja3BvNGVzMzEwMGYyMndyNHZ5YXc2bGJhIn0.wUnX-2nJgrD-dRaYxKSdTw',
+};
+
+// const now = new Date();
+// const dayOne = new Date('2021-06-19T06:30:00.000Z');
+// const dayTwo = new Date('2021-06-20T06:30:00.000Z');
+// const dayThree = new Date('2021-06-21T06:30:00.000Z');
+// if (now < start)
+
+export const mapdData = mapDataOne;

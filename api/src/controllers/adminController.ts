@@ -63,7 +63,9 @@ export const getLeaderboard = async (
 ) => {
   try {
     const leaderBoard = await User.find()
-      .select('name score lastUnlockedIndex nestLevel')
+      .select(
+        'name score lastUnlockedIndex nestLevel isBanned hawksNest phone email'
+      )
       .sort({ score: -1 })
       .lean();
     res.status(200).send(leaderBoard);

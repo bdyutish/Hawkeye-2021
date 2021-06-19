@@ -1,6 +1,8 @@
 .landing{
     background-color: #141414;
     height: 100vh;
+    width: 100vw;
+    background-color: #000;
 
     video{
         position: absolute;
@@ -23,6 +25,8 @@
     h1{
         color: #ddd;
         font-size: 4rem;
+        z-index: 50;
+        transform: translateY(12rem);
 
         @media (max-width:460px) {
             font-size: 3rem;

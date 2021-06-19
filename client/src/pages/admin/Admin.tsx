@@ -24,6 +24,10 @@ export default function AdminPage(): ReactElement {
   const [questionLevel, setQuestionLevel] = useInputState();
   const [hintLevel, setHintLevel] = useInputState();
 
+  const [start, setStart] = useInputState('0');
+  const [end, setEnd] = useInputState('20');
+  const [search, setSearch] = useInputState();
+
   const { data, error, isLoading } = useFetch('/nest/questions/all');
 
   const [selected, setSelected] = useState<string>('');
@@ -154,17 +158,42 @@ export default function AdminPage(): ReactElement {
     <div className="admin">
       <h1> ADMIN</h1>
       <h1>Leaderboard</h1>
+      <h2>
+        Number of players{' '}
+        <span style={{ color: '#5c63ff' }}>{leaderboard.length}</span>
+      </h2>
+      <p>click on name and check console for details</p>
       <div className="leaderboard">
-        {leaderboard.map((user, ind) => {
-          // console.log(user);
-          return (
-            <Leaderboard
-              userid={user['_id']}
-              key={ind}
-              index={(ind + 1).toString()}
-            />
-          );
-        })}
+        <Input
+          value={search}
+          onChange={setSearch}
+          type="text"
+          placeholder="Search"
+        />
+        <input
+          type="text"
+          value={start}
+          onChange={setStart}
+          placeholder="Start"
+        />
+        <input type="text" value={end} onChange={setEnd} placeholder="End" />
+
+        {leaderboard
+          .slice(parseInt(start), parseInt(end))
+          .filter((user: any) => {
+            const searchTerm = user.name + ' ' + user.phone;
+            return searchTerm.toLowerCase().includes(search.toLowerCase());
+          })
+          .map((user: any, ind: number) => {
+            return (
+              <Leaderboard
+                update={fetchLeaderboard}
+                {...user}
+                key={user._id}
+                index={ind + 1}
+              />
+            );
+          })}
       </div>
 
       <h1> Regions</h1>
@@ -184,6 +213,7 @@ export default function AdminPage(): ReactElement {
       </div>
 
       <h1> Unlock Hint</h1>
+      <p>select a nest question below to unlock uska hint</p>
       <UnlockHints />
       <h1>Unlock Region</h1>
       <Button
@@ -274,87 +304,64 @@ export default function AdminPage(): ReactElement {
   );
 }
 interface Details {
-  userid: string;
-  index: string;
+  _id: string;
+  name: string;
+  hawksNest: boolean;
+  isBanned: boolean;
+  score: number;
+  lastUnlockedIndex: number;
+  nestLevel: number;
+  index: number;
+  phone: string;
+  email: string;
+  update: any;
 }
-function Leaderboard({ userid, index }: Details): ReactElement {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [userdata, setUserData] = useState<any>();
-
+function Leaderboard(props: Details): ReactElement {
   const { confirmed, options } = useConfirm();
 
-  const fetch = async () => {
-    try {
-      setIsLoading(true);
-      //console.log(userid);
-      await get(`/profile/${userid}`).then((data) => {
-        setUserData(data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    (async () => {
+  const banUser = async () => {
+    if (props.isBanned) {
       try {
-        await fetch();
-      } catch (err) {
-        console.log(err);
-      }
-    })();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="screen-center">
-        <Loading />
-      </div>
-    );
-  }
-
-  const banUser = async (userid: string) => {
-    if (userdata.isBanned) {
-      try {
-        const data = await post(`/user/unban/${userid}`);
+        const data = await post(`/user/unban/${props._id}`);
         console.log(data);
       } catch (error) {
         console.log(error);
       }
     } else {
       try {
-        const data = await post(`/user/ban/${userid}`);
+        const data = await post(`/user/ban/${props._id}`);
         console.log(data);
       } catch (error) {
         console.log(error);
       }
     }
-    fetch();
+    props.update();
   };
 
   return (
     <div className="row">
       <Confirm options={options} />
-      <div>{index}</div>
-      <div>{userdata.username}</div>
-      <div>{userdata.score}</div>
+      <div>{props.index}</div>
+      <div>{props.hawksNest ? 'Nest Level ' + props.nestLevel : ''}</div>
+      <div>{'Last unlocked ' + props.lastUnlockedIndex}</div>
+      <div
+        onClick={() => {
+          console.log(props.phone);
+          console.log(props.email);
+        }}
+        style={{ cursor: 'pointer', color: '#5c63ff' }}
+      >
+        {props.name}
+      </div>
+      <div>{props.score}</div>
       <div>
-        {userdata.isBanned && (
-          <button
-            type="button"
-            className="btn-danger1"
-            onClick={() => banUser(userdata._id)}
-          >
+        {props.isBanned && (
+          <button type="button" className="btn-danger1" onClick={banUser}>
             Un Ban
           </button>
         )}
-        {!userdata.isBanned && (
-          <button
-            type="button"
-            className="btn-danger"
-            onClick={() => banUser(userdata._id)}
-          >
+        {!props.isBanned && (
+          <button type="button" className="btn-danger" onClick={banUser}>
             Ban
           </button>
         )}
