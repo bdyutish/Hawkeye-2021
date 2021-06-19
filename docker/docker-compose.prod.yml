@@ -18,6 +18,7 @@ services:
     ports:
       - 4000:4000
     # env_file: ../.env
+    #test
     environment:
       WAIT_HOSTS: db:27018,redis:6379
       WAIT_HOSTS_TIMEOUT: 120
