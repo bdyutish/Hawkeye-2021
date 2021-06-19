@@ -182,9 +182,7 @@ export default function Home(): ReactElement {
           id="hawkk"
         />
         <div className="main">
-          <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>
-            Welcome {auth?.user?.username}
-          </h1>
+          <h1 style={{ zIndex: zeroIndex ? 0 : 25 }}>Welcome Player</h1>
           <h2
             style={{
               zIndex: zeroIndex ? 0 : 25,

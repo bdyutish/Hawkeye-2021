@@ -16,12 +16,13 @@ import { useMediaQuery } from 'react-responsive';
 interface Props {}
 
 function validateEmail(email: string) {
+  email = email.trim();
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 
 function validateNumber(number: string) {
-  if (number[0] === '+') number = number.slice(3);
+  if (number[0] === '+') number = number.slice(3).trim();
   const re = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   return re.test(String(number).toLowerCase());
 }

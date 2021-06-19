@@ -76,7 +76,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
 
     try {
       await post('/login', {
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password,
       });
 
@@ -100,7 +100,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
       await post('/register', {
         name,
         username,
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password,
         college: collage,
         phone: number,
@@ -126,7 +126,7 @@ export default function AuthProvider({ children }: Children): ReactElement {
 
   const forgotPassword = async (email: string) => {
     try {
-      await post('/forgotpassword', { email });
+      await post('/forgotpassword', { email: email.trim().toLowerCase() });
       addToast('Mail Sent!', { appearance: 'success' });
     } catch (err) {
       addToast('Something Went Wrong', { appearance: 'error' });
