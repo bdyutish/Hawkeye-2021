@@ -53,7 +53,7 @@ export default function Login({}: Props): ReactElement {
         return;
       }
 
-      await post('/verification', { email });
+      await post('/verification', { email: email.trim().toLowerCase() });
       addToast('Verification mail sent', { appearance: 'success' });
       setResend(false);
       setSending(false);

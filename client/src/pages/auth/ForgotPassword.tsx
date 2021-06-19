@@ -35,11 +35,18 @@ export default function ForgotPassword({}: Props): ReactElement {
     query: '(max-device-width: 680px)',
   });
 
+  function validateEmail(email: string) {
+    email = email.trim().toLowerCase();
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
     if (!email) errors.push('Email is Required');
+    else if (!validateEmail(email)) errors.push('Email is invalid');
     if (!captcha) errors.push('Captcha must be completed');
 
     if (errors.length === 0) {
