@@ -147,7 +147,7 @@ export const login = async (
 ) => {
   try {
     const now = new Date(Date.now());
-    const start = new Date('2021-06-19T05:30:00.000Z');
+    const start = new Date('2021-06-19T06:30:00.000Z');
     console.log(now + ' ' + start);
     if (now < start)
       return next(new ErrorResponse('Hawkeye has not started yet', 404));
