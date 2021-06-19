@@ -6,6 +6,7 @@ import { compareAnswers, unlockRegion } from '../utils/helperFunctions';
 import Region from '../models/Region';
 import UnlockedHint from '../models/unlockedHint';
 import Hint, { HintDoc } from '../models/Hint';
+import AttemptTime from '../models/AttemptTime';
 
 export const getQuestionByRegionId = async (
   req: Request,
@@ -189,6 +190,14 @@ export const submitQuestion = async (
         break;
       }
     }
+
+    let timest = await AttemptTime.findOneAndUpdate(
+      { user: user._id, question: question._id },
+      { attempt: req.body.attempt, time: new Date(Date.now()) },
+      { new: true, upsert: true }
+    );
+
+    console.log(timest);
 
     if (index == -1) {
       user.attempts.push({
