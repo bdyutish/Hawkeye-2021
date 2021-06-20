@@ -116,7 +116,7 @@ RouteComponentProps<TParams>): ReactElement {
       }
 
       addToast('Hawk approves', { appearance: 'success' });
-      questionFetcher.fetch(false);
+      questionFetcher.fetch();
       auth?.updateScore(data.score);
       resetAnswer();
     } catch (err) {
