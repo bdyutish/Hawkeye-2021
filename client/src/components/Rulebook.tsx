@@ -41,7 +41,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
             </li>
             <li>
               If the answer is <span>&#34;22 Cakes&#34;</span> then the answer
-              yo should write is <span>&#34;twotwo cakes&#34;</span>. If the
+              you should write is <span>&#34;twotwo cakes&#34;</span>. If the
               answer contains special characters, replace them to the nearest
               character. For example, <span>&#x27;&#x101;&#x27;</span> becomes
               <span>&#x27;a&#x27;</span>. If the answer is
