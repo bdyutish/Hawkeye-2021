@@ -80,7 +80,7 @@ export const register = async (
 
     user.regions = regionArray;
 
-    user.lastUnlockedIndex = 1;
+    user.lastUnlockedIndex = 2;
 
     user.powerupsHistory = [
       {
