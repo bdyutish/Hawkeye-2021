@@ -24,9 +24,9 @@ mongoose_1.default.connect('mongodb://localhost:27018/hawk', {
 // //Load Models
 // const User = require('./src/models/User');
 // const Question = require('./src/models/Question');
-const Region_1 = __importDefault(require("./src/models/Region"));
-const Question_1 = __importDefault(require("./src/models/Question"));
-const HawksNestQuestion_1 = __importDefault(require("./src/models/HawksNestQuestion"));
+const Region_1 = __importDefault(require("../src/models/Region"));
+const Question_1 = __importDefault(require("../src/models/Question"));
+const HawksNestQuestion_1 = __importDefault(require("../src/models/HawksNestQuestion"));
 //Read Json Files
 // const users = JSON.parse(
 //   fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
