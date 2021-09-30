@@ -36,6 +36,36 @@ export const addQuestion = async (
     return next(new ErrorResponse(err.name, err.code));
   }
 };
+
+// added feature
+export const reviewQuestion = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // checks if region exists
+    const region = await Region.findById(req.body.region);
+    if (!region) {
+      return res.status(400).send({
+        err: 'region doesnt exist',
+      });
+    }
+    const question = new Question({
+      text: req.body.text,
+      answer: req.body.answer,
+      level: req.body.level,
+      region: req.body.region,
+    });
+
+    await question.save();
+
+    return res.status(201).send(question);
+  } catch (err) {
+    return next(new ErrorResponse(err.name, err.code));
+  }
+};
+
 export const editQuestion = async (
   req: Request,
   res: Response,
