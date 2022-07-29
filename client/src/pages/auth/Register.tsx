@@ -1,28 +1,29 @@
-import React, { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
-import { useToasts } from 'react-toast-notifications';
-import desktopBG from '../../assets/backround/desktop.svg';
-import phoneBG from '../../assets/backround/mobile.svg';
-import Button from '../../components/Button';
-import Img from '../../components/Img';
-import Input from '../../components/Input';
-import { useAuth } from '../../context/AuthContext';
-import useInputState from '../../hooks/useInputState';
-import hawk from '../../assets/hawk.svg';
+import React, { ReactElement } from "react";
+import { Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
+import desktopBG from "../../assets/backround/desktop.jpg";
+import phoneBG from "../../assets/backround/mobile.svg";
+import Button from "../../components/Button";
+import Img from "../../components/Img";
+import Input from "../../components/Input";
+import { useAuth } from "../../context/AuthContext";
+import useInputState from "../../hooks/useInputState";
+import hawk from "../../assets/hawk.svg";
 
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useMediaQuery } from 'react-responsive';
+import ReCAPTCHA from "react-google-recaptcha";
+import { useMediaQuery } from "react-responsive";
 
 interface Props {}
 
 function validateEmail(email: string) {
   email = email.trim();
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 
 function validateNumber(number: string) {
-  if (number[0] === '+') number = number.slice(3).trim();
+  if (number[0] === "+") number = number.slice(3).trim();
   const re = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   return re.test(String(number).toLowerCase());
 }
@@ -54,22 +55,22 @@ export default function Register({}: Props): ReactElement {
     setLoading(true);
     const errors: string[] = [];
     if (!name || !username || !email || !password || !collage || !number)
-      errors.push('All fields are required');
+      errors.push("All fields are required");
     if (!validateNumber(number) && number)
-      errors.push('Phone Number is invalid');
-    if (!validateEmail(email) && email) errors.push('Email is invalid');
-    if (name.length > 30 && name) errors.push('Name is too long');
-    if (username.length > 15 && username) errors.push('Username is too long');
+      errors.push("Phone Number is invalid");
+    if (!validateEmail(email) && email) errors.push("Email is invalid");
+    if (name.length > 30 && name) errors.push("Name is too long");
+    if (username.length > 15 && username) errors.push("Username is too long");
     if (password.length < 8 && password)
-      errors.push('Password must be atleast 8 Characters');
-    else if (password !== confirm) errors.push('Passwords do not match');
-    if (!captcha) errors.push('Captcha must be completed');
+      errors.push("Password must be atleast 8 Characters");
+    else if (password !== confirm) errors.push("Passwords do not match");
+    if (!captcha) errors.push("Captcha must be completed");
 
     if (errors.length === 0) {
       try {
         await auth?.register(name, username, email, password, collage, number);
         setLoading(false);
-      } catch (err) {
+      } catch (err: any) {
         setErrors([err.response.data.message]);
         setLoading(false);
       }
@@ -80,7 +81,7 @@ export default function Register({}: Props): ReactElement {
   };
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: "(max-device-width: 680px)",
   });
 
   return (
@@ -153,7 +154,7 @@ export default function Register({}: Props): ReactElement {
         <Button className="auth-button" name="Sign up" />
       </form>
       <div className="swap">
-        Already have an account? <Link to="/login">Log In</Link>{' '}
+        Already have an account? <Link to="/login">Log In</Link>{" "}
       </div>
     </div>
   );

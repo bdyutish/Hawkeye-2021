@@ -1,30 +1,38 @@
-import React, { ReactElement } from 'react';
-import { get, post } from '../utils/requests';
-import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
-import Loading from '../components/Loading';
-import useInputState from '../hooks/useInputState';
-import Img from '../components/Img';
+import React, { ReactElement } from "react";
+import { get, post } from "../utils/requests";
+import { Link, RouteComponentProps, useHistory } from "react-router-dom";
+import useFetch from "../hooks/useFetch";
+import Loading from "../components/Loading";
+import useInputState from "../hooks/useInputState";
+import Img from "../components/Img";
 
-import desktopBG from '../assets/backround/desktop.svg';
-import phoneBG from '../assets/backround/mobile.svg';
+import desktopBG from "../assets/backround/desktop.jpg";
+import phoneBG from "../assets/backround/mobile.svg";
 
-import ReactTooltip from 'react-tooltip';
-import Button from '../components/Button';
-import { useToasts } from 'react-toast-notifications';
-import { useAuth } from '../context/AuthContext';
-import HUD from '../components/HUD';
-import { powerUps } from '../utils/data';
-import { useConfirm } from '../hooks/useConfirm';
-import Confirm from '../components/Confirm';
-import { useMediaQuery } from 'react-responsive';
+import ReactTooltip from "react-tooltip";
+import Button from "../components/Button";
+import { useToasts } from "react-toast-notifications";
+import { useAuth } from "../context/AuthContext";
+import HUD from "../components/HUD";
+import { useConfirm } from "../hooks/useConfirm";
+import Confirm from "../components/Confirm";
+import { useMediaQuery } from "react-responsive";
 
-import hawk from '../assets/hawk.png';
-import ReadyToPlay from './ReadyToPlay';
-import useClickOut from '../hooks/useClickOut';
-import ReactCardFlip from 'react-card-flip';
-import { Redirect } from 'react-router-dom';
-// import hawkImg from '../assets/hawk.svg';
+import ReadyToPlay from "./ReadyToPlay";
+import ReactCardFlip from "react-card-flip";
+import { Redirect } from "react-router-dom";
+
+import oneBG from "../assets/regions/question/1.png";
+import twoBG from "../assets/regions/question/2.png";
+import threeBG from "../assets/regions/question/3.png";
+import fourBG from "../assets/regions/question/4.png";
+
+const BACKGROUND_IMAGES: any = {
+  Apocalypse: oneBG,
+  Cyberpunk: twoBG,
+  Solarpunk: threeBG,
+  Cottagecore: fourBG,
+};
 
 type TParams = { id: string };
 
@@ -36,7 +44,7 @@ RouteComponentProps<TParams>): ReactElement {
   const [answer, setAnswer, resetAnswer] = useInputState();
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 800px)',
+    query: "(max-device-width: 800px)",
   });
 
   const { addToast } = useToasts();
@@ -45,18 +53,13 @@ RouteComponentProps<TParams>): ReactElement {
   const answerRef = React.useRef<HTMLInputElement>(null);
 
   const [close, setClose] = React.useState(false);
-  const [coin, setCoin] = React.useState({
-    fliping: false,
-    className: 'tails',
-  });
-
   const [flipped, setFlipped] = React.useState(false);
 
   React.useEffect(() => {
     answerRef.current?.focus();
 
     return () => {
-      auth?.setCurrentRegion('');
+      auth?.setCurrentRegion("");
     };
   }, []);
 
@@ -85,7 +88,7 @@ RouteComponentProps<TParams>): ReactElement {
       });
 
       if (!data.success) {
-        if (data.mesaage === 'Region Already Completed') return;
+        if (data.mesaage === "Region Already Completed") return;
         questionFetcher.fetch(false);
 
         if (data.close) {
@@ -97,25 +100,25 @@ RouteComponentProps<TParams>): ReactElement {
           return;
         }
 
-        addToast(data.message, { appearance: 'error' });
+        addToast(data.message, { appearance: "error" });
         resetAnswer();
         return;
       }
 
       if (
         questionFetcher.data.question.level ===
-        parseInt(process.env.REACT_APP_LEVEL_COUNT || '5')
+        parseInt(process.env.REACT_APP_LEVEL_COUNT || "5")
       ) {
         await auth?.fetchMe();
         setTimeout(() => {
-          history.push('/');
+          history.push("/");
         }, 800);
 
-        addToast('New Region Unlocked', { appearance: 'success' });
+        addToast("New Region Unlocked", { appearance: "success" });
         return;
       }
 
-      addToast('Hawk approves', { appearance: 'success' });
+      addToast("Hawk approves", { appearance: "success" });
       questionFetcher.fetch();
       auth?.updateScore(data.score);
       resetAnswer();
@@ -124,7 +127,7 @@ RouteComponentProps<TParams>): ReactElement {
     }
   };
 
-  if (!localStorage.getItem('hawk-ready')) {
+  if (!localStorage.getItem("hawk-ready")) {
     return <ReadyToPlay id={match.params.id} />;
   }
 
@@ -140,103 +143,18 @@ RouteComponentProps<TParams>): ReactElement {
     );
   }
 
-  const color = JSON.parse(questionFetcher.data.question.region.colorData)
-    .color;
-
-  // console.log(questionFetcher.data);
-
-  // console.log(JSON.parse(questionFetcher.data.question.region.colorData).color);
-
-  const handleUsePowerUp = async (id: number) => {
-    if (coin.fliping) {
-      addToast('Please wait', { appearance: 'success' });
-      return;
-    }
-
-    try {
-      const res = await post(`/shop/apply/${id}`, {
-        regionid: match.params.id,
-        questionid: questionFetcher.data.question._id,
-      });
-
-      auth?.updateUser({
-        ...auth.user,
-        inventory: res.inventory,
-        powerupsHistory: res.updatedShop,
-        strikes: res.strikes,
-      });
-
-      if (id === 4 && res.worked) {
-        setCoin((prev) => ({ ...prev, fliping: true, className: 'heads' }));
-        setTimeout(() => {
-          setCoin((prev) => ({ ...prev, fliping: false }));
-          if (
-            questionFetcher.data.question.level ===
-            parseInt(process.env.REACT_APP_LEVEL_COUNT || '6')
-          ) {
-            auth?.fetchMe().then((_: any) => {
-              addToast('New Region Unlocked', { appearance: 'success' });
-            });
-            return;
-          }
-          addToast('Applied Successfully', { appearance: 'success' });
-          questionFetcher.fetch(false);
-        }, 5000);
-        return;
-      } else if (id === 4 && !res.worked) {
-        setCoin((prev) => ({ ...prev, fliping: true, className: 'tails' }));
-        setTimeout(() => {
-          setCoin((prev) => ({ ...prev, fliping: false }));
-          addToast('Better luck next time!', { appearance: 'error' });
-        }, 5000);
-        return;
-      }
-
-      if (res.success && id !== 4) {
-        if (id === 1) {
-          auth?.updateUser({
-            ...auth.user,
-            regions: auth?.user?.regions.map((region: any) =>
-              region.regionid === match.params.id
-                ? { ...region, multiplier: res.regionMultiplier }
-                : region
-            ),
-            inventory: res.inventory,
-            powerupsHistory: res.updatedShop,
-          });
-        }
-
-        if (id === 2) {
-          if (
-            questionFetcher.data.question.level ===
-            process.env.REACT_APP_LEVEL_COUNT
-          ) {
-            addToast('Applied Successfully', { appearance: 'success' });
-            await auth?.fetchMe();
-            addToast('New Region Unlocked', { appearance: 'success' });
-            setTimeout(() => {
-              history.push('/');
-            }, 800);
-
-            return;
-          }
-          questionFetcher.fetch(false);
-          addToast('Applied Successfully', { appearance: 'success' });
-        }
-      } else if (!res.success) {
-        // addToast('Something went wrong', { appearance: 'error' });
-      }
-    } catch (err: any) {
-      addToast(err.response.data.message, { appearance: 'error' });
-      // auth?.check();
-    }
-  };
+  const color = JSON.parse(
+    questionFetcher.data.question.region.colorData
+  ).color;
 
   if (isPhone) {
     return (
       <div className="question question--phone">
         <HUD />
-        <Img src={phoneBG} className="background" />
+        <Img
+          src={BACKGROUND_IMAGES[questionFetcher.data.question.region.name]}
+          className="background"
+        />
         <h1>HAWKEYE</h1>
         <div className="top-bar">
           <div className="region">
@@ -245,10 +163,6 @@ RouteComponentProps<TParams>): ReactElement {
             </Link>
             <p>{questionFetcher.data.question.region.name}</p>
             <i className="fas fa-map-marker-alt marker" style={{ color }}></i>
-          </div>
-          <div className="points">
-            <span style={{ color }}>Reputation points : </span>{' '}
-            {auth?.user?.score}
           </div>
         </div>
         <main>
@@ -262,14 +176,6 @@ RouteComponentProps<TParams>): ReactElement {
             {close && (
               <div style={{ color }} className="close">
                 Hawk thinks you're close
-              </div>
-            )}
-            {coin.fliping && (
-              <div id="coin" className={coin.className}>
-                <div className="side-a">
-                  <img src={hawk} alt="" />
-                </div>
-                <div className="side-b"></div>
               </div>
             )}
             <div className="bottom">
@@ -303,12 +209,6 @@ RouteComponentProps<TParams>): ReactElement {
             />
           </ReactCardFlip>
         </main>
-        <BottomBar
-          regionID={match.params.id}
-          color={color}
-          refresh={() => questionFetcher.fetch(false)}
-          handleUsePowerUp={handleUsePowerUp}
-        />
       </div>
     );
   }
@@ -316,7 +216,10 @@ RouteComponentProps<TParams>): ReactElement {
   return (
     <div className="question">
       <HUD />
-      <Img src={desktopBG} className="background" />
+      <Img
+        src={BACKGROUND_IMAGES[questionFetcher.data.question.region.name]}
+        className="background"
+      />
       {/* <img src={hawkImg} alt="" className="hawk" id="hawkk" /> */}
       <h1>HAWKEYE</h1>
       <div className="top-bar">
@@ -326,10 +229,6 @@ RouteComponentProps<TParams>): ReactElement {
           </Link>
           <p>{questionFetcher.data.question.region.name}</p>
           <i className="fas fa-map-marker-alt marker" style={{ color }}></i>
-        </div>
-        <div className="points">
-          <span style={{ color }}>Reputation points : </span>{' '}
-          {auth?.user?.score}
         </div>
       </div>
       <main>
@@ -349,14 +248,6 @@ RouteComponentProps<TParams>): ReactElement {
               Hawk thinks you're close
             </div>
           )}
-          {coin.fliping && (
-            <div id="coin" className={coin.className}>
-              <div className="side-a">
-                <img src={hawk} alt="" />
-              </div>
-              <div className="side-b"></div>
-            </div>
-          )}
           <div className="bottom">
             <input
               ref={answerRef}
@@ -374,12 +265,6 @@ RouteComponentProps<TParams>): ReactElement {
           color={color}
         />
       </main>
-      <BottomBar
-        regionID={match.params.id}
-        color={color}
-        refresh={() => questionFetcher.fetch(false)}
-        handleUsePowerUp={handleUsePowerUp}
-      />
     </div>
   );
 }
@@ -407,7 +292,7 @@ function Stats({
     (100 / (stats.leading + stats.lagging)) * stats.lagging || 0;
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 800px)',
+    query: "(max-device-width: 800px)",
   });
 
   const auth = useAuth();
@@ -430,14 +315,14 @@ function Stats({
       )}
       <div className="top">
         <h2
-          className={attemptsOpen ? 'active' : ''}
+          className={attemptsOpen ? "active" : ""}
           onClick={() => setAttemptsOpen(true)}
           style={{ color }}
         >
           Attempts
         </h2>
         <h2
-          className={!attemptsOpen ? 'active' : ''}
+          className={!attemptsOpen ? "active" : ""}
           onClick={() => setAttemptsOpen(false)}
           style={{ color }}
         >
@@ -470,7 +355,7 @@ function Stats({
               >
                 <i
                   data-tip={`You are at par with ${stats.atPar} ${
-                    stats.atPar > 1 ? 'players' : 'player'
+                    stats.atPar > 1 ? "players" : "player"
                   }`}
                   className="fas fa-user"
                 ></i>
@@ -521,7 +406,7 @@ function Hints({
   handleFlip?: () => void;
 }): ReactElement {
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 800px)',
+    query: "(max-device-width: 800px)",
   });
 
   const auth = useAuth();
@@ -558,157 +443,5 @@ function Hints({
         })}
       </section>
     </div>
-  );
-}
-
-interface IBottomBarProps {
-  handleUsePowerUp: (id: number) => Promise<void>;
-  refresh: () => any;
-  color: string;
-  regionID: string;
-}
-
-function BottomBar({
-  handleUsePowerUp,
-  refresh,
-  color,
-  regionID,
-}: IBottomBarProps): ReactElement {
-  const [selected, setSelected] = React.useState(0);
-  const auth = useAuth();
-
-  const data = auth?.user?.powerupsHistory || [];
-  const hasPoweUps = data.filter((powerUp: any) => powerUp.owned).length > 0;
-
-  const { confirmed, options } = useConfirm();
-
-  const barRef = React.useRef<HTMLDivElement>(null);
-  useClickOut(
-    barRef,
-    () => {},
-    () => {
-      setSelected(0);
-    }
-  );
-
-  const handleClick = confirmed(() => {
-    handleUsePowerUp(selected);
-    refresh();
-  }, `Do you want to use ${powerUps.find((powerUp) => powerUp.id === selected)?.name}`);
-
-  const multiplier =
-    auth?.user?.regions?.find((region) => region.regionid === regionID)
-      ?.multiplier || 1;
-
-  const isPowerUpActive = multiplier > 1 || !!auth?.user?.strikes;
-
-  const singlePowerUpActive =
-    (multiplier > 1 && !auth?.user?.strikes) ||
-    (!(multiplier > 1) && !!auth?.user?.strikes);
-
-  const lessThanThree =
-    data.filter((powerUp: any) => {
-      return powerUp.owned;
-    }).length < 3;
-
-  const getBarClasses = () => {
-    const barClass: string[] = ['bottom-bar'];
-    if (!isPowerUpActive) barClass.push('bottom-bar--not-active');
-    if (!hasPoweUps) barClass.push('empty-bar');
-    if (lessThanThree) barClass.push('bottom-bar bottom-bar--two');
-
-    return barClass.join(' ');
-  };
-
-  return (
-    <>
-      <div
-        ref={barRef}
-        // --two
-        className={getBarClasses()}
-      >
-        {isPowerUpActive && (
-          <div
-            className={
-              singlePowerUpActive
-                ? 'bar-details bar-details--single'
-                : 'bar-details'
-            }
-          >
-            {multiplier > 1 && (
-              <div className="multi">
-                <span style={{ color }}>Region Multiplier: </span> {multiplier}x
-              </div>
-            )}
-            {!!auth?.user?.strikes && (
-              <div className="streak">
-                <span style={{ color }}>Strikes Left: </span>{' '}
-                {auth?.user?.strikes}
-              </div>
-            )}
-          </div>
-        )}
-        <main className="bottom">
-          <Confirm options={options} />
-          {!hasPoweUps && <h1 className="empty">You own no power ups</h1>}
-          {hasPoweUps && (
-            <>
-              <aside>
-                {data.map((powerUp: any, index: number) => {
-                  return powerUp.owned ? (
-                    <div
-                      data-tip={powerUp.name}
-                      onClick={() => setSelected(powerUp.id)}
-                      key={powerUp._id}
-                      style={{
-                        border: `1px solid ${
-                          selected === powerUp.id ? color : '#fff'
-                        }`,
-                      }}
-                      className={
-                        selected === powerUp.id
-                          ? 'square square--selected'
-                          : 'square'
-                      }
-                    >
-                      <img
-                        className={`img-${powerUp.id}`}
-                        src={powerUps[index].image}
-                        alt=""
-                      />
-                    </div>
-                  ) : null;
-                })}
-              </aside>
-              <div className="right">
-                {!selected && <div className="empty">Select one</div>}
-                {!!selected && (
-                  <>
-                    <div className="details">
-                      <div className="name">
-                        {
-                          powerUps.find((powerUp) => powerUp.id === selected)
-                            ?.name
-                        }
-                      </div>
-                      <div className="owned">
-                        {' '}
-                        <span style={{ color }}>Owned:</span>{' '}
-                        {
-                          auth?.user?.powerupsHistory?.find(
-                            (powerUp) => powerUp.id === selected
-                          ).owned
-                        }
-                      </div>
-                    </div>
-                    <Button onClick={handleClick} name="Use" />
-                  </>
-                )}
-              </div>{' '}
-            </>
-          )}
-        </main>
-      </div>
-    </>
   );
 }

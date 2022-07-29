@@ -1,18 +1,18 @@
-import React, { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
-import { useToasts } from 'react-toast-notifications';
-import desktopBG from '../../assets/backround/desktop.svg';
-import phoneBG from '../../assets/backround/mobile.svg';
+import React, { ReactElement } from "react";
+import { Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
+import desktopBG from "../../assets/backround/desktop.jpg";
+import phoneBG from "../../assets/backround/mobile.svg";
 
-import Button from '../../components/Button';
-import Img from '../../components/Img';
-import Input from '../../components/Input';
-import { useAuth } from '../../context/AuthContext';
-import useInputState from '../../hooks/useInputState';
-import hawk from '../../assets/hawk.svg';
-import { useMediaQuery } from 'react-responsive';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { post } from '../../utils/requests';
+import Button from "../../components/Button";
+import Img from "../../components/Img";
+import Input from "../../components/Input";
+import { useAuth } from "../../context/AuthContext";
+import useInputState from "../../hooks/useInputState";
+import hawk from "../../assets/hawk.svg";
+import { useMediaQuery } from "react-responsive";
+import ReCAPTCHA from "react-google-recaptcha";
+import { post } from "../../utils/requests";
 
 interface Props {}
 
@@ -31,7 +31,7 @@ export default function Login({}: Props): ReactElement {
   const auth = useAuth();
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: "(max-device-width: 680px)",
   });
 
   const [captcha, setCaptcha] = React.useState(false);
@@ -44,22 +44,22 @@ export default function Login({}: Props): ReactElement {
     setSending(true);
     try {
       if (!email) {
-        setErrors(['Email is required']);
+        setErrors(["Email is required"]);
         return;
       }
 
       if (!captcha) {
-        setErrors(['Captcha is compulsary']);
+        setErrors(["Captcha is compulsary"]);
         return;
       }
 
-      await post('/verification', { email: email.trim().toLowerCase() });
-      addToast('Verification mail sent', { appearance: 'success' });
+      await post("/verification", { email: email.trim().toLowerCase() });
+      addToast("Verification mail sent", { appearance: "success" });
       setResend(false);
       setSending(false);
     } catch (err) {
       setSending(false);
-      addToast('Something went wrong', { appearance: 'error' });
+      addToast("Something went wrong", { appearance: "error" });
     }
   };
 
@@ -67,8 +67,8 @@ export default function Login({}: Props): ReactElement {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!email) errors.push('Email is Required');
-    if (!password) errors.push('Password is Required');
+    if (!email) errors.push("Email is Required");
+    if (!password) errors.push("Password is Required");
 
     if (errors.length === 0) {
       try {
@@ -77,13 +77,13 @@ export default function Login({}: Props): ReactElement {
       } catch (err: any) {
         setLoading(false);
 
-        if (err.response.data.message === 'This route is forbidden!') {
-          addToast('User Banned', { appearance: 'error' });
+        if (err.response.data.message === "This route is forbidden!") {
+          addToast("User Banned", { appearance: "error" });
           return;
         }
 
-        if (err.response.data.message === 'User not verified') {
-          addToast('Verification link sent to mail');
+        if (err.response.data.message === "User not verified") {
+          addToast("Verification link sent to mail");
           setResend(true);
         }
 
@@ -101,7 +101,7 @@ export default function Login({}: Props): ReactElement {
       <img src={hawk} alt="" id="hawkk" />
       <h1>HAWKEYE</h1>
       <h2>Log in</h2>
-      <h3 style={{ color: '#5157E7' }}>Welcome back player</h3>
+      <h3 style={{ color: "#67E4FF" }}>Welcome back player</h3>
       {errors.map((err: string) => {
         return <div className="error">{err}</div>;
       })}
@@ -145,7 +145,7 @@ export default function Login({}: Props): ReactElement {
       </form>
 
       <div className="swap">
-        New to hawkeye? <Link to="/register">Create Account</Link>{' '}
+        New to hawkeye? <Link to="/register">Create Account</Link>{" "}
       </div>
     </div>
   );

@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
-import { Link, RouteComponentProps, useHistory } from 'react-router-dom';
-import useInputState from '../hooks/useInputState';
-import Img from '../components/Img';
-import desktopBG from '../assets/backround/desktop.svg';
-import phoneBG from '../assets/backround/mobile.svg';
-import Button from '../components/Button';
-import { useMediaQuery } from 'react-responsive';
+import React, { ReactElement } from "react";
+import { Link, RouteComponentProps, useHistory } from "react-router-dom";
+import useInputState from "../hooks/useInputState";
+import Img from "../components/Img";
+import desktopBG from "../assets/backround/desktop.jpg";
+import phoneBG from "../assets/backround/mobile.svg";
+import Button from "../components/Button";
+import { useMediaQuery } from "react-responsive";
 
 type TProps = { id: string };
 
@@ -14,11 +14,11 @@ export default function ReadyToPlay({ id }: TProps): ReactElement {
   const history = useHistory();
 
   function handleClick(): any {
-    localStorage.setItem('hawk-ready', '1');
+    localStorage.setItem("hawk-ready", "1");
   }
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: "(max-device-width: 680px)",
   });
 
   return (
@@ -39,7 +39,7 @@ export default function ReadyToPlay({ id }: TProps): ReactElement {
             />
             <Button
               onClick={() => {
-                history.push('/');
+                history.push("/");
               }}
               name="No"
             />

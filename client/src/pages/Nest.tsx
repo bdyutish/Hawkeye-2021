@@ -1,25 +1,25 @@
-import React, { ReactElement } from 'react';
-import { useAuth } from '../context/AuthContext';
-import hawk from '../assets/hawk.png';
-import useFetch from '../hooks/useFetch';
-import { useToasts } from 'react-toast-notifications';
-import useInputState from '../hooks/useInputState';
-import Loading from '../components/Loading';
-import { post } from '../utils/requests';
-import ReactTooltip from 'react-tooltip';
-import Button from '../components/Button';
-import HUD from '../components/HUD';
-import Img from '../components/Img';
-import nestBG from '../assets/backround/nest.png';
+import React, { ReactElement } from "react";
+import { useAuth } from "../context/AuthContext";
+import hawk from "../assets/hawk.png";
+import useFetch from "../hooks/useFetch";
+import { useToasts } from "react-toast-notifications";
+import useInputState from "../hooks/useInputState";
+import Loading from "../components/Loading";
+import { post } from "../utils/requests";
+import ReactTooltip from "react-tooltip";
+import Button from "../components/Button";
+import HUD from "../components/HUD";
+import Img from "../components/Img";
+import backgroundImage from "../assets/backround/desktop.jpg";
 //@ts-ignore
-import Typewriter from 'typewriter-effect/dist/core';
-import iecse from '../assets/iecse.png';
-import ReactCardFlip from 'react-card-flip';
-import { useMediaQuery } from 'react-responsive';
-import flipIcon from '../assets/flips/nest.png';
-import hawkImg from '../assets/hawk.svg';
+import Typewriter from "typewriter-effect/dist/core";
+import iecse from "../assets/iecse.png";
+import ReactCardFlip from "react-card-flip";
+import { useMediaQuery } from "react-responsive";
+import flipIcon from "../assets/flips/nest.png";
+import hawkImg from "../assets/hawk.svg";
 //@ts-ignore
-import loading from '../assets/animations/loading.mp4';
+import loading from "../assets/animations/loading.mp4";
 
 interface Props {}
 
@@ -27,8 +27,8 @@ export default function Nest({}: Props): ReactElement {
   const questionFetcher = useFetch(`/nest`);
   const [answer, setAnswer, resetAnswer] = useInputState();
   const [welcome, setWelcome] = React.useState(() => {
-    const bool = localStorage.getItem('welcome-to-nest');
-    return bool !== 'true';
+    const bool = localStorage.getItem("welcome-to-nest");
+    return bool !== "true";
   });
   const [close, setClose] = React.useState(false);
 
@@ -36,7 +36,7 @@ export default function Nest({}: Props): ReactElement {
   const auth = useAuth();
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 800px)',
+    query: "(max-device-width: 800px)",
   });
   const [flipped, setFlipped] = React.useState(false);
 
@@ -64,12 +64,12 @@ export default function Nest({}: Props): ReactElement {
           return;
         }
         questionFetcher.fetch(false);
-        addToast(data.message, { appearance: 'error' });
+        addToast(data.message, { appearance: "error" });
         resetAnswer();
         return;
       }
 
-      addToast('Correct answer', { appearance: 'success' });
+      addToast("Correct answer", { appearance: "success" });
       questionFetcher.fetch();
       resetAnswer();
     } catch (err) {
@@ -89,14 +89,14 @@ export default function Nest({}: Props): ReactElement {
       .pauseFor(500)
       .callFunction(() => {
         setWelcome(false);
-        localStorage.setItem('welcome-to-nest', 'true');
+        localStorage.setItem("welcome-to-nest", "true");
       });
   }, []);
 
   if (welcome) {
     return (
       <div className="nest-welcome">
-        <video width={'100%'} height={'100%'} playsInline autoPlay muted loop>
+        <video width={"100%"} height={"100%"} playsInline autoPlay muted loop>
           <source src={loading} type="video/mp4" />
           <img className="hawk" src={hawk} alt="" />
         </video>
@@ -117,7 +117,7 @@ export default function Nest({}: Props): ReactElement {
     return (
       <div className="question question--phone">
         <HUD />
-        <Img src={nestBG} className="background" />
+        <Img src={backgroundImage} className="background" />
         <h1>HAWKEYE</h1>
         <div className="top-bar">
           <div className="points">
@@ -162,7 +162,7 @@ export default function Nest({}: Props): ReactElement {
   return (
     <div className="question question--nest">
       <HUD />
-      <Img src={nestBG} className="background" />
+      <Img src={backgroundImage} className="background" />
       <img src={iecse} alt="" className="iecse-logo" />
       <img src={hawkImg} alt="" className="hawk" id="hawkk" />
       <h1>HAWKEYE</h1>
@@ -208,7 +208,7 @@ function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
     (100 / (stats.leading + stats.lagging)) * stats.lagging || 0;
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 800px)',
+    query: "(max-device-width: 800px)",
   });
 
   return (
@@ -220,13 +220,13 @@ function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
       )}
       <div className="top">
         <h2
-          className={attemptsOpen ? 'active' : ''}
+          className={attemptsOpen ? "active" : ""}
           onClick={() => setAttemptsOpen(true)}
         >
           Attempts
         </h2>
         <h2
-          className={!attemptsOpen ? 'active' : ''}
+          className={!attemptsOpen ? "active" : ""}
           onClick={() => setAttemptsOpen(false)}
         >
           Stats
@@ -258,7 +258,7 @@ function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
               >
                 <i
                   data-tip={`You are at par with ${stats.atPar} ${
-                    stats.atPar > 1 ? 'players' : 'player'
+                    stats.atPar > 1 ? "players" : "player"
                   }`}
                   className="fas fa-user"
                 ></i>
@@ -276,19 +276,19 @@ function Stats({ attempts, stats, handleFlip }: IStatsProps): ReactElement {
           </div>
           <div className="bottom">
             <div className="card">
-              <span style={{ color: '#5157E7' }}>
+              <span style={{ color: "#67E4FF" }}>
                 {stats.lagging} <i className="fas fa-users"></i>
               </span>
               <h3>Lagging</h3>
             </div>
             <div className="card">
-              <span style={{ color: '#5157E7' }}>
+              <span style={{ color: "#67E4FF" }}>
                 {stats.atPar} <i className="fas fa-users"></i>
               </span>
               <h3>At Par</h3>
             </div>
             <div className="card">
-              <span style={{ color: '#5157E7' }}>
+              <span style={{ color: "#67E4FF" }}>
                 {stats.leading} <i className="fas fa-users"></i>
               </span>
               <h3>Leading</h3>
@@ -308,7 +308,7 @@ function Hints({
   handleFlip?: () => void;
 }): ReactElement {
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 800px)',
+    query: "(max-device-width: 800px)",
   });
 
   return (

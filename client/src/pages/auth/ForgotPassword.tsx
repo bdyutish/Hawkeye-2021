@@ -1,17 +1,17 @@
-import React, { ReactElement } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { Link } from 'react-router-dom';
-import { useToasts } from 'react-toast-notifications';
-import desktopBG from '../../assets/backround/desktop.svg';
-import phoneBG from '../../assets/backround/mobile.svg';
-import Button from '../../components/Button';
-import Img from '../../components/Img';
-import Input from '../../components/Input';
-import Loading from '../../components/Loading';
-import { useAuth } from '../../context/AuthContext';
-import useInputState from '../../hooks/useInputState';
-import hawk from '../../assets/hawk.svg';
-import { useMediaQuery } from 'react-responsive';
+import React, { ReactElement } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
+import desktopBG from "../../assets/backround/desktop.jpg";
+import phoneBG from "../../assets/backround/mobile.svg";
+import Button from "../../components/Button";
+import Img from "../../components/Img";
+import Input from "../../components/Input";
+import Loading from "../../components/Loading";
+import { useAuth } from "../../context/AuthContext";
+import useInputState from "../../hooks/useInputState";
+import hawk from "../../assets/hawk.svg";
+import { useMediaQuery } from "react-responsive";
 
 interface Props {}
 
@@ -32,12 +32,13 @@ export default function ForgotPassword({}: Props): ReactElement {
   };
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: "(max-device-width: 680px)",
   });
 
   function validateEmail(email: string) {
     email = email.trim().toLowerCase();
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
@@ -45,9 +46,9 @@ export default function ForgotPassword({}: Props): ReactElement {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!email) errors.push('Email is Required');
-    else if (!validateEmail(email)) errors.push('Email is invalid');
-    if (!captcha) errors.push('Captcha must be completed');
+    if (!email) errors.push("Email is Required");
+    else if (!validateEmail(email)) errors.push("Email is invalid");
+    if (!captcha) errors.push("Captcha must be completed");
 
     if (errors.length === 0) {
       try {

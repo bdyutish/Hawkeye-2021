@@ -1,17 +1,17 @@
-import React, { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
-import { useToasts } from 'react-toast-notifications';
-import desktopBG from '../../assets/backround/desktop.svg';
-import phoneBG from '../../assets/backround/mobile.svg';
+import React, { ReactElement } from "react";
+import { Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
+import desktopBG from "../../assets/backround/desktop.jpg";
+import phoneBG from "../../assets/backround/mobile.svg";
 
-import Button from '../../components/Button';
-import Img from '../../components/Img';
-import Input from '../../components/Input';
-import Loading from '../../components/Loading';
-import { useAuth } from '../../context/AuthContext';
-import useInputState from '../../hooks/useInputState';
-import hawk from '../../assets/hawk.svg';
-import { useMediaQuery } from 'react-responsive';
+import Button from "../../components/Button";
+import Img from "../../components/Img";
+import Input from "../../components/Input";
+import Loading from "../../components/Loading";
+import { useAuth } from "../../context/AuthContext";
+import useInputState from "../../hooks/useInputState";
+import hawk from "../../assets/hawk.svg";
+import { useMediaQuery } from "react-responsive";
 
 interface Props {
   match: any;
@@ -32,10 +32,10 @@ export default function ResetPassword({ match }: Props): ReactElement {
     e.preventDefault();
     setLoading(true);
     const errors: string[] = [];
-    if (!password) errors.push('Password is required');
+    if (!password) errors.push("Password is required");
     else if (password.length < 8)
-      errors.push('Password must be atleast 8 Characters');
-    if (password !== confirm) errors.push('Passwords do not match');
+      errors.push("Password must be atleast 8 Characters");
+    if (password !== confirm) errors.push("Passwords do not match");
 
     if (errors.length === 0) {
       try {
@@ -51,7 +51,7 @@ export default function ResetPassword({ match }: Props): ReactElement {
   };
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: "(max-device-width: 680px)",
   });
 
   if (loading) {

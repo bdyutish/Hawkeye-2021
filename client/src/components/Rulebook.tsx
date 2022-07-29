@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react';
-import Modal from 'react-modal';
-import hawkpng from '../assets/hawk.svg';
+import React, { ReactElement } from "react";
+import Modal from "react-modal";
+import hawkpng from "../assets/hawk.svg";
 interface Props {
   closeHandler: () => void;
   open: boolean;
@@ -110,7 +110,7 @@ export default function Rulebook({ closeHandler, open }: Props): ReactElement {
               <span> 2</span>
               <br />
               Hawk gives you an opportunity to score 1.5x times the points that
-              were previously allotted to the questions. This powerup is valid{' '}
+              were previously allotted to the questions. This powerup is valid{" "}
               <span>ONLY </span>
               for all questions in that particular region. The multiplier starts
               from the question, at which it is applied. You can use two such

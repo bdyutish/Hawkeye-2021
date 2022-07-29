@@ -1,9 +1,8 @@
-import React, { ReactElement } from 'react';
-import Lottie from 'react-lottie';
+import React, { ReactElement } from "react";
+import Lottie from "react-lottie";
 //@ts-ignore
-import loading from '../assets/animations/loading.mp4';
-import hawk from '../assets/hawk.png';
-import { Circle } from 'react-spinners-css';
+import hawk from "../assets/hawk.png";
+import { Circle } from "react-spinners-css";
 
 interface Props {
   height?: number;
@@ -28,7 +27,7 @@ export default function Loading({
       <div className="fallback">
         <img src={hawk} alt="" />
         <div className="loading-circle">
-          <Circle color=" #5157E7" />
+          <Circle color=" #67E4FF" />
         </div>
       </div>
     </div>

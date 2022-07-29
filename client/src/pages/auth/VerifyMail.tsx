@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react';
-import Loading from '../../components/Loading';
-import { put } from '../../utils/requests';
-import desktopBG from '../../assets/backround/desktop.svg';
-import phoneBG from '../../assets/backround/mobile.svg';
+import React, { ReactElement } from "react";
+import Loading from "../../components/Loading";
+import { put } from "../../utils/requests";
+import desktopBG from "../../assets/backround/desktop.jpg";
+import phoneBG from "../../assets/backround/mobile.svg";
 
-import animationData from '../../assets/animations/verified.json';
-import Lottie from 'react-lottie';
-import Img from '../../components/Img';
-import Button from '../../components/Button';
-import { useMediaQuery } from 'react-responsive';
+import animationData from "../../assets/animations/verified.json";
+import Lottie from "react-lottie";
+import Img from "../../components/Img";
+import Button from "../../components/Button";
+import { useMediaQuery } from "react-responsive";
 
 interface Props {
   match: any;
@@ -19,7 +19,7 @@ const defaultOptions = {
   autoplay: true,
   animationData: animationData,
   rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice',
+    preserveAspectRatio: "xMidYMid slice",
   },
 };
 
@@ -36,7 +36,7 @@ export default function VerifyMail({ match }: Props): ReactElement {
   }, []);
 
   const isPhone = useMediaQuery({
-    query: '(max-device-width: 680px)',
+    query: "(max-device-width: 680px)",
   });
 
   if (loading) {
