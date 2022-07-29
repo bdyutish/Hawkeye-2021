@@ -1,32 +1,22 @@
 [
   {
     "_id": "6096ec69f165570143f6d968",
-    "name": "Antarctica",
+    "name": "Apocalypse",
     "description": "Test description for region 1"
   },
   {
     "_id": "6096ede6f165570143f6d969",
-    "name": "Africa",
+    "name": "Cottagecore",
     "description": "Test description for region 2"
   },
   {
     "_id": "6096ee0ff165570143f6d96a",
-    "name": "Americas",
+    "name": "Cyberpunk",
     "description": "Test description for region 3"
   },
   {
     "_id": "6096ee1bf165570143f6d96b",
-    "name": "Asia",
+    "name": "Solarpunk",
     "description": "Test description for region 4"
-  },
-  {
-    "_id": "6096ee29f165570143f6d96c",
-    "name": "Europe",
-    "description": "Test description for region 5"
-  },
-  {
-    "_id": "6096ee43f165570143f6d96d",
-    "name": "Australia",
-    "description": "Test description for region 6"
   }
 ]

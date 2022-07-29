@@ -66,21 +66,21 @@ export const register = async (
     //   [regionArray[i], regionArray[j]] = [regionArray[j], regionArray[i]];
     // }
 
-    for (let i = 0; i < regionArray.length; i += 2) {
-      const j = Math.random();
-      if (j <= 0.5) {
-        // console.log(j);
-        const t = regionArray[i];
-        regionArray[i] = regionArray[i + 1];
-        regionArray[i + 1] = t;
-      }
-    }
+    // for (let i = 0; i < regionArray.length; i += 2) {
+    //   const j = Math.random();
+    //   if (j <= 0.5) {
+    //     // console.log(j);
+    //     const t = regionArray[i];
+    //     regionArray[i] = regionArray[i + 1];
+    //     regionArray[i + 1] = t;
+    //   }
+    // }
 
     // console.log(regionArray);
 
     user.regions = regionArray;
 
-    user.lastUnlockedIndex = 2;
+    user.lastUnlockedIndex = 0;
 
     user.powerupsHistory = [
       {
@@ -132,12 +132,12 @@ export const register = async (
           }),
         }
       );
-    } catch (err) {
+    } catch (err:any) {
       return next(new ErrorResponse(err.name, err.code));
     }
     const resp = user.toJSON();
     res.status(200).send({ ...resp, password: undefined });
-  } catch (err) {
+  } catch (err:any) {
     return next(new ErrorResponse(err.name, err.code));
   }
 };
@@ -193,7 +193,7 @@ export const login = async (
 
       res.status(200).send('Logged in successfullyq');
     }
-  } catch (err) {
+  } catch (err:any) {
     return next(new ErrorResponse(err.name, err.code));
   }
 };
@@ -212,7 +212,7 @@ export const logout = async (
     });
     console.log(req.session);
     res.status(200).send('Logged Out');
-  } catch (err) {
+  } catch (err:any) {
     return next(new ErrorResponse(err.name, err.code));
   }
 };
@@ -232,7 +232,7 @@ export const getProfileById = async (
       return next(new ErrorResponse('User Not Found', 404));
     }
     res.status(200).send(user);
-  } catch (err) {
+  } catch (err:any) {
     return next(new ErrorResponse(err.name, err.code));
   }
 };
@@ -272,7 +272,7 @@ export const forgotPassword = async (
         }),
       }
     );
-  } catch (err) {
+  } catch (err:any) {
     return next(new ErrorResponse(err.name, err.code));
   }
 
@@ -328,14 +328,14 @@ export const resendVerificationEmail = async (
           }),
         }
       );
-    } catch (err) {
+    } catch (err:any) {
       return next(new ErrorResponse(err.name, err.code));
     }
 
     res
       .status(200)
       .json({ success: true, data: 'Email sent with message: ' + message });
-  } catch (err) {
+  } catch (err:any) {
     return next(new ErrorResponse(err.name, err.code));
   }
 };
@@ -368,7 +368,7 @@ export const resetPassword = async (
     await user.save();
 
     res.status(200).send(user);
-  } catch (err) {
+  } catch (err:any) {
     return next(new ErrorResponse(err.name, err.code));
   }
 };
@@ -399,7 +399,7 @@ export const verifyUser = async (
     await user.save();
 
     res.status(200).send(user);
-  } catch (err) {
+  } catch (err:any) {
     return next(new ErrorResponse(err.name, err.code));
   }
 };
