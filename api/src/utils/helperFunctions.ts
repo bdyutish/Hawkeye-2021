@@ -26,7 +26,7 @@ export const unlockRegion = async (req: Request) => {
   if (!user) {
     throw new ErrorResponse('User not found', 404);
   } else {
-    if (user.lastUnlockedIndex < 5) user.lastUnlockedIndex++;
+    if (user.lastUnlockedIndex < 3) user.lastUnlockedIndex++;
     else {
       let flag = true;
       for (let i = 0; i < user.regions.length; i++) {
@@ -43,7 +43,7 @@ export const unlockRegionsByUser = async (user: UserDoc) => {
     if (!user) {
       throw new ErrorResponse('User not found', 404);
     } else {
-      if (user.lastUnlockedIndex < 5) user.lastUnlockedIndex++;
+      if (user.lastUnlockedIndex < 3) user.lastUnlockedIndex++;
       else {
         let flag = true;
         for (let i = 0; i < user.regions.length; i++) {
