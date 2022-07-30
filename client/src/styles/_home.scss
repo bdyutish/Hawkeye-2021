@@ -229,6 +229,8 @@ margin: 1.25rem 0;
     width: 70rem;
     position: absolute;
     top: 15rem;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .swiper-mobile {
