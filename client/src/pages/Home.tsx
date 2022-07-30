@@ -307,16 +307,16 @@ export default function Home(): ReactElement {
           onSwiper={setSwiper}
           // loop
         >
-          <SwiperSlide className="swiper-desktop--slide" id="Africa">
+          <SwiperSlide className="swiper-desktop--slide" id="Apocalypse">
             <img src={oneImg} />
           </SwiperSlide>
-          <SwiperSlide className="swiper-desktop--slide" id="Americas">
+          <SwiperSlide className="swiper-desktop--slide" id="Cyberpunk">
             <img src={twoImg} />
           </SwiperSlide>
-          <SwiperSlide className="swiper-desktop--slide" id="Antarctica">
+          <SwiperSlide className="swiper-desktop--slide" id="Solarpunk">
             <img src={threeImg} />
           </SwiperSlide>
-          <SwiperSlide className="swiper-desktop--slide" id="4">
+          <SwiperSlide className="swiper-desktop--slide" id="Cottagecore">
             <img src={fourImg} />
           </SwiperSlide>
         </Swiper>

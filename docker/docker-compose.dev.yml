@@ -51,7 +51,7 @@ services:
     stdin_open: true
     build:
       context: ../client
-      dockerfile: ./client.dev.Dockerfile
+      dockerfile: ./client.prod.Dockerfile
     container_name: Hawk-client
     restart: unless-stopped
     networks:

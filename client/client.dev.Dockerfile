@@ -4,6 +4,7 @@ WORKDIR "/usr/src/client"
 
 COPY ./package.json ./
 RUN npm install -g npm@7.13.0
+RUN npm cache clean --force
 RUN npm install --force
 
 #f
